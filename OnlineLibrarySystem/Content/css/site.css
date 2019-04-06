@@ -1,0 +1,40 @@
+﻿html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.ng-cloak {
+    visibility: hidden !important;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.w-250px {
+    width: 250px;
+}
+
+* {
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
+/* BOOTSTRAP EXTENSION */
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1480px;
+    }
+}
+
+.dropdown-menu {
+    position: absolute !important;
+}
