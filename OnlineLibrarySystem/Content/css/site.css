@@ -38,3 +38,7 @@ body {
 .dropdown-menu {
     position: absolute !important;
 }
+
+.badge {
+    cursor: pointer;
+}

@@ -9,14 +9,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var slideshow_component_1 = require("./slideshow/slideshow.component");
+var book_thumbnail_component_1 = require("./book-thumbnail/book-thumbnail.component");
+var home_root_component_1 = require("./home-root/home-root.component");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule],
-            declarations: [slideshow_component_1.SlideshowComponent],
-            bootstrap: [slideshow_component_1.SlideshowComponent]
+            declarations: [slideshow_component_1.SlideshowComponent, book_thumbnail_component_1.BookThumbnailComponent, home_root_component_1.HomeRootComponent],
+            bootstrap: [home_root_component_1.HomeRootComponent]
         })
     ], AppModule);
     return AppModule;

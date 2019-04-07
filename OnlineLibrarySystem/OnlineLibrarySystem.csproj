@@ -169,6 +169,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\book-thumbnail\book-thumbnail.component.css" />
+    <Content Include="app\book-thumbnail\book-thumbnail.component.html" />
+    <TypeScriptCompile Include="app\const.ts" />
+    <Content Include="app\home-root\home-root.component.css" />
+    <Content Include="app\home-root\home-root.component.html" />
     <Content Include="app\slideshow\slideshow.component.css" />
     <Content Include="app\slideshow\slideshow.component.html" />
     <Content Include="Content\css\bootstrap-grid.css" />
@@ -284,7 +289,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\app.module.ts" />
+    <TypeScriptCompile Include="app\book-thumbnail\book-thumbnail.component.spec.ts" />
+    <TypeScriptCompile Include="app\book-thumbnail\book-thumbnail.component.ts" />
+    <TypeScriptCompile Include="app\home-root\home-root.component.spec.ts" />
+    <TypeScriptCompile Include="app\home-root\home-root.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="app\model.ts" />
     <TypeScriptCompile Include="app\slideshow\slideshow.component.spec.ts" />
     <TypeScriptCompile Include="app\slideshow\slideshow.component.ts" />
   </ItemGroup>
