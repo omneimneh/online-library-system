@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../Model';
 import { someBooks, appTitle } from '../const';
+declare var $: any;
 
 @Component({
     selector: 'app-home-root',
@@ -15,6 +16,9 @@ export class HomeRootComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
+        $('.carousel').carousel({
+            interval: 3000
+        });
     }
 
 }

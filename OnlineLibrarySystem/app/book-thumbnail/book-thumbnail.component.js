@@ -17,9 +17,6 @@ var BookThumbnailComponent = /** @class */ (function () {
     BookThumbnailComponent.prototype.openDetails = function () {
         console.log(this.book);
     };
-    BookThumbnailComponent.prototype.searchCategory = function (c) {
-        console.log(c);
-    };
     BookThumbnailComponent.prototype.ngOnInit = function () {
     };
     __decorate([

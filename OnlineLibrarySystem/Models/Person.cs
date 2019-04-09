@@ -12,20 +12,22 @@ namespace OnlineLibrarySystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Book
+    public partial class Person
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Book()
+        public Person()
         {
             this.Reservations = new HashSet<Reservation>();
         }
     
-        public int BookId { get; set; }
-        public string BookTitle { get; set; }
-        public string AuthorName { get; set; }
-        public Nullable<System.DateTime> PublishingDate { get; set; }
+        public int PersonId { get; set; }
+        public string Username { get; set; }
+        public string UserPassword { get; set; }
     
+        public virtual Librarian Librarian { get; set; }
+        public virtual Professor Professor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reservation> Reservations { get; set; }
+        public virtual Student Student { get; set; }
     }
 }

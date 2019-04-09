@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Book, Category } from '../Model';
+import { Book } from '../Model';
 
 
 @Component({
@@ -12,10 +12,6 @@ export class BookThumbnailComponent implements OnInit {
 
     openDetails() {
         console.log(this.book);
-    }
-
-    searchCategory(c: Category) {
-        console.log(c);
     }
 
     constructor() { }

@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BaseController.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -149,6 +150,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Book.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Librarian.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Maintainer.cs">
       <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OnlineLibrarySystem.Context.cs">
@@ -166,6 +173,27 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OnlineLibrarySystem.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Person.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Professor.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Reservation.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Student.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +204,7 @@
     <Content Include="app\home-root\home-root.component.html" />
     <Content Include="app\slideshow\slideshow.component.css" />
     <Content Include="app\slideshow\slideshow.component.html" />
+    <Compile Include="App_Start\TokenManager.cs" />
     <Content Include="Content\css\bootstrap-grid.css" />
     <Content Include="Content\css\bootstrap-grid.min.css" />
     <Content Include="Content\css\bootstrap-reboot.css" />

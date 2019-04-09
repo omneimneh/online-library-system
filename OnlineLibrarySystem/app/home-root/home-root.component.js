@@ -17,6 +17,9 @@ var HomeRootComponent = /** @class */ (function () {
         this.appTitle = const_1.appTitle;
     }
     HomeRootComponent.prototype.ngOnInit = function () {
+        $('.carousel').carousel({
+            interval: 3000
+        });
     };
     HomeRootComponent = __decorate([
         core_1.Component({

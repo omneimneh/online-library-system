@@ -1,18 +1,14 @@
-﻿import { Category, Book } from "./Model";
-
-let someCategories = [
-    new Category('math'), new Category('computer-science'), new Category('medicine')
-];
+﻿import { Book } from "./Model";
 
 let someBooks = [
-    new Book('MVC web apps', 'John Smith', someCategories),
-    new Book('Get over it', 'virus.exe', someCategories),
-    new Book('Angular', 'Google', someCategories),
-    new Book('React js', 'Facebook', someCategories),
-    new Book('AWS', 'Amazon', someCategories),
-    new Book('Intro to physics', 'Newton', someCategories)
+    new Book('MVC web apps', 'John Smith'),
+    new Book('Get over it', 'virus.exe'),
+    new Book('Angular', 'Google'),
+    new Book('React js', 'Facebook'),
+    new Book('AWS', 'Amazon'),
+    new Book('Intro to physics', 'Newton')
 ];
 
 let appTitle: string = "Online Library System";
 
-export { someBooks, someCategories, appTitle };
+export { someBooks, appTitle };

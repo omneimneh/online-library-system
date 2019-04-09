@@ -1,17 +1,17 @@
 <app-slideshow></app-slideshow>
 <br />
 
-<div class="container">
-    <h2>Most popular books</h2>
+<div class="container my-4">
+    <h2 class="h2">Most popular books</h2>
     <div class="row">
-        <app-book-thumbnail *ngFor="let b of books" class="p-2 col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2" [book]="b"></app-book-thumbnail>
+        <app-book-thumbnail *ngFor="let b of books" class="p-2 col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3" [book]="b"></app-book-thumbnail>
     </div>
 </div>
 <br />
 
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid my-4">
     <div class="container">
-        <h1 class="display-4">Get most of {{appTitle}}</h1>
+        <h1 class="display-4">Get the most of {{appTitle}}</h1>
         <p class="lead">Login or Sign up so you can order a book online and enjoy many other features...</p>
         <button class="btn btn-outline-primary">Sign up</button>
         <button class="btn btn-outline-secondary">Already have an account?</button>
@@ -19,7 +19,7 @@
 </div>
 <br />
 
-<div class="alert alert-heading container" role="alert">
+<div class="alert alert-heading container my-4" role="alert">
     <h4 class="alert-heading">Learn more</h4>
     <p>Learn more about how our system works, visit the help page.</p>
     <hr>

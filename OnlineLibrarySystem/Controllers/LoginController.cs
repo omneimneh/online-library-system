@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace OnlineLibrarySystem.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         public ActionResult Index()
         {
