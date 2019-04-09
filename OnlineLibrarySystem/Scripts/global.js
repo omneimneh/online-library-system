@@ -8,10 +8,12 @@
     // load navbar ng-controller
     $global.controller("navbarController", function ($scope) {
         $scope.appTitle = "Online Library System";
-        $scope.categories = ['Science', 'Biology', 'Computer', 'Medicine'];
-        $scope.links = [{ name: 'Home', url: '#' }, { name: 'Browse', url: '#' }, { name: 'Help', url: '#' }];
-        $scope.userActions = [{ name: 'Signup', url: '#' }, { name: 'Login', url: '#' }];
-
+        $scope.links = [{ name: 'Home', url: '/' }, { name: 'Browse', url: '/Books/Search' }, { name: 'Help', url: '/Help' }];
+        if ($('#Token').val()) {
+            $scope.userActions = [{ name: 'Logout', url: '/Account/Logout' }];
+        } else {
+            $scope.userActions = [{ name: 'Signup', url: '/Account/Signup' }, { name: 'Login', url: '/Account/Login' }];
+        }
     });
 
     // on page load this function will run

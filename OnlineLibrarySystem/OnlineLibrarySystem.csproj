@@ -139,66 +139,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\BaseController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountApiController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="App_Start\DB.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Book.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Librarian.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Maintainer.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\OnlineLibrarySystem.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnlineLibrarySystem.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\OnlineLibrarySystem.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\OnlineLibrarySystem.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnlineLibrarySystem.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Person.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Professor.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Reservation.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Student.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>OnlineLibrarySystem.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\CommonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\BooksController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\book-thumbnail\book-thumbnail.component.css" />
     <Content Include="app\book-thumbnail\book-thumbnail.component.html" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Books\Search.cshtml" />
+    <Content Include="Views\Help\Index.cshtml" />
+    <Content Include="Views\Account\Signup.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Account\Logout.cshtml" />
     <TypeScriptCompile Include="app\const.ts" />
     <Content Include="app\home-root\home-root.component.css" />
     <Content Include="app\home-root\home-root.component.html" />
@@ -222,27 +187,10 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\OnlineLibrarySystem.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OnlineLibrarySystem.Context.cs</LastGenOutput>
-      <DependentUpon>OnlineLibrarySystem.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\OnlineLibrarySystem.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OnlineLibrarySystem.edmx</DependentUpon>
-      <LastGenOutput>OnlineLibrarySystem.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\OnlineLibrarySystem.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>OnlineLibrarySystem.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\OnlineLibrarySystem.edmx.diagram">
-      <DependentUpon>OnlineLibrarySystem.edmx</DependentUpon>
-    </Content>
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
@@ -270,12 +218,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Content\css\site.css" />
-    <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
@@ -322,7 +268,7 @@
     <TypeScriptCompile Include="app\book-thumbnail\book-thumbnail.component.ts" />
     <TypeScriptCompile Include="app\home-root\home-root.component.spec.ts" />
     <TypeScriptCompile Include="app\home-root\home-root.component.ts" />
-    <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="app\home.main.ts" />
     <TypeScriptCompile Include="app\model.ts" />
     <TypeScriptCompile Include="app\slideshow\slideshow.component.spec.ts" />
     <TypeScriptCompile Include="app\slideshow\slideshow.component.ts" />

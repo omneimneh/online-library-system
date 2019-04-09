@@ -11,17 +11,17 @@ var platform_browser_1 = require("@angular/platform-browser");
 var slideshow_component_1 = require("./slideshow/slideshow.component");
 var book_thumbnail_component_1 = require("./book-thumbnail/book-thumbnail.component");
 var home_root_component_1 = require("./home-root/home-root.component");
-var AppModule = /** @class */ (function () {
-    function AppModule() {
+var HomeModule = /** @class */ (function () {
+    function HomeModule() {
     }
-    AppModule = __decorate([
+    HomeModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule],
             declarations: [slideshow_component_1.SlideshowComponent, book_thumbnail_component_1.BookThumbnailComponent, home_root_component_1.HomeRootComponent],
             bootstrap: [home_root_component_1.HomeRootComponent]
         })
-    ], AppModule);
-    return AppModule;
+    ], HomeModule);
+    return HomeModule;
 }());
-exports.AppModule = AppModule;
+exports.HomeModule = HomeModule;
 //# sourceMappingURL=app.module.js.map

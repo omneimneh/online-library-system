@@ -1,0 +1,229 @@
+﻿<div id="signedOutHome" class="home container">
+
+    @section scripts {
+
+        <link rel="stylesheet" media="all" href="https://s.gr-assets.com/assets/goodreads-c629aad5257a78dda2e2c81211e8b52f.css" />
+        <link rel="stylesheet" media="screen" href="https://s.gr-assets.com/assets/shared_all_surfaces/pages/home/signed_out_hp-927819e9c92716a88151e7b65d5bed35.css" />
+        <link rel="stylesheet" media="screen" href="https://s.gr-assets.com/assets/gr/pages/home/signed_out_hp-a49e6342af777b310bb63136b2ff30a5.css" />
+        <link rel="stylesheet" media="screen" href="https://s.gr-assets.com/assets/common_images-67dd60a681af04727cf7d18f5c5ba498.css" />
+    }
+
+    @ViewBag.Error
+
+    <div class="content">
+        <div class="uitext" id="siteheader">
+            <div class="signedOutHomeMastheadContainer">
+                <div id="navBar">
+
+                    <div id="signInForm">
+                        <form action="/Account/Login" accept-charset="UTF-8" method="post">
+                            <input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="Y9hQwGex9d6vL6bwuFLASIDCJUq3DHAzJLGh15bCCW4GuI5YiqA6jcXaWRnpIhS61qTT78KpJdyz+rX+JizUGA==">
+
+                            <div class="formBox">
+                                <input id="userSignInFormEmail" name="username" placeholder="Email address" tabindex="1"><br>
+                                <input type="checkbox" id="remember_me" name="remember_me" checked="" tabindex="3"><label for="remember_me" class="greyText">Remember me</label>
+                            </div>
+
+                            <div class="formBox">
+                                <div style="position:relative">
+                                    <input value="" placeholder="Password" tabindex="2" type="password" name="password" id="user_password">
+                                    <label for="user_password" id="userPasswordLabel" class="greyText">Password</label>
+                                    <br>
+                                    <a class="greyText" id="userForgotPassword" rel="nofollow" href="/user/forgot_password">Forgot it?</a>
+                                </div>
+                            </div>
+
+                            <div class="formBox">
+                                <input type="submit" value="Sign in" tabindex="4" class="gr-button gr-button--dark">
+                                <input type="hidden" name="n" value="642615">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div id="masthead">
+
+                    <div id="newAccountBox">
+                        <h2>
+                            New here? Create a free account!
+                        </h2>
+
+                        <form name="createForm" id="userSignupForm" autocomplete="off" action="https://www.goodreads.com/user/create" accept-charset="UTF-8" method="post">
+                            <input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="Y9hQwGex9d6vL6bwuFLASIDCJUq3DHAzJLGh15bCCW4GuI5YiqA6jcXaWRnpIhS61qTT78KpJdyz+rX+JizUGA==">
+                            <div class="fieldPara">
+                                <input placeholder="Name" type="text" name="user[first_name]" id="user_first_name">
+                            </div>
+
+                            <div class="fieldPara">
+                                <input placeholder="Email Address" type="email" name="user[email]" id="user_email">
+                            </div>
+
+                            <div class="fieldPara">
+                                <input id="user_password_signup" placeholder="Password" maxlength="128" size="128" type="password" name="user[password]">
+                                <label id="userPasswordSignupLabel" for="user_password_signup" class="greyText">Password</label>
+                            </div>
+
+                            <div class="fieldPara">
+                                <div id="homePageSignupBlurb">
+                                    By clicking “Sign up”
+                                    I agree to the Goodreads
+                                    <a target="_blank" rel="noopener noreferrer" href="/about/terms">Terms of Service</a>
+                                    and confirm that I am at least 13 years old.
+                                </div>
+
+                                <input type="hidden" name="n" value="642615">
+                                <input type="submit" name="next" class="button" value="Sign up">
+                            </div>
+                        </form>
+                    </div>
+                    <div id="thirdPartySignUpBox">
+                        <div id="signInUsingContent">
+                            <span id="signInUsing">
+                                or sign in using
+                            </span>
+                            <ul>
+                                <li class="thirdPartyLink">
+                                    <a class="fbjsLogin" data-redirect="/" href="#">
+                                        <img alt="Sign in with Facebook" title="Sign in with your Facebook account" src="https://s.gr-assets.com/assets/home/homepage_signin_facebook-99e862a1d6c0b1f359c0332006e16e10.png">
+                                    </a>
+                                </li>
+                                <li class="thirdPartyLink">
+                                    <a href="#" onclick="GR_Twitter.askToConnect(); return false;"><img alt="Sign in with Twitter" title="Sign in with your Twitter account" src="https://s.gr-assets.com/assets/home/homepage_signin_twitter-9922ba9506d10862d03a558f4424c026.png"></a>
+                                </li>
+                                <li class="thirdPartyLink">
+                                    <a href="/google_accounts/sign_in"><img alt="Sign in with Google" title="Sign in with your Google account" src="https://s.gr-assets.com/assets/home/homepage_signin_google-4b119f254f4e8224b9a35ecb5f4fac55.png"></a>
+                                </li>
+                                <li class="thirdPartyLink">
+                                    <a href="#" onclick="GR_Amazon.askToConnect('https://www.goodreads.com/amazon/login/redirect_to_amazon_login_url'); return false;"><img alt="Sign in with Amazon" title="Sign in with your Amazon account" src="https://s.gr-assets.com/assets/home/homepage_signin_amazon-c6b72b6cb35e3c975a179cebad1e7ace.png"></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mainContentContainer ">
+
+            <div class="mainContent ">
+
+                <div class="mainContentFloat ">
+
+                    <div class="leftContainer">
+
+                        <div id="browseBox">
+                            <h2>Search and browse books</h2>
+
+                            <div id="searchBox" itemscope="" itemtype="https://schema.org/WebSite">
+                                <meta itemprop="url" content="https://goodreads.com/">
+                                <div id="sitesearch" itemtype="https://schema.org/SearchAction" itemprop="potentialAction" itemscope="">
+                                    <div class="div" itemprop="target" itemscope="" itemtype="https://schema.org/EntryPoint">
+                                        <div class="meta" content="https://www.goodreads.com/search?q={search_term_string}" itemprop="urlTemplate"></div>
+                                    </div>
+                                    <div class="div" itemprop="query-input" itemscope="" itemtype="https://schema.org/PropertyValueSpecification">
+                                        <div class="meta" content="http://schema.org/True" itemprop="valueRequired"></div>
+                                        <div class="meta" content="search_term_string" itemprop="valueName"></div>
+                                        <form id="headerSearchForm" action="/search" accept-charset="UTF-8" method="get">
+                                            <input name="utf8" type="hidden" value="✓"><div class="auto_complete_field_wrapper">
+                                                <input type="text" name="query" id="sitesearch_field" placeholder="Title / Author / ISBN">
+                                                <div id="sitesearch_autocomplete"></div>
+                                                <img style="display: none" id="sitesearch_field_loading" class="loading" src="https://s.gr-assets.com/assets/loading-trans-ced157046184c3bc7c180ffbfc6825a4.gif" alt="Loading trans">
+                                            </div>
+                                            <a class="submitLink" href="#" onclick="$j('#headerSearchForm').submit(); return false;"><img width="16" title="Title / Author / ISBN" alt="search" src="https://s.gr-assets.com/assets/layout/magnifying_glass-a2d7514d50bcee1a0061f1ece7821750.png"></a>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="u-defaultType">
+
+                                <div class="left" style="width: 25%">
+                                    <a class="gr-hyperlink" href="/genres/art">Art</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/biography">Biography</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/business">Business</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/children-s">Children's</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/christian">Christian</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/classics">Classics</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/comics">Comics</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/cookbooks">Cookbooks</a><br>
+
+                                </div>
+                                <div class="left" style="width: 25%">
+                                    <a class="gr-hyperlink" href="/genres/ebooks">Ebooks</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/fantasy">Fantasy</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/fiction">Fiction</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/graphic-novels">Graphic Novels</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/historical-fiction">Historical Fiction</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/history">History</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/horror">Horror</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/memoir">Memoir</a><br>
+
+                                </div>
+                                <div class="left" style="width: 25%">
+                                    <a class="gr-hyperlink" href="/genres/music">Music</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/mystery">Mystery</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/non-fiction">Nonfiction</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/poetry">Poetry</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/psychology">Psychology</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/romance">Romance</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/science">Science</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/science-fiction">Science Fiction</a><br>
+
+                                </div>
+                                <div class="left" style="width: 25%">
+                                    <a class="gr-hyperlink" href="/genres/self-help">Self Help</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/sports">Sports</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/thriller">Thriller</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/travel">Travel</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres/young-adult">Young Adult</a><br>
+
+                                    <a class="gr-hyperlink" href="/genres">More genres</a>
+
+                                </div>
+
+                            </div>
+                            <div class="u-clearBoth"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+
+
+
+    </div>
+
+
+</div>

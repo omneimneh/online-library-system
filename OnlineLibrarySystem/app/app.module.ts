@@ -10,4 +10,6 @@ import { HomeRootComponent } from './home-root/home-root.component';
     declarations: [SlideshowComponent, BookThumbnailComponent, HomeRootComponent],
     bootstrap: [HomeRootComponent]
 })
-export class AppModule { }
+class HomeModule { }
+
+export { HomeModule };

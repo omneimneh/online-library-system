@@ -6,12 +6,13 @@ using System.Web.Mvc;
 
 namespace OnlineLibrarySystem.Controllers
 {
-    public class LoginController : BaseController
+    public class HelpController : BaseController
     {
+        // GET: Help
         public ActionResult Index()
         {
-            ViewBag.Title = "Login Page";
-            return View();
+            ViewBag.Title = "Help";
+            return View(model);
         }
     }
 }

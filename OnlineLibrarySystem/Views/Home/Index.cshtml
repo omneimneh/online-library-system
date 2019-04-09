@@ -1,6 +1,11 @@
 ﻿@section AddToHead {
     @Styles.Render("~/Content/css/home.css")
 }
+
+@section scripts {
+    <script type="text/javascript">System.import('app/home.main.js').catch(function (err) { console.error(err); });</script>
+}
+
 <app-home-root>
     <div class="d-flex align-items-center justify-content-center w-100">
         <span class="spinner-border text-secondary m-5"></span>

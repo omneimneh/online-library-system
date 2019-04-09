@@ -1,0 +1,14 @@
+﻿
+@section scripts {
+    <script type="text/javascript">
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Login","Account")';
+        }, 1500);
+    </script>
+}
+
+<p class="container">
+    <div class="d-flex align-items-center justify-content-center w-100">
+        <span class="spinner-border text-secondary m-5"></span>Please Wait...
+    </div>
+</p>

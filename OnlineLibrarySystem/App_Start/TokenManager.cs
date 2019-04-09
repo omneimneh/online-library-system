@@ -52,15 +52,15 @@ namespace OnlineLibrarySystem
         /// <param name="token">generated token</param>
         /// <param name="userId">token for the user having this user id</param>
         /// <returns>true if the token was added successfully and false if the token already exists</returns>
-        public bool AddToken(string token, int userId)
+        public string AddToken(string token, int userId)
         {
             KeyValuePair<string, int> retValue = this.FirstOrDefault(t => t.Value == userId);
             if (string.IsNullOrEmpty(retValue.Key))
             {
                 Add(token, userId);
-                return true;
+                return token;
             }
-            return false;
+            return retValue.Key;
         }
     }
 }

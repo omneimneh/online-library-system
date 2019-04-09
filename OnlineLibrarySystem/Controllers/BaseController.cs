@@ -1,10 +1,12 @@
-﻿using System;
+﻿using OnlineLibrarySystem.Models;
+using System;
 using System.Web.Mvc;
 
 namespace OnlineLibrarySystem
 {
     public class BaseController : Controller
     {
+        public CommonModel model = new CommonModel();
 
         public string CurrentActionName => ControllerContext.RouteData.Values["action"].ToString().ToLower();
         public string CurrentControllerName => ControllerContext.RouteData.Values["controller"].ToString().ToLower();
@@ -17,9 +19,11 @@ namespace OnlineLibrarySystem
         {
 
             string token = GetSession("token");
+            model.Token = token;
             if (!HasAccess(token, filterContext))
             {
-                filterContext.Result = RedirectToAction("Index", "Home");
+                Session["redirect"] = Url.Action(CurrentActionName, CurrentControllerName);
+                filterContext.Result = RedirectToAction("Login", "Account");
             }
         }
 
@@ -36,7 +40,7 @@ namespace OnlineLibrarySystem
             {
                 switch (CurrentControllerName.ToLower())
                 {
-                    case "home": case "login": return true;
+                    case "home": case "account": return true;
                     default: return false;
                 }
             }
@@ -46,8 +50,8 @@ namespace OnlineLibrarySystem
                 // according to the type of this user give him access
                 switch (CurrentControllerName.ToLower())
                 {
-                    case "home": case "login": return true;
-                    default: return false;
+                    case "home": case "account": return true;
+                    default: return true;
                 }
             }
         }
