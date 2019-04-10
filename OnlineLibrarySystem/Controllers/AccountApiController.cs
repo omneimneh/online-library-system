@@ -8,7 +8,7 @@ using System.Text;
 using System.Web.Http;
 namespace OnlineLibrarySystem.Controllers
 {
-    public class AccountApiController : BaseController
+    public class AccountApiController : ApiController
     {
         [HttpPost]
         [Route("api/AccountApi/Login")]
