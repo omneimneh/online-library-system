@@ -24,7 +24,7 @@ namespace OnlineLibrarySystem.Controllers
                 return Login();
             }
 
-            AccountApiController apiController = new AccountApiController();
+            ApiAccountController apiController = new ApiAccountController();
             string token = apiController.Login(username, password);
 
             if (string.IsNullOrEmpty(token))

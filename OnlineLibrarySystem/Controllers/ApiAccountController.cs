@@ -8,7 +8,7 @@ using System.Text;
 using System.Web.Http;
 namespace OnlineLibrarySystem.Controllers
 {
-    public class AccountApiController : ApiController
+    public class ApiAccountController : ApiController
     {
         [HttpPost]
         [Route("api/AccountApi/Login")]
@@ -17,7 +17,7 @@ namespace OnlineLibrarySystem.Controllers
             string encrypted = OneWayEncrpyt(password);
 
             using (SqlDataReader reader = DB.ExecuteQuery("SELECT PersonId FROM Person WHERE Username = @user AND UserPassword = @pass",
-                new KeyValuePair<string, string>("user", username), new KeyValuePair<string, string>("pass", encrypted)))
+                new KeyValuePair<string, object>("user", username), new KeyValuePair<string, object>("pass", encrypted)))
             {
 
                 bool recordFound = reader.Read(); // contains at least one record

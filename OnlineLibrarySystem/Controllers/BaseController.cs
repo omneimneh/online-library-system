@@ -41,7 +41,7 @@ namespace OnlineLibrarySystem
                 switch (CurrentControllerName.ToLower())
                 {
                     case "home": case "account": return true;
-                    default: return false;
+                    default: return true; // for testing
                 }
             }
             else

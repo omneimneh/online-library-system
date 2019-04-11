@@ -37,7 +37,7 @@ namespace OnlineLibrarySystem.Controllers
             Connected = false;
         }
 
-        public static SqlDataReader ExecuteQuery(string sql, params KeyValuePair<string, string>[] pairs)
+        public static SqlDataReader ExecuteQuery(string sql, params KeyValuePair<string, object>[] pairs)
         {
             if (!Connected) Open();
             SqlCommand cmd = new SqlCommand(sql, connection);

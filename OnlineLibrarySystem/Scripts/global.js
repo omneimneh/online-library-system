@@ -8,7 +8,7 @@
     // load navbar ng-controller
     $global.controller("navbarController", function ($scope) {
         $scope.appTitle = "Online Library System";
-        $scope.links = [{ name: 'Home', url: '/' }, { name: 'Browse', url: '/Books/Search' }, { name: 'Help', url: '/Help' }];
+        $scope.links = [{ name: 'Home', url: '/' }, { name: 'Browse', url: '/Book/Search' }, { name: 'Help', url: '/Help' }];
         if ($('#Token').val()) {
             $scope.userActions = [{ name: 'Logout', url: '/Account/Logout' }];
         } else {

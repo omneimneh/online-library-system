@@ -1,6 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Book } from '../Model';
-
 
 @Component({
     selector: 'app-book-thumbnail',
@@ -8,7 +6,7 @@ import { Book } from '../Model';
     styleUrls: ['./book-thumbnail.component.css']
 })
 export class BookThumbnailComponent implements OnInit {
-    @Input("book") book: Book;
+    @Input("book") book: any;
 
     openDetails() {
         console.log(this.book);

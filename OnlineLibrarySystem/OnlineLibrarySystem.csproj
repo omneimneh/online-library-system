@@ -143,27 +143,36 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountApiController.cs" />
+    <Compile Include="Controllers\ApiAccountController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\DB.cs" />
+    <Compile Include="Controllers\ApiBookController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Book.cs" />
     <Compile Include="Models\CommonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\BookController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\book-root\book-root.component.css" />
+    <Content Include="app\book-root\book-root.component.html" />
     <Content Include="app\book-thumbnail\book-thumbnail.component.css" />
     <Content Include="app\book-thumbnail\book-thumbnail.component.html" />
+    <Content Include="Media\default.png" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Books\Search.cshtml" />
+    <Content Include="Views\Book\Search.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
     <Content Include="Views\Account\Signup.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Account\Logout.cshtml" />
+    <Content Include="Views\Book\Index.cshtml" />
+    <TypeScriptCompile Include="app\book-root\book-root.component.spec.ts" />
+    <TypeScriptCompile Include="app\book-root\book-root.component.ts" />
+    <TypeScriptCompile Include="app\book.main.ts" />
     <TypeScriptCompile Include="app\const.ts" />
     <Content Include="app\home-root\home-root.component.css" />
     <Content Include="app\home-root\home-root.component.html" />
@@ -269,7 +278,6 @@
     <TypeScriptCompile Include="app\home-root\home-root.component.spec.ts" />
     <TypeScriptCompile Include="app\home-root\home-root.component.ts" />
     <TypeScriptCompile Include="app\home.main.ts" />
-    <TypeScriptCompile Include="app\model.ts" />
     <TypeScriptCompile Include="app\slideshow\slideshow.component.spec.ts" />
     <TypeScriptCompile Include="app\slideshow\slideshow.component.ts" />
   </ItemGroup>

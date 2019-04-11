@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../Model';
-import { someBooks, appTitle } from '../const';
+import { appTitle } from '../const';
+import { Http } from '@angular/http';
 declare var $: any;
 
 @Component({
@@ -10,10 +10,12 @@ declare var $: any;
 })
 export class HomeRootComponent implements OnInit {
 
-    books: Book[] = someBooks;
+    books: any[];
     appTitle: string = appTitle;
 
-    constructor() { }
+    constructor(http: Http) {
+        http.get('/api/ApiBook/GetMostPopular?count=8').subscribe(books => this.books = books.json());
+    }
 
     ngOnInit() {
         $('.carousel').carousel({

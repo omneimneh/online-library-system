@@ -11,10 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var const_1 = require("../const");
+var http_1 = require("@angular/http");
 var HomeRootComponent = /** @class */ (function () {
-    function HomeRootComponent() {
-        this.books = const_1.someBooks;
+    function HomeRootComponent(http) {
+        var _this = this;
         this.appTitle = const_1.appTitle;
+        http.get('/api/ApiBook/GetMostPopular?count=8').subscribe(function (books) { return _this.books = books.json(); });
     }
     HomeRootComponent.prototype.ngOnInit = function () {
         $('.carousel').carousel({
@@ -27,7 +29,7 @@ var HomeRootComponent = /** @class */ (function () {
             templateUrl: './home-root.component.html',
             styleUrls: ['./home-root.component.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [http_1.Http])
     ], HomeRootComponent);
     return HomeRootComponent;
 }());

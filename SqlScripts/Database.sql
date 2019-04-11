@@ -1,17 +1,27 @@
-
-BEGIN TRAN InitDatabase; GO
-
 -- Creating the database
-CREATE DATABASE OnlineLibrarySystem GO
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'OnlineLibrarySystem')
+BEGIN
+	DROP DATABASE OnlineLibrarySystem;
+END
 
-USE OnlineLibrarySystem GO
+CREATE DATABASE OnlineLibrarySystem;
+GO
+
+USE OnlineLibrarySystem;
+
+-- Define some domains
+CREATE TYPE small_field FROM varchar(32);
+CREATE TYPE field FROM varchar(128);
+CREATE TYPE long_field FROM varchar(1024);
+CREATE TYPE url_field FROM varchar(2083);
+GO
 
 -- All personnels should be stored in this table
 CREATE TABLE Person (
 	PersonId int PRIMARY KEY IDENTITY(0, 1),
-	Username varchar(20) NOT NULL UNIQUE,
-	UserPassword varchar(100) NOT NULL
-); GO
+	Username small_field NOT NULL UNIQUE,
+	UserPassword field NOT NULL
+);
 
 -- Personnels can be in one of the following tables
 CREATE TABLE Professor (
@@ -24,21 +34,23 @@ CREATE TABLE Student (
 
 CREATE TABLE Librarian (
 	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Person(PersonId)
-); GO
+);
 
 -- Personnels with extended privileges
 CREATE TABLE Maintainer (
 	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Librarian(PersonId)
 );
-GO
 
 -- Books are stored in here
 CREATE TABLE Book (
 	BookId int PRIMARY KEY IDENTITY(0, 1),
-	BookTitle varchar(100) NOT NULL,
-	AuthorName varchar(100),
-	PublishingDate DATE
-); GO
+	BookTitle field NOT NULL,
+	BookDescription long_field,
+	AuthorName field,
+	PublishingDate DATE,
+	Quantity int NOT NULL DEFAULT 1,
+	ThumbnailImage url_field DEFAULT NULL,
+);
 
 -- Rental storage
 CREATE TABLE Reservation (
@@ -54,7 +66,4 @@ CREATE TABLE Reservation (
 	-- EXPLANATION:
 	-- @PersonId		@OrderDate:	I need @BookId ready to pick it up on @Pickup
 	-- LibrarySystem	@OrderDate:	You should return it @DeadlineDate
-); GO
-
--- Save everything
-COMMIT TRAN InitDatabase; GO
+);

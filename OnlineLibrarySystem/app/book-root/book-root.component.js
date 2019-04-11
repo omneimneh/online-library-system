@@ -10,27 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var BookThumbnailComponent = /** @class */ (function () {
-    function BookThumbnailComponent() {
+var BookRootComponent = /** @class */ (function () {
+    function BookRootComponent() {
     }
-    BookThumbnailComponent.prototype.openDetails = function () {
-        console.log(this.book);
+    BookRootComponent.prototype.ngOnInit = function () {
     };
-    BookThumbnailComponent.prototype.ngOnInit = function () {
-    };
-    __decorate([
-        core_1.Input("book"),
-        __metadata("design:type", Object)
-    ], BookThumbnailComponent.prototype, "book", void 0);
-    BookThumbnailComponent = __decorate([
+    BookRootComponent = __decorate([
         core_1.Component({
-            selector: 'app-book-thumbnail',
-            templateUrl: './book-thumbnail.component.html',
-            styleUrls: ['./book-thumbnail.component.css']
+            selector: 'app-book-root',
+            templateUrl: './book-root.component.html',
+            styleUrls: ['./book-root.component.css']
         }),
         __metadata("design:paramtypes", [])
-    ], BookThumbnailComponent);
-    return BookThumbnailComponent;
+    ], BookRootComponent);
+    return BookRootComponent;
 }());
-exports.BookThumbnailComponent = BookThumbnailComponent;
-//# sourceMappingURL=book-thumbnail.component.js.map
+exports.BookRootComponent = BookRootComponent;
+//# sourceMappingURL=book-root.component.js.map
