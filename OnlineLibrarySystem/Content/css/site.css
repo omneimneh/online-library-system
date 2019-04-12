@@ -15,8 +15,44 @@ body {
     flex: 1;
 }
 
+.w-50px {
+    width: 50px;
+}
+
+.w-100px {
+    width: 100px;
+}
+
+.w-150px {
+    width: 150px;
+}
+
+.w-200px {
+    width: 200px;
+}
+
 .w-250px {
     width: 250px;
+}
+
+.w-300px {
+    width: 300px;
+}
+
+.w-350px {
+    width: 350px;
+}
+
+.w-400px {
+    width: 400px;
+}
+
+.w-450px {
+    width: 450px;
+}
+
+.w-500px {
+    width: 500px;
 }
 
 * {

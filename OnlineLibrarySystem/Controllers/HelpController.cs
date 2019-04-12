@@ -14,5 +14,11 @@ namespace OnlineLibrarySystem.Controllers
             ViewBag.Title = "Help";
             return View(model);
         }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Title = "Contact us";
+            return View(model);
+        }
     }
 }

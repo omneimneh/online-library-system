@@ -42,7 +42,7 @@
                         <a class="nav-link" href="{{x.url}}">{{x.name}}</a>
                     </li>
                     <li class="nav-item dropdown px-lg-5 w-100">
-                        <form class="input-group" method="get" action="/Books/Search">
+                        <form class="input-group" method="get" action="/Book/Search">
                             <input name="key" type="text" class="form-control" aria-label="Search" placeholder="Search for any book">
                             <input name="searchBy" type="hidden" value="book" />
                             <div class="input-group-append">
@@ -70,7 +70,7 @@
                     <p class="text-muted">Online Library System Project. All rights reserved 2019.</p>
                 </div>
                 <div style="width: 150px" class="d-flex align-items-center">
-                    <button class="btn btn-info">Contact us now!</button>
+                    <a class="btn btn-info" href="/Help/Contact">Contact us now!</a>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
     @Scripts.Render("~/Scripts/angular.min.js")
     @Scripts.Render("~/Scripts/bootstrap.min.js")
 
-
+    <!-- GLOBAL SCRIPT FOR ALL PAGES -->
     @Scripts.Render("~/Scripts/global.js")
 
     <!-- HERE GOES THE PAGE ADDITIONAL SCRIPTS -->

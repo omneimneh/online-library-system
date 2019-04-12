@@ -154,6 +154,7 @@
     </Compile>
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\CommonModel.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\BookController.cs" />
   </ItemGroup>
@@ -170,6 +171,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Account\Logout.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Help\Contact.cshtml" />
     <TypeScriptCompile Include="app\book-root\book-root.component.spec.ts" />
     <TypeScriptCompile Include="app\book-root\book-root.component.ts" />
     <TypeScriptCompile Include="app\book.main.ts" />

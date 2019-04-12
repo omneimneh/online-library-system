@@ -1,14 +1,14 @@
-﻿
-@section scripts {
-    <script type="text/javascript">
-        setTimeout(function () {
-            window.location.href = '@Url.Action("Login","Account")';
-        }, 1500);
-    </script>
+﻿@section AddToHead {
+    <meta http-equiv="Refresh" content="1;url=/Account/Login" />
 }
 
-<p class="container">
+<div class="container m-auto">
     <div class="d-flex align-items-center justify-content-center w-100">
-        <span class="spinner-border text-secondary m-5"></span>Please Wait...
+        <span class="spinner-border text-secondary mr-3"></span>
+        <span>Please wait...</span>
     </div>
-</p>
+    <br />
+    <div class="d-flex align-items-center justify-content-center w-100">
+        <a class="btn btn-outline-primary" href="@Url.Action("Login","Account")">Skip</a>
+    </div>
+</div>

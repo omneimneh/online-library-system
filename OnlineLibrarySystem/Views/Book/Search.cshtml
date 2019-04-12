@@ -1,3 +1,58 @@
-﻿<p>
-    Search works!
-</p>
+﻿@section AddToHead {
+    <style>
+        body {
+            background-image: url("book_image2.jpg");
+            background-size: 1300px;
+        }
+    </style>
+
+}
+
+<form method="post" action="searchproc.php">
+
+    <table>
+
+        <tr>
+            <td> <h2>Name Of Book: </h2> </td>
+            <td>
+                <input type="text" name="searchBox">
+            </td>
+        </tr>
+
+        <tr>
+            <td><h2>Categories :  </h2> </td>
+            <td>
+                <select>
+                    <option value="1">Physics</option>
+                    <option value="2">Maths</option>
+                    <option value="3">Chemistry</option>
+                    <option value="4">sociology</option>
+                    <option value="5">Economics</option>
+                    <option value="6">Biologie</option> ...
+                </select>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td><h2>Choose language of Book :</h2> </td>
+            <td>
+                <select>
+                    <option value="1">French</option>
+                    <option value="2">English</option>
+                    <option value="3">Arabic</option>
+                    <option value="4">Italian</option>
+                    <option value="5">Turkish</option>
+                    <option value="6">Spanish</option> ...
+                </select>
+        </tr>
+
+        <tr>
+            <td>
+                <h2>  <input type="submit" value="Search for Book "> </h2>
+            </td>
+        </tr>
+    </table>
+    <h2>If you cannot found your book  click on the link below to get  more information .</h2></a>
+    <a href="ContactUs.html"><h2>ContactUs !</h2></a>
+</form>

@@ -47,5 +47,27 @@ namespace OnlineLibrarySystem.Controllers
             }
             return cmd.ExecuteReader();
         }
+
+        public static void ExecuteNonQuery(string sql, params KeyValuePair<string, object>[] pairs)
+        {
+            if (!Connected) Open();
+            SqlCommand cmd = new SqlCommand(sql, connection);
+            foreach (var pair in pairs)
+            {
+                cmd.Parameters.AddWithValue(pair.Key, pair.Value);
+            }
+            cmd.ExecuteNonQuery();
+        }
+
+        public static int ExecuteInsertQuery(string sql, params KeyValuePair<string, object>[] pairs)
+        {
+            if (!Connected) Open();
+            SqlCommand cmd = new SqlCommand(sql + " SELECT SCOPE_IDENTITY()", connection);
+            foreach (var pair in pairs)
+            {
+                cmd.Parameters.AddWithValue(pair.Key, pair.Value);
+            }
+            return Convert.ToInt32(cmd.ExecuteScalar());
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineLibrarySystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,7 +13,11 @@ namespace OnlineLibrarySystem.Controllers
         public ActionResult Login()
         {
             ViewBag.Title = "Login";
-            return View(model);
+            return View(new Person
+            {
+                Token = model.Token,
+                Error = false
+            });
         }
 
         [HttpPost]
@@ -29,8 +34,13 @@ namespace OnlineLibrarySystem.Controllers
 
             if (string.IsNullOrEmpty(token))
             {
-                ViewBag.Error = "Invalid username or passowrd";
                 Session.Remove("token");
+                return View(new Person
+                {
+                    Error = true,
+                    Username = username,
+                    Token = model.Token
+                });
             }
             else
             {
@@ -46,13 +56,31 @@ namespace OnlineLibrarySystem.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return View(model);
         }
 
         public ActionResult Signup()
         {
             ViewBag.Title = "Signup";
-            return View(model);
+            return View(new Person { Token = model.Token });
+        }
+
+        [HttpPost]
+        public ActionResult Signup(string username, string password, string verifyPassword)
+        {
+            ViewBag.Title = "Signup";
+
+            if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password) && string.IsNullOrEmpty(verifyPassword))
+            {
+                return Signup();
+            }
+
+            Person user = new ApiAccountController().Signup(username, password, verifyPassword);
+            if (user.Error)
+            {
+                return View(user);
+            }
+            Session["token"] = user.Token;
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Logout()
@@ -62,6 +90,7 @@ namespace OnlineLibrarySystem.Controllers
                 TokenManager.TokenDictionaryHolder.Remove(Session["token"].ToString());
             }
             Session.Remove("token");
+            ViewBag.Title = "Logout";
             return View(model);
         }
     }
