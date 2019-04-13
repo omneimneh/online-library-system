@@ -11,8 +11,7 @@ namespace OnlineLibrarySystem.Views
 {
     public class BookController : BaseController
     {
-        // GET: Book
-        public ActionResult Search()
+        public ActionResult Search(string key = null, string searchBy = "book")
         {
             ViewBag.Title = "Search";
             return View(model);

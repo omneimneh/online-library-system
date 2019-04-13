@@ -10,29 +10,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var const_1 = require("../const");
 var http_1 = require("@angular/http");
-var HomeRootComponent = /** @class */ (function () {
-    function HomeRootComponent(http) {
+var SearchRootComponent = /** @class */ (function () {
+    function SearchRootComponent(http) {
         var _this = this;
-        this.appTitle = const_1.appTitle;
-        http.get('/api/ApiBook/GetMostPopular?count=8').subscribe(function (books) { return _this.books = books.json(); });
-        this.signedIn = $('#Token').val() != '';
+        this.books = [];
+        this.len = 8;
+        http.get('api/ApiBook/GetMostPopular?count=8').subscribe(function (x) { return _this.books = x.json(); });
     }
-    HomeRootComponent.prototype.ngOnInit = function () {
-        $('.carousel').carousel({
-            interval: 3000
-        });
+    SearchRootComponent.prototype.ngOnInit = function () {
     };
-    HomeRootComponent = __decorate([
+    SearchRootComponent = __decorate([
         core_1.Component({
-            selector: 'app-home-root',
-            templateUrl: './home-root.component.html',
-            styleUrls: ['./home-root.component.css']
+            selector: 'app-search-root',
+            templateUrl: './search-root.component.html',
+            styleUrls: ['./search-root.component.css']
         }),
         __metadata("design:paramtypes", [http_1.Http])
-    ], HomeRootComponent);
-    return HomeRootComponent;
+    ], SearchRootComponent);
+    return SearchRootComponent;
 }());
-exports.HomeRootComponent = HomeRootComponent;
-//# sourceMappingURL=home-root.component.js.map
+exports.SearchRootComponent = SearchRootComponent;
+//# sourceMappingURL=search-root.component.js.map

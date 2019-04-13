@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
 
+    <base href="/" />
+
     <!-- Polyfill(s) for older browsers -->
     <script src="/node_modules/core-js/client/shim.min.js"></script>
     <script src="/node_modules/zone.js/dist/zone.js"></script>
@@ -62,7 +64,7 @@
     @RenderBody()
 
     <!-- COMMON FOOTER -->
-    <footer class="footer mt-auto py-3 bg-light">
+    <footer class="footer mt-auto py-3 bg-light navbar-fixed-bottom">
         <div class="container">
             <div class="row">
                 <div class="col">

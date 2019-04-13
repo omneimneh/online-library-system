@@ -1,0 +1,18 @@
+<div class="container">
+    <div>We found <b id="booksCount">{{len}}</b> books matching your search!</div>
+    <ul class="list-unstyled">
+        <li *ngFor="let b of books">
+            <app-book-result [book]="b"></app-book-result>
+        </li>
+    </ul>
+
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><button class="page-link">Previous</button></li>
+            <li class="page-item"><button class="page-link">1</button></li>
+            <li class="page-item"><button class="page-link">2</button></li>
+            <li class="page-item"><button class="page-link">3</button></li>
+            <li class="page-item"><button class="page-link">Next</button></li>
+        </ul>
+    </nav>
+</div>

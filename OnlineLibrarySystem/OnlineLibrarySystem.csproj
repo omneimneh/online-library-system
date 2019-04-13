@@ -159,10 +159,14 @@
     <Compile Include="Controllers\BookController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\book-result\book-result.component.css" />
+    <Content Include="app\book-result\book-result.component.html" />
     <Content Include="app\book-root\book-root.component.css" />
     <Content Include="app\book-root\book-root.component.html" />
     <Content Include="app\book-thumbnail\book-thumbnail.component.css" />
     <Content Include="app\book-thumbnail\book-thumbnail.component.html" />
+    <Content Include="app\search-root\search-root.component.css" />
+    <Content Include="app\search-root\search-root.component.html" />
     <Content Include="Media\default.png" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Book\Search.cshtml" />
@@ -172,6 +176,8 @@
     <Content Include="Views\Account\Logout.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
     <Content Include="Views\Help\Contact.cshtml" />
+    <TypeScriptCompile Include="app\book-result\book-result.component.spec.ts" />
+    <TypeScriptCompile Include="app\book-result\book-result.component.ts" />
     <TypeScriptCompile Include="app\book-root\book-root.component.spec.ts" />
     <TypeScriptCompile Include="app\book-root\book-root.component.ts" />
     <TypeScriptCompile Include="app\book.main.ts" />
@@ -279,7 +285,10 @@
     <TypeScriptCompile Include="app\book-thumbnail\book-thumbnail.component.ts" />
     <TypeScriptCompile Include="app\home-root\home-root.component.spec.ts" />
     <TypeScriptCompile Include="app\home-root\home-root.component.ts" />
+    <TypeScriptCompile Include="app\search.main.ts" />
     <TypeScriptCompile Include="app\home.main.ts" />
+    <TypeScriptCompile Include="app\search-root\search-root.component.spec.ts" />
+    <TypeScriptCompile Include="app\search-root\search-root.component.ts" />
     <TypeScriptCompile Include="app\slideshow\slideshow.component.spec.ts" />
     <TypeScriptCompile Include="app\slideshow\slideshow.component.ts" />
   </ItemGroup>

@@ -13,13 +13,15 @@ var book_thumbnail_component_1 = require("./book-thumbnail/book-thumbnail.compon
 var home_root_component_1 = require("./home-root/home-root.component");
 var http_1 = require("@angular/http");
 var book_root_component_1 = require("./book-root/book-root.component");
+var search_root_component_1 = require("./search-root/search-root.component");
+var book_result_component_1 = require("./book-result/book-result.component");
 var HomeModule = /** @class */ (function () {
     function HomeModule() {
     }
     HomeModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, http_1.HttpModule],
-            declarations: [slideshow_component_1.SlideshowComponent, book_thumbnail_component_1.BookThumbnailComponent, home_root_component_1.HomeRootComponent, book_root_component_1.BookRootComponent],
+            declarations: [slideshow_component_1.SlideshowComponent, book_thumbnail_component_1.BookThumbnailComponent, home_root_component_1.HomeRootComponent, book_root_component_1.BookRootComponent, search_root_component_1.SearchRootComponent, book_result_component_1.BookResultComponent],
             bootstrap: [home_root_component_1.HomeRootComponent]
         })
     ], HomeModule);
@@ -39,4 +41,17 @@ var BookModule = /** @class */ (function () {
     return BookModule;
 }());
 exports.BookModule = BookModule;
+var SearchModule = /** @class */ (function () {
+    function SearchModule() {
+    }
+    SearchModule = __decorate([
+        core_1.NgModule({
+            imports: [platform_browser_1.BrowserModule, http_1.HttpModule],
+            declarations: [search_root_component_1.SearchRootComponent, book_result_component_1.BookResultComponent],
+            bootstrap: [search_root_component_1.SearchRootComponent]
+        })
+    ], SearchModule);
+    return SearchModule;
+}());
+exports.SearchModule = SearchModule;
 //# sourceMappingURL=app.module.js.map

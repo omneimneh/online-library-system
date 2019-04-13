@@ -9,7 +9,7 @@
 </div>
 <br />
 
-<div class="jumbotron jumbotron-fluid my-4">
+<div *ngIf="!signedIn" class="jumbotron jumbotron-fluid my-4">
     <div class="container">
         <h1 class="display-4">Get the most of {{appTitle}}</h1>
         <p class="lead">Login or Sign up so you can order a book online and enjoy many other features...</p>

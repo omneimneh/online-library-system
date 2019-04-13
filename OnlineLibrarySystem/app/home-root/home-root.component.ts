@@ -12,9 +12,11 @@ export class HomeRootComponent implements OnInit {
 
     books: any[];
     appTitle: string = appTitle;
+    signedIn: boolean;
 
     constructor(http: Http) {
         http.get('/api/ApiBook/GetMostPopular?count=8').subscribe(books => this.books = books.json());
+        this.signedIn = $('#Token').val() != '';
     }
 
     ngOnInit() {

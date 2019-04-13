@@ -6,10 +6,12 @@ import { BookThumbnailComponent } from './book-thumbnail/book-thumbnail.componen
 import { HomeRootComponent } from './home-root/home-root.component';
 import { HttpModule } from '@angular/http';
 import { BookRootComponent } from './book-root/book-root.component';
+import { SearchRootComponent } from './search-root/search-root.component';
+import { BookResultComponent } from './book-result/book-result.component';
 
 @NgModule({
     imports: [BrowserModule, HttpModule],
-    declarations: [SlideshowComponent, BookThumbnailComponent, HomeRootComponent, BookRootComponent],
+    declarations: [SlideshowComponent, BookThumbnailComponent, HomeRootComponent, BookRootComponent, SearchRootComponent, BookResultComponent],
     bootstrap: [HomeRootComponent]
 })
 class HomeModule { }
@@ -21,4 +23,11 @@ class HomeModule { }
 })
 class BookModule { }
 
-export { HomeModule, BookModule };
+@NgModule({
+    imports: [BrowserModule, HttpModule],
+    declarations: [SearchRootComponent, BookResultComponent],
+    bootstrap: [SearchRootComponent]
+})
+class SearchModule { }
+
+export { HomeModule, BookModule, SearchModule };

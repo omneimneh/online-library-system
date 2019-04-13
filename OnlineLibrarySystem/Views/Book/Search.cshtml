@@ -1,58 +1,57 @@
-﻿@section AddToHead {
-    <style>
-        body {
-            background-image: url("book_image2.jpg");
-            background-size: 1300px;
-        }
-    </style>
-
+﻿@section scripts {
+    <script type="text/javascript">
+        System.import('app/search.main.js').catch(function (err) { console.error(err); });
+    </script>
 }
 
-<form method="post" action="searchproc.php">
-
-    <table>
-
-        <tr>
-            <td> <h2>Name Of Book: </h2> </td>
-            <td>
-                <input type="text" name="searchBox">
-            </td>
-        </tr>
-
-        <tr>
-            <td><h2>Categories :  </h2> </td>
-            <td>
-                <select>
-                    <option value="1">Physics</option>
-                    <option value="2">Maths</option>
-                    <option value="3">Chemistry</option>
-                    <option value="4">sociology</option>
-                    <option value="5">Economics</option>
-                    <option value="6">Biologie</option> ...
+<div class="container mt-4">
+    <form action="/Book/Search" method="get">
+        <input type="hidden" value="1" name="page" />
+        <input type="hidden" value="8" name="resultPerPage" />
+        <div class="row align-items-end">
+            <div class="form-group col-md-12 col-lg-6">
+                <label for="searchTxt" class="text-muted">What are you searching for?</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" id="match" />
+                        </div>
+                    </div>
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            Match entire string
+                        </div>
+                    </div>
+                    <input id="searchTxt" type="text" class="form-control" placeholder="Search for any book" />
+                    <div class="input-group-append">
+                        <input class="btn btn-group btn-outline-secondary" value="Search" type="submit" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-lg-3">
+                <label for="searchBy" class="text-muted">Search by</label>
+                <select class="form-control" id="searchBy">
+                    <option value="book">Book title</option>
+                    <option value="author">Author name</option>
+                    <option value="publisher">Publisher name</option>
                 </select>
+            </div>
+            <div class="form-group col-md-6 col-lg-3">
+                <label for="pubDateMin" class="text-muted">Published between</label>
+                <div class="input-group">
+                    <input class="form-control" id="pubDateMin" type="number" min="0" max="2020" value="1900" />
+                    <div class="input-group-append input-group-prepend">
+                        <div class="input-group-text">and</div>
+                    </div>
+                    <input class="form-control" id="pubDateMax" type="number" min="0" max="2020" value="2019" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
-            </td>
-        </tr>
-
-        <tr>
-            <td><h2>Choose language of Book :</h2> </td>
-            <td>
-                <select>
-                    <option value="1">French</option>
-                    <option value="2">English</option>
-                    <option value="3">Arabic</option>
-                    <option value="4">Italian</option>
-                    <option value="5">Turkish</option>
-                    <option value="6">Spanish</option> ...
-                </select>
-        </tr>
-
-        <tr>
-            <td>
-                <h2>  <input type="submit" value="Search for Book "> </h2>
-            </td>
-        </tr>
-    </table>
-    <h2>If you cannot found your book  click on the link below to get  more information .</h2></a>
-    <a href="ContactUs.html"><h2>ContactUs !</h2></a>
-</form>
+<app-search-root>
+    <div class="d-flex align-items-center justify-content-center w-100">
+        <span class="spinner-border text-secondary m-5"></span>
+    </div>
+</app-search-root>
