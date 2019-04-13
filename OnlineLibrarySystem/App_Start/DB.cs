@@ -69,5 +69,16 @@ namespace OnlineLibrarySystem.Controllers
             }
             return Convert.ToInt32(cmd.ExecuteScalar());
         }
+
+        public static int ExecuteScalar(string sql, params KeyValuePair<string, object>[] pairs)
+        {
+            if (!Connected) Open();
+            SqlCommand cmd = new SqlCommand(sql, connection);
+            foreach (var pair in pairs)
+            {
+                cmd.Parameters.AddWithValue(pair.Key, pair.Value);
+            }
+            return Convert.ToInt32(cmd.ExecuteScalar());
+        }
     }
 }

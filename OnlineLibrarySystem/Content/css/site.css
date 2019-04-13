@@ -78,3 +78,10 @@ body {
 .badge {
     cursor: pointer;
 }
+
+/* IE10+ CSS styles go here */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    body > footer.footer {
+        visibility: hidden;
+    }
+}

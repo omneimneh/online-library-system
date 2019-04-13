@@ -1,5 +1,5 @@
 <div class="container">
-    <div>We found <b id="booksCount">{{len}}</b> books matching your search!</div>
+    <div>We found <b id="booksCount">{{totalCount}}</b> books matching your search!</div>
     <ul class="list-unstyled">
         <li *ngFor="let b of books">
             <app-book-result [book]="b"></app-book-result>
@@ -8,11 +8,11 @@
 
     <nav>
         <ul class="pagination justify-content-center">
-            <li class="page-item"><button class="page-link">Previous</button></li>
-            <li class="page-item"><button class="page-link">1</button></li>
-            <li class="page-item"><button class="page-link">2</button></li>
-            <li class="page-item"><button class="page-link">3</button></li>
-            <li class="page-item"><button class="page-link">Next</button></li>
+            <li class="page-item{{start ? ' disabled' : ''}}"><button id="prev" class="page-link" (click)="goToPage(page-1)">Previous</button></li>
+            <li class="page-item" *ngIf="!start"><button id="before" class="page-link" (click)="goToPage(page-1)">{{page-1}}</button></li>
+            <li class="page-item active"><button id="current" class="page-link">{{page}}</button></li>
+            <li class="page-item" *ngIf="!end"><button id="after" class="page-link" (click)="goToPage(page--1)">{{page--1 // --1 is +1}}</button></li>
+            <li class="page-item{{end ? ' disabled' : ''}}"><button id="next" class="page-link" (click)="goToPage(page--1)">Next</button></li>
         </ul>
     </nav>
 </div>

@@ -15,10 +15,22 @@ var SearchRootComponent = /** @class */ (function () {
     function SearchRootComponent(http) {
         var _this = this;
         this.books = [];
-        this.len = 8;
-        http.get('api/ApiBook/GetMostPopular?count=8').subscribe(function (x) { return _this.books = x.json(); });
+        var data = $('#searchForm').serialize();
+        http.get('api/ApiBook/Search?' + data).subscribe(function (x) {
+            var json = x.json();
+            _this.books = json.Results;
+            _this.totalCount = json.TotalCount;
+            _this.page = $('#page').val();
+            _this.pageSize = $('#pageSize').val();
+            _this.start = _this.page == 1;
+            _this.end = _this.page >= (_this.totalCount / _this.pageSize);
+        });
     }
     SearchRootComponent.prototype.ngOnInit = function () {
+    };
+    SearchRootComponent.prototype.goToPage = function (page) {
+        $('#page').val(page);
+        $('#searchForm').submit();
     };
     SearchRootComponent = __decorate([
         core_1.Component({

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { appTitle } from '../const';
 import { Http } from '@angular/http';
 declare var $: any;
+declare var navigator: any;
 
 @Component({
     selector: 'app-home-root',
@@ -24,5 +25,4 @@ export class HomeRootComponent implements OnInit {
             interval: 3000
         });
     }
-
 }

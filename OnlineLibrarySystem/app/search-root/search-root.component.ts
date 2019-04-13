@@ -10,14 +10,33 @@ declare var $: any;
 export class SearchRootComponent implements OnInit {
 
     books: any[] = [];
-    len: number;
+    totalCount: number;
+    page: number;
+    pageSize: number;
+    start: boolean;
+    end: boolean;
 
     constructor(http: Http) {
-        this.len = 8;
-        http.get('api/ApiBook/GetMostPopular?count=8').subscribe(x => this.books = x.json());
+        var data: String = $('#searchForm').serialize();
+        http.get('api/ApiBook/Search?' + data).subscribe(x => {
+            var json: any = x.json();
+            this.books = json.Results;
+            this.totalCount = json.TotalCount;
+
+            this.page = $('#page').val();
+            this.pageSize = $('#pageSize').val();
+            this.start = this.page == 1;
+            this.end = this.page >= (this.totalCount / this.pageSize);
+        });
     }
 
     ngOnInit() {
+
+    }
+
+    goToPage(page: number) {
+        $('#page').val(page);
+        $('#searchForm').submit();
     }
 
 }

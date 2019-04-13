@@ -1,20 +1,27 @@
-﻿@section scripts {
+﻿@model OnlineLibrarySystem.Models.SearchFilter
+
+@section scripts {
     <script type="text/javascript">
         System.import('app/search.main.js').catch(function (err) { console.error(err); });
+
+        function keyChanged() {
+            $('#page').val(1);
+        }
+
     </script>
 }
 
 <div class="container mt-4">
-    <form action="/Book/Search" method="get">
-        <input type="hidden" value="1" name="page" />
-        <input type="hidden" value="8" name="resultPerPage" />
+    <form action="/Book/Search" method="get" id="searchForm">
+        <input type="hidden" value="@Model.Page" name="page" id="page" />
+        <input type="hidden" value="@Model.PageSize" name="pageSize" id="pageSize" />
         <div class="row align-items-end">
             <div class="form-group col-md-12 col-lg-6">
-                <label for="searchTxt" class="text-muted">What are you searching for?</label>
+                <label for="key" class="text-muted">What are you searching for?</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            <input type="checkbox" id="match" />
+                            <input name="match" type="checkbox" id="match" @(Model.Match ? "checked" : "") />
                         </div>
                     </div>
                     <div class="input-group-prepend">
@@ -22,7 +29,7 @@
                             Match entire string
                         </div>
                     </div>
-                    <input id="searchTxt" type="text" class="form-control" placeholder="Search for any book" />
+                    <input id="key" value="@Model.Key" onchange="keyChanged()" name="key" type="text" class="form-control" placeholder="Search for any book" />
                     <div class="input-group-append">
                         <input class="btn btn-group btn-outline-secondary" value="Search" type="submit" />
                     </div>
@@ -30,20 +37,20 @@
             </div>
             <div class="form-group col-md-6 col-lg-3">
                 <label for="searchBy" class="text-muted">Search by</label>
-                <select class="form-control" id="searchBy">
-                    <option value="book">Book title</option>
-                    <option value="author">Author name</option>
-                    <option value="publisher">Publisher name</option>
+                <select class="form-control" id="searchBy" name="searchBy">
+                    <option value="book" @(Model.SearchBy.Equals("book") ? "selected" : "")>Book title</option>
+                    <option value="author" @(Model.SearchBy.Equals("author") ? "selected" : "")>Author name</option>
+                    <option value="publisher" @(Model.SearchBy.Equals("publisher") ? "selected" : "")>Publisher name</option>
                 </select>
             </div>
             <div class="form-group col-md-6 col-lg-3">
-                <label for="pubDateMin" class="text-muted">Published between</label>
+                <label for="minPub" class="text-muted">Published between</label>
                 <div class="input-group">
-                    <input class="form-control" id="pubDateMin" type="number" min="0" max="2020" value="1900" />
+                    <input class="form-control" id="minPub" name="minPub" type="number" min="0" max="2020" value="@Model.MinPub" />
                     <div class="input-group-append input-group-prepend">
                         <div class="input-group-text">and</div>
                     </div>
-                    <input class="form-control" id="pubDateMax" type="number" min="0" max="2020" value="2019" />
+                    <input class="form-control" id="maxPub" name="maxPub" type="number" min="0" max="2020" value="@Model.MaxPub" />
                 </div>
             </div>
         </div>

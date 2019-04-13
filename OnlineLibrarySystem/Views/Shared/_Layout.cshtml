@@ -23,6 +23,13 @@
 </head>
 <body ng-app="global">
 
+    <!-- ONLY APPEARS IF JAVASCRIPT WAS DISABLED -->
+    <noscript>
+        <div class="alert-danger alert m-3">
+            Javascript <b>must</b> be enabled in order for this site to work correctly!
+        </div>
+    </noscript>
+
     <!-- SOME IMPORTANT VARIABLES -->
     @Html.HiddenFor(x => x.Token, new { @id = "Token" })
 

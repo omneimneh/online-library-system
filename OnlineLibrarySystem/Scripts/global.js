@@ -18,8 +18,7 @@
 
     // on page load this function will run
     $(document).ready(function () {
-
+        
     });
-
 
 })();
