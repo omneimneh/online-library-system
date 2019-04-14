@@ -15,9 +15,8 @@ namespace OnlineLibrarySystem
         {
         }
 
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-
             string token = GetSession("token");
             model.Token = token;
             if (!HasAccess(token, filterContext))
@@ -30,11 +29,10 @@ namespace OnlineLibrarySystem
         private string GetSession(string key)
         {
             object val = Session[key];
-            if (val == null) return null;
-            else return val.ToString();
+            return val?.ToString();
         }
 
-        private bool HasAccess(string token, ActionExecutedContext context)
+        private bool HasAccess(string token, ActionExecutingContext context)
         {
             if (string.IsNullOrEmpty(token))
             {

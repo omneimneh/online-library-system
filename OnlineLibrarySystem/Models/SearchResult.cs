@@ -7,7 +7,7 @@ using System.Web;
 namespace OnlineLibrarySystem.Models
 {
     [DataContract]
-    public class SearchResult
+    public class SearchResult : CommonModel
     {
         [DataMember]
         public List<Book> Results { get; set; }

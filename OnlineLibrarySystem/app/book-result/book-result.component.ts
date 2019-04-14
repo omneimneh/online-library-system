@@ -9,10 +9,14 @@ declare var $: any;
 export class BookResultComponent implements OnInit {
 
     @Input("book") book: any;
+    signedIn: boolean;
 
-    constructor() { }
+    constructor() {
+        this.signedIn = $('#Token').val() != '';
+    }
 
     openRentModal() {
+        if (!this.signedIn) return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();

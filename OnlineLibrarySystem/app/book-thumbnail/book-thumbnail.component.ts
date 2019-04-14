@@ -8,14 +8,18 @@ declare var $: any;
 })
 export class BookThumbnailComponent implements OnInit {
     @Input("book") book: any;
+    signedIn: boolean;
 
     openRentModal() {
+        if (!this.signedIn) return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();
     }
 
-    constructor() { }
+    constructor() {
+        this.signedIn = $('#Token').val() != '';
+    }
 
     ngOnInit() {
     }

@@ -9,16 +9,23 @@ declare var $: any;
 export class BookRootComponent implements OnInit {
 
     @Input("book") book: any;
+    signedIn: boolean;
 
     constructor() {
         this.book = JSON.parse($('#book').val());
         console.log(this.book);
+        this.signedIn = $('#Token').val() != '';
     }
 
     openRentModal() {
+        if (!this.signedIn) return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();
+    }
+
+    formatDate(date: any) {
+        return date;
     }
 
     ngOnInit() {

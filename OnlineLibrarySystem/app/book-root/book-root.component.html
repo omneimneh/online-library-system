@@ -10,7 +10,7 @@
             </h5>
         </div>
         <div>
-            <button class="btn btn-primary{{book.Quantity < 1 ? ' disabled' : ''}}" (click)="openRentModal()">
+            <button class="btn btn-primary{{book.Quantity < 1 || !signedIn ? ' disabled' : ''}}" (click)="openRentModal()">
                 Rent
                 <small class="small"> &bull; <span>{{book.Quantity}}</span> copy(s) available</small>
             </button>
@@ -37,6 +37,10 @@
                 <tr>
                     <td>Author</td>
                     <td>{{book.AuthorName}}</td>
+                </tr>
+                <tr>
+                    <td>Published on</td>
+                    <td>{{formatDate(book.PublishingDate)}}</td>
                 </tr>
                 <tr>
                     <td>Publisher</td>

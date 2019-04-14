@@ -22,7 +22,7 @@ namespace OnlineLibrarySystem.Models
         [DataMember]
         public string ThumbnailImage { get; set; }
         [DataMember]
-        public DateTime PublishingDate { get; set; }
+        public string PublishingDate { get; set; }
         [DataMember]
         public int AuthorId { get; set; }
         [DataMember]

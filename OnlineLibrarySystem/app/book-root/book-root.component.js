@@ -14,11 +14,17 @@ var BookRootComponent = /** @class */ (function () {
     function BookRootComponent() {
         this.book = JSON.parse($('#book').val());
         console.log(this.book);
+        this.signedIn = $('#Token').val() != '';
     }
     BookRootComponent.prototype.openRentModal = function () {
+        if (!this.signedIn)
+            return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();
+    };
+    BookRootComponent.prototype.formatDate = function (date) {
+        return date;
     };
     BookRootComponent.prototype.ngOnInit = function () {
     };

@@ -30,9 +30,10 @@ namespace OnlineLibrarySystem.Controllers
                         BookTitle = reader["BookTitle"].ToString(),
                         BookDescription = reader["BookDescription"]?.ToString(),
                         AuthorName = reader["AuthorName"]?.ToString(),
-                        PublishingDate = Convert.ToDateTime(reader["PublishingDate"]),
+                        PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
                         ThumbnailImage = reader["ThumbnailImage"]?.ToString(),
-                        PublisherName = reader["PublisherName"]?.ToString()
+                        PublisherName = reader["PublisherName"]?.ToString(),
+                        Quantity = Convert.ToInt32(reader["Quantity"])
                     });
                 }
 
@@ -81,9 +82,10 @@ namespace OnlineLibrarySystem.Controllers
                         AuthorName = reader["AuthorName"]?.ToString(),
                         BookTitle = reader["BookTitle"].ToString(),
                         BookDescription = reader["BookDescription"]?.ToString(),
-                        PublishingDate = Convert.ToDateTime(reader["PublishingDate"]),
+                        PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
                         ThumbnailImage = reader["ThumbnailImage"].ToString(),
-                        PublisherName = reader["PublisherName"]?.ToString()
+                        PublisherName = reader["PublisherName"]?.ToString(),
+                        Quantity = Convert.ToInt32(reader["Quantity"])
                     });
                 }
             }
@@ -114,7 +116,7 @@ namespace OnlineLibrarySystem.Controllers
                         AuthorName = reader["AuthorName"]?.ToString(),
                         BookDescription = reader["BookDescription"]?.ToString(),
                         BookTitle = reader["BookTitle"].ToString(),
-                        PublishingDate = Convert.ToDateTime(reader["PublishingDate"]),
+                        PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
                         ThumbnailImage = reader["ThumbnailImage"].ToString(),
                         PublisherName = reader["PublisherName"]?.ToString(),
                         Quantity = Convert.ToInt32(reader["Quantity"])

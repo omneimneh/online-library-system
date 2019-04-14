@@ -12,8 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var BookThumbnailComponent = /** @class */ (function () {
     function BookThumbnailComponent() {
+        this.signedIn = $('#Token').val() != '';
     }
     BookThumbnailComponent.prototype.openRentModal = function () {
+        if (!this.signedIn)
+            return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();
