@@ -41,12 +41,23 @@ CREATE TABLE Maintainer (
 	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Librarian(PersonId)
 );
 
+CREATE TABLE Author (
+	AuthorId int PRIMARY KEY IDENTITY(0, 1),
+	AuthorName field NOT NULL
+);
+
+CREATE TABLE Publisher (
+	PublisherId int PRIMARY KEY IDENTITY(0, 1),
+	PublisherName field NOT NULL
+);
+
 -- Books are stored in here
 CREATE TABLE Book (
 	BookId int PRIMARY KEY IDENTITY(0, 1),
 	BookTitle field NOT NULL,
 	BookDescription long_field,
-	AuthorName field,
+	AuthorId int FOREIGN KEY REFERENCES Author,
+	PublisherId int FOREIGN KEY REFERENCES Publisher,
 	PublishingDate DATE,
 	Quantity int NOT NULL DEFAULT 1,
 	ThumbnailImage url_field DEFAULT NULL,

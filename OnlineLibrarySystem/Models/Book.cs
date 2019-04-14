@@ -16,10 +16,18 @@ namespace OnlineLibrarySystem.Models
         [DataMember]
         public string AuthorName { get; set; }
         [DataMember]
+        public string PublisherName { get; set; }
+        [DataMember]
         public string BookDescription { get; set; }
         [DataMember]
         public string ThumbnailImage { get; set; }
         [DataMember]
         public DateTime PublishingDate { get; set; }
+        [DataMember]
+        public int AuthorId { get; set; }
+        [DataMember]
+        public int PublisherId { get; set; }
+        [DataMember]
+        public int Quantity { get; internal set; }
     }
 }

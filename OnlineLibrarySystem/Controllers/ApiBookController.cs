@@ -16,9 +16,9 @@ namespace OnlineLibrarySystem.Controllers
         public List<Book> GetMostPopular(int count)
         {
             using (SqlDataReader reader = DB.ExecuteQuery(
-                    "SELECT TOP(@count) * FROM Book LEFT OUTER JOIN " +
-                    "(SELECT BookId, COUNT(ReservationId) AS ReservationCount FROM Reservation GROUP BY BookId) " +
-                    "AS Res ON Book.BookId = Res.BookId ORDER BY ReservationCount DESC",
+                    "SELECT TOP(@count) * FROM BookInfo LEFT OUTER JOIN (SELECT BookId, COUNT(ReservationId) " +
+                    "AS ReservationCount FROM Reservation GROUP BY BookId) " +
+                    "AS Res ON BookInfo.BookId = Res.BookId ORDER BY ReservationCount DESC",
                 new KeyValuePair<string, object>("count", count)))
             {
                 List<Book> retVal = new List<Book>();
@@ -31,7 +31,8 @@ namespace OnlineLibrarySystem.Controllers
                         BookDescription = reader["BookDescription"]?.ToString(),
                         AuthorName = reader["AuthorName"]?.ToString(),
                         PublishingDate = Convert.ToDateTime(reader["PublishingDate"]),
-                        ThumbnailImage = reader["ThumbnailImage"]?.ToString()
+                        ThumbnailImage = reader["ThumbnailImage"]?.ToString(),
+                        PublisherName = reader["PublisherName"]?.ToString()
                     });
                 }
 
@@ -41,7 +42,8 @@ namespace OnlineLibrarySystem.Controllers
 
         [HttpGet]
         [Route("api/ApiBook/Search")]
-        public SearchResult Search(string searchBy, int minPub, int maxPub, int page, int pageSize, string key = null, string match = "off")
+        public SearchResult Search(string searchBy, int minPub, int maxPub, int page, int pageSize,
+            string key = null, string match = "off")
         {
             SearchResult retVal = new SearchResult { Results = new List<Book>() };
 
@@ -49,6 +51,7 @@ namespace OnlineLibrarySystem.Controllers
 
             string byBook = searchBy.Equals("book") ? "1=0" : "1=1";
             string byAuthor = searchBy.Equals("author") ? "1=0" : "1=1";
+            string byPublisher = searchBy.Equals("publisher") ? "1=0" : "1=1";
             int start = (page - 1) * pageSize + 1;
             int end = start + pageSize - 1;
 
@@ -61,11 +64,12 @@ namespace OnlineLibrarySystem.Controllers
                 new KeyValuePair<string, object>("end", end)
             };
 
-            string searchQuery = string.Format("SELECT * FROM ( SELECT ROW_NUMBER() " +
-                "OVER(ORDER BY[Count]) AS[Row], Book.* FROM Book LEFT OUTER JOIN(Select COUNT(BookId) " +
-                "AS[Count], BookId FROM Reservation GROUP BY BookId) AS Res ON Book.BookId = Res.BookId " +
-                "WHERE(BookTitle LIKE CONCAT('{2}',@key,'{2}') OR {0}) AND(AuthorName LIKE CONCAT('{2}',@key,'{2}') OR {1}) AND YEAR(PublishingDate) " +
-                "BETWEEN @min AND @max) AS Result WHERE[Row] BETWEEN @start AND @end", byBook, byAuthor, match.Equals("on") ? "" : "%");
+            string searchQuery = string.Format("SELECT * FROM ( SELECT ROW_NUMBER() OVER(ORDER BY[Count]) AS[Row], " +
+                "BookInfo.* FROM BookInfo LEFT OUTER JOIN(Select COUNT(BookId) AS[Count], BookId FROM Reservation GROUP " +
+                "BY BookId) AS Res ON BookInfo.BookId = Res.BookId WHERE (BookTitle LIKE CONCAT('{3}',@key,'{3}') OR {0}) " +
+                "AND(AuthorName LIKE CONCAT('{3}',@key,'{3}') OR {1}) AND (PublisherName LIKE CONCAT('{3}',@key,'{3}') OR " +
+                "{2}) AND YEAR(PublishingDate) BETWEEN @min AND @max) AS Result WHERE[Row] BETWEEN @start AND @end",
+                byBook, byAuthor, byPublisher, match.Equals("on") ? "" : "%");
 
             using (SqlDataReader reader = DB.ExecuteQuery(searchQuery, @params[0], @params[1], @params[2], @params[3], @params[4]))
             {
@@ -78,15 +82,17 @@ namespace OnlineLibrarySystem.Controllers
                         BookTitle = reader["BookTitle"].ToString(),
                         BookDescription = reader["BookDescription"]?.ToString(),
                         PublishingDate = Convert.ToDateTime(reader["PublishingDate"]),
-                        ThumbnailImage = reader["ThumbnailImage"].ToString()
+                        ThumbnailImage = reader["ThumbnailImage"].ToString(),
+                        PublisherName = reader["PublisherName"]?.ToString()
                     });
                 }
             }
 
-            string countQuery = string.Format("SELECT COUNT(*) FROM Book LEFT OUTER JOIN(Select COUNT(BookId) AS[Count], " +
-                "BookId FROM Reservation GROUP BY BookId) AS Res ON Book.BookId = Res.BookId WHERE (BookTitle LIKE CONCAT('{2}',@key,'{2}') " +
-                "OR {0}) AND (AuthorName LIKE CONCAT('{2}',@key,'{2}') OR {1}) AND YEAR(PublishingDate) BETWEEN @min AND @max",
-                byBook, byAuthor, match.Equals("on") ? "" : "%");
+            string countQuery = string.Format("SELECT COUNT(*) FROM BookInfo LEFT OUTER JOIN(Select COUNT(BookId) AS[Count], " +
+                "BookId FROM Reservation GROUP BY BookId) AS Res ON BookInfo.BookId = Res.BookId WHERE (BookTitle LIKE " +
+                "CONCAT('{3}',@key,'{3}') OR {0}) AND (AuthorName LIKE CONCAT('{3}',@key,'{3}') OR {1}) AND (PublisherName " +
+                "LIKE CONCAT('{3}',@key,'{3}') OR {2}) AND YEAR(PublishingDate) BETWEEN @min AND @max",
+                byBook, byAuthor, byPublisher, match.Equals("on") ? "" : "%");
 
             retVal.TotalCount = DB.ExecuteScalar(countQuery, @params[0], @params[1], @params[2]);
 
@@ -97,7 +103,7 @@ namespace OnlineLibrarySystem.Controllers
         [Route("api/ApiBook/Get")]
         public Book Get(int bookId)
         {
-            using (SqlDataReader reader = DB.ExecuteQuery("Select * FROM Book WHERE BookId = @id",
+            using (SqlDataReader reader = DB.ExecuteQuery("Select * FROM BookInfo WHERE BookId = @id",
                 new KeyValuePair<string, object>("id", bookId)))
             {
                 if (reader.Read())
@@ -109,7 +115,9 @@ namespace OnlineLibrarySystem.Controllers
                         BookDescription = reader["BookDescription"]?.ToString(),
                         BookTitle = reader["BookTitle"].ToString(),
                         PublishingDate = Convert.ToDateTime(reader["PublishingDate"]),
-                        ThumbnailImage = reader["ThumbnailImage"].ToString()
+                        ThumbnailImage = reader["ThumbnailImage"].ToString(),
+                        PublisherName = reader["PublisherName"]?.ToString(),
+                        Quantity = Convert.ToInt32(reader["Quantity"])
                     };
                 }
                 else

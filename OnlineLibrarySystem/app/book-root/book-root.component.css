@@ -1,0 +1,7 @@
+.book-img-top {
+    background-image: url('/Media/default.png');
+    background-position: center;
+    background-size: cover;
+    height: 176px;
+    width: 176px;
+}

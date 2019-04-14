@@ -1,3 +1,52 @@
-<p>
-  book-root works!
-</p>
+<div class="container">
+    <div class="d-flex align-items-center flex-column mt-5 mb-4">
+        <div class="img-thumbnail rounded book-img-top mb-2" style="background-image: url('{{book.ThumbnailImage ? book.ThumbnailImage : '/Media/default.png'}}')"></div>
+        <div class="text-center">
+            <h2 class="h2">
+                {{book.BookTitle}}
+            </h2>
+            <h5 class="h5 text-muted">
+                {{book.AuthorName}}
+            </h5>
+        </div>
+        <div>
+            <button class="btn btn-primary{{book.Quantity < 1 ? ' disabled' : ''}}">
+                Rent
+                <small class="small"> &bull; <span>{{book.Quantity}}</span> copy(s) available</small>
+            </button>
+        </div>
+    </div>
+    <div class="mb-4">
+        <h4>Book Description</h4>
+        <p class="lead">{{book.BookDescription}}</p>
+    </div>
+    <div class="mb-4">
+        <h4>Additional details</h4>
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Info</th>
+                    <th>Values</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Title</td>
+                    <td>{{book.BookTitle}}</td>
+                </tr>
+                <tr>
+                    <td>Author</td>
+                    <td>{{book.AuthorName}}</td>
+                </tr>
+                <tr>
+                    <td>Publisher</td>
+                    <td>{{book.PublisherName}}</td>
+                </tr>
+                <tr>
+                    <td>Copies available</td>
+                    <td>{{book.Quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

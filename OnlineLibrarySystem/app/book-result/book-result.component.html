@@ -1,8 +1,17 @@
 <div class="media my-3 p-3 border rounded shadow-sm">
     <img src="{{book.ThumbnailImage ? book.ThumbnailImage: '/Media/default.png'}}" width="176" class="mr-3" alt="/Media/default.png">
     <div class="media-body">
-        <h5 class="mt-0 mb-1">{{book.BookTitle}}</h5>
-        {{book.BookDescription}}
+        <h5 class="mt-0 mb-1">
+            {{book.BookTitle}}
+            <span class="font-weight-normal">
+                <span> &bull; </span>
+                <span>{{book.AuthorName}}</span>
+            </span>
+        </h5>
+        <div class="text-muted mb-2">{{book.PublisherName}}</div>
+        <p>
+            {{book.BookDescription}}
+        </p>
         <div class="btn-toolbar mt-2 mr-2 justify-content-end">
             <div class="btn-group-sm">
                 <a class="btn btn-outline-secondary" href="/Book/Index?bookId={{book.BookId}}">Details</a>

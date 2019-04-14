@@ -12,9 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var BookRootComponent = /** @class */ (function () {
     function BookRootComponent() {
+        this.book = JSON.parse($('#book').val());
+        console.log(this.book);
     }
     BookRootComponent.prototype.ngOnInit = function () {
     };
+    __decorate([
+        core_1.Input("book"),
+        __metadata("design:type", Object)
+    ], BookRootComponent.prototype, "book", void 0);
     BookRootComponent = __decorate([
         core_1.Component({
             selector: 'app-book-root',

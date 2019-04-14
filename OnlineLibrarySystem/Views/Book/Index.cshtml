@@ -1,5 +1,15 @@
 ﻿@model OnlineLibrarySystem.Models.Book
 
-<div class="container">
-    @Json.Encode(Model)
-</div>
+@section scripts {
+    <script type="text/javascript">
+        System.import('app/book.main.js').catch(function (err) { console.error(err); });
+    </script>
+}
+
+<input type="hidden" id="book" value="@Json.Encode(Model)" />
+
+<app-book-root>
+    <div class="d-flex align-items-center justify-content-center w-100">
+        <span class="spinner-border text-secondary m-5"></span>
+    </div>
+</app-book-root>
