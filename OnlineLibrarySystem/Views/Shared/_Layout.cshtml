@@ -30,6 +30,44 @@
         </div>
     </noscript>
 
+    <!-- SOME DIALOGS THAT MAY APPEAR IN ANY PAGE -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="rentModal" ng-controller="rentModalController">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rent this book</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input id="rentBook" type="hidden" ng-click="refreshForm()" />
+
+                        <dl>
+                            <dt>Book Title</dt>
+                            <dd>{{book.BookTitle}}</dd>
+                            <dt>Author Name</dt>
+                            <dd>{{book.AuthorName}}</dd>
+                            <dt>Publisher Name</dt>
+                            <dd>{{book.PublisherName}}</dd>
+                        </dl>
+
+                        <div class="form-group">
+                            <label for="orderDate">Rent this book on</label>
+                            <input class="form-control" type="date" id="orderDate" ng-model="book.orderDate" />
+                            <small class="text-muted">You should return this book on <b>{{getReturnDate()}}</b></small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SOME IMPORTANT VARIABLES -->
     @Html.HiddenFor(x => x.Token, new { @id = "Token" })
 
@@ -89,6 +127,7 @@
     @Scripts.Render("~/Scripts/jquery-3.3.1.js")
     @Scripts.Render("~/Scripts/angular.min.js")
     @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/date.js")
 
     <!-- GLOBAL SCRIPT FOR ALL PAGES -->
     @Scripts.Render("~/Scripts/global.js")

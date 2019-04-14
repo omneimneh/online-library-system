@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+declare var $: any;
 
 @Component({
     selector: 'app-book-thumbnail',
@@ -8,8 +9,10 @@ import { Component, OnInit, Input } from '@angular/core';
 export class BookThumbnailComponent implements OnInit {
     @Input("book") book: any;
 
-    openDetails() {
-        console.log(this.book);
+    openRentModal() {
+        $('#rentModal').modal();
+        $('#rentBook').val(JSON.stringify(this.book));
+        $('#rentBook').click();
     }
 
     constructor() { }

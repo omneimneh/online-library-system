@@ -13,8 +13,10 @@ var core_1 = require("@angular/core");
 var BookThumbnailComponent = /** @class */ (function () {
     function BookThumbnailComponent() {
     }
-    BookThumbnailComponent.prototype.openDetails = function () {
-        console.log(this.book);
+    BookThumbnailComponent.prototype.openRentModal = function () {
+        $('#rentModal').modal();
+        $('#rentBook').val(JSON.stringify(this.book));
+        $('#rentBook').click();
     };
     BookThumbnailComponent.prototype.ngOnInit = function () {
     };

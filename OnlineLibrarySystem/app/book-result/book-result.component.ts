@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+declare var $: any;
 
 @Component({
     selector: 'app-book-result',
@@ -10,6 +11,12 @@ export class BookResultComponent implements OnInit {
     @Input("book") book: any;
 
     constructor() { }
+
+    openRentModal() {
+        $('#rentModal').modal();
+        $('#rentBook').val(JSON.stringify(this.book));
+        $('#rentBook').click();
+    }
 
     ngOnInit() {
     }

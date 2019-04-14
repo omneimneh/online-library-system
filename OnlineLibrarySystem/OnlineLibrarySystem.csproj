@@ -170,6 +170,7 @@
     <Content Include="app\search-root\search-root.component.css" />
     <Content Include="app\search-root\search-root.component.html" />
     <Content Include="Media\default.png" />
+    <Content Include="Scripts\date.js" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Book\Search.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />

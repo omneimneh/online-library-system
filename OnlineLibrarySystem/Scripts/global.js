@@ -16,9 +16,26 @@
         }
     });
 
+    $global.controller("rentModalController", function ($scope) {
+
+        $scope.book = {};
+
+        $scope.getReturnDate = function () {
+            if ($scope.book.orderDate) {
+                var date = Date.parse($scope.book.orderDate.toString('MM/dd/yyyy'));
+                date.addDays(14);
+                return date.toString('MM/dd/yyyy');
+            }
+        };
+        $scope.refreshForm = function () {
+            $scope.book = JSON.parse($('#rentBook').val());
+            $scope.book.orderDate = new Date();
+        };
+    });
+
     // on page load this function will run
     $(document).ready(function () {
-        
+
     });
 
 })();

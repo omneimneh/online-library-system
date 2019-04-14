@@ -15,6 +15,11 @@ var BookRootComponent = /** @class */ (function () {
         this.book = JSON.parse($('#book').val());
         console.log(this.book);
     }
+    BookRootComponent.prototype.openRentModal = function () {
+        $('#rentModal').modal();
+        $('#rentBook').val(JSON.stringify(this.book));
+        $('#rentBook').click();
+    };
     BookRootComponent.prototype.ngOnInit = function () {
     };
     __decorate([

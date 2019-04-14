@@ -13,6 +13,11 @@ var core_1 = require("@angular/core");
 var BookResultComponent = /** @class */ (function () {
     function BookResultComponent() {
     }
+    BookResultComponent.prototype.openRentModal = function () {
+        $('#rentModal').modal();
+        $('#rentBook').val(JSON.stringify(this.book));
+        $('#rentBook').click();
+    };
     BookResultComponent.prototype.ngOnInit = function () {
     };
     __decorate([

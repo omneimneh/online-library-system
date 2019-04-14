@@ -15,6 +15,12 @@ export class BookRootComponent implements OnInit {
         console.log(this.book);
     }
 
+    openRentModal() {
+        $('#rentModal').modal();
+        $('#rentBook').val(JSON.stringify(this.book));
+        $('#rentBook').click();
+    }
+
     ngOnInit() {
     }
 
