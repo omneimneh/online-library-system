@@ -31,6 +31,27 @@
             $scope.book = JSON.parse($('#rentBook').val());
             $scope.book.orderDate = new Date();
         };
+
+        $('#rentSubmit').click(function () {
+            var dataStr = 'Token=' + $('#Token').val() + '&BookId=' + $scope.book.BookId + '&PickupDateStr=' + $scope.book.orderDate.toString('MM/dd/yyyy');
+            $.ajax({
+                url: '/api/ApiBook/Rent',
+                type: 'POST',
+                data: dataStr,
+                success: function (res) {
+                    if (res) {
+                        window.location.href = window.location.href;
+                        window.location.reload(true);
+                    } else {
+                        $('#rentModal').modal('hide');
+                        $('#rentFailed').modal();
+                    }
+                },
+                error: function () {
+                    console.error("some error occured");
+                }
+            });
+        });
     });
 
     // on page load this function will run

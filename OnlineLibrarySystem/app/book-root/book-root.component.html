@@ -50,6 +50,10 @@
                     <td>Copies available</td>
                     <td>{{book.Quantity}}</td>
                 </tr>
+                <tr>
+                    <td>Availability</td>
+                    <td>{{book.Quantity > 0 ? 'Available' : 'Will be available on: ' + book.NextAvailable}}</td>
+                </tr>
             </tbody>
         </table>
     </div>

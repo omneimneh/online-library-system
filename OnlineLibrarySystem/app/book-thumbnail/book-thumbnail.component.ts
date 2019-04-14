@@ -11,7 +11,7 @@ export class BookThumbnailComponent implements OnInit {
     signedIn: boolean;
 
     openRentModal() {
-        if (!this.signedIn) return;
+        if (!this.signedIn || this.book.Quantity < 1) return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();

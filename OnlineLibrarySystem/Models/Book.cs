@@ -28,6 +28,8 @@ namespace OnlineLibrarySystem.Models
         [DataMember]
         public int PublisherId { get; set; }
         [DataMember]
-        public int Quantity { get; internal set; }
+        public int Quantity { get; set; }
+        [DataMember]
+        public string NextAvailable { get; set; }
     }
 }

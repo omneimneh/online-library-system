@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Web.Http;
 
 namespace OnlineLibrarySystem.Controllers
@@ -33,11 +34,24 @@ namespace OnlineLibrarySystem.Controllers
                         PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
                         ThumbnailImage = reader["ThumbnailImage"]?.ToString(),
                         PublisherName = reader["PublisherName"]?.ToString(),
-                        Quantity = Convert.ToInt32(reader["Quantity"])
+                        Quantity = Convert.ToInt32(reader["Quantity"]),
+                        NextAvailable = ExtractDate(reader["NextAvailable"])
                     });
                 }
 
                 return retVal;
+            }
+        }
+
+        private static string ExtractDate(object dateTime)
+        {
+            try
+            {
+                return Convert.ToDateTime(dateTime).ToString("MM/dd/yyyy");
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
@@ -116,10 +130,11 @@ namespace OnlineLibrarySystem.Controllers
                         AuthorName = reader["AuthorName"]?.ToString(),
                         BookDescription = reader["BookDescription"]?.ToString(),
                         BookTitle = reader["BookTitle"].ToString(),
-                        PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
+                        PublishingDate = ExtractDate(reader["PublishingDate"]),
                         ThumbnailImage = reader["ThumbnailImage"].ToString(),
                         PublisherName = reader["PublisherName"]?.ToString(),
-                        Quantity = Convert.ToInt32(reader["Quantity"])
+                        Quantity = Convert.ToInt32(reader["Quantity"]),
+                        NextAvailable = ExtractDate(reader["NextAvailable"])
                     };
                 }
                 else
@@ -128,5 +143,46 @@ namespace OnlineLibrarySystem.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        [Route("api/ApiBook/Rent")]
+        public bool Rent([FromBody]RentRequest rentRequest)
+        {
+            var pickupDateStr = rentRequest.PickupDateStr;
+            var bookId = rentRequest.BookId;
+            var token = rentRequest.Token;
+            DateTime pickupDate = DateTime.Parse(pickupDateStr);
+            int userId = TokenManager.TokenDictionaryHolder[token];
+            if (userId < 0) return false;
+            if (pickupDate < DateTime.Now.AddDays(-1)) return false;
+            using (SqlDataReader reader = DB.ExecuteQuery("SELECT * FROM BookInfo WHERE BookId = @id",
+                new KeyValuePair<string, object>("id", bookId)))
+            {
+                if (reader.Read())
+                {
+                    if (Convert.ToInt32(reader["Quantity"]) < 1) return false;
+                }
+                else return false;
+            }
+
+            DB.ExecuteNonQuery("INSERT INTO Reservation (BookId, PickupDate, ReturnDate, IsDone, PersonId, Quantity) " +
+                "VALUES(@bookId, @date, @retDate, 0, @personId, 1)", new KeyValuePair<string, object>("bookId", bookId),
+                new KeyValuePair<string, object>("date", pickupDate),
+                new KeyValuePair<string, object>("retDate", pickupDate.AddDays(14)),
+                new KeyValuePair<string, object>("personId", userId));
+
+            return true;
+        }
+    }
+
+    [DataContract]
+    public class RentRequest
+    {
+        [DataMember]
+        public string Token { get; set; }
+        [DataMember]
+        public string PickupDateStr { get; set; }
+        [DataMember]
+        public int BookId { get; set; }
     }
 }
