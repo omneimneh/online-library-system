@@ -36,9 +36,10 @@ namespace OnlineLibrarySystem
         {
             if (string.IsNullOrEmpty(token))
             {
-                switch (CurrentControllerName.ToLower())
+                switch (CurrentControllerName.ToLower() + "/" + CurrentActionName.ToLower())
                 {
-                    case "home": case "account": return true;
+                    case "home/index": case "account/login": return true;
+                    case "account/profile": return false;
                     default: return true; // for testing
                 }
             }
@@ -46,7 +47,7 @@ namespace OnlineLibrarySystem
             {
                 int userId = TokenManager.TokenDictionaryHolder[token];
                 // according to the type of this user give him access
-                switch (CurrentControllerName.ToLower())
+                switch (CurrentControllerName.ToLower() + "/" + CurrentActionName.ToLower())
                 {
                     case "home": case "account": return true;
                     default: return true;

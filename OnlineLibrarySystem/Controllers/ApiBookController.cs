@@ -154,7 +154,7 @@ namespace OnlineLibrarySystem.Controllers
             DateTime pickupDate = DateTime.Parse(pickupDateStr);
             int userId = TokenManager.TokenDictionaryHolder[token];
             if (userId < 0) return false;
-            if (pickupDate < DateTime.Now.AddDays(-1)) return false;
+            if (pickupDate < DateTime.Now.AddDays(-1) || pickupDate > DateTime.Now.AddDays(7)) return false;
             using (SqlDataReader reader = DB.ExecuteQuery("SELECT * FROM BookInfo WHERE BookId = @id",
                 new KeyValuePair<string, object>("id", bookId)))
             {

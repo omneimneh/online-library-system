@@ -73,9 +73,10 @@
                         </dl>
 
                         <div class="form-group">
-                            <label for="orderDate">Rent this book on</label>
-                            <input class="form-control" type="date" id="orderDate" ng-model="book.orderDate" />
+                            <label for="orderDate">Pickup this book on</label>
+                            <input class="form-control" type="date" id="orderDate" ng-change="removeWarning()" ng-model="book.orderDate" />
                             <small class="text-muted">You should return this book before <b>{{getReturnDate()}}</b></small>
+                            <div class="invalid-feedback">The selected date should be between today and 1 week from now</div>
                         </div>
                     </form>
                 </div>

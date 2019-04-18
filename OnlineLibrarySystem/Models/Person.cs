@@ -6,6 +6,7 @@ using System.Web;
 
 namespace OnlineLibrarySystem.Models
 {
+
     [DataContract]
     public class Person : CommonModel
     {
@@ -17,6 +18,7 @@ namespace OnlineLibrarySystem.Models
         public string UserPassword { get; set; }
         [DataMember]
         public bool Error { get; set; }
-
+        [DataMember]
+        public PersonType PersonType { get; internal set; }
     }
 }

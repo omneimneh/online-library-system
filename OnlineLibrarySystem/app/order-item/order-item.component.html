@@ -1,0 +1,11 @@
+<div class="media border-bottom py-2">
+    <div class="media-body">
+        <h5 class="mt-0">
+            {{order.BookTitle}}
+        </h5>
+        <span>Ordered on: </span> <b>{{order.OrderDate}}</b>
+        <span>Pickup date:</span> <b>{{order.PickupDate}}</b>
+        <span>Return date:</span> <b>{{order.ReturnDate}}</b>
+        <span class="float-right badge {{badgeClass()}} w-50px">{{badgeTxt()}}</span>
+    </div>
+</div>

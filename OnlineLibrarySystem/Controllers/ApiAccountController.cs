@@ -96,6 +96,64 @@ namespace OnlineLibrarySystem.Controllers
             return new Person { Error = true };
 
         }
+
+        [HttpGet]
+        [Route("api/AccountApi/GetPerson")]
+        public Person GetPerson(int personId)
+        {
+            if (personId < 0) return new Person { Error = true };
+
+            using (SqlDataReader reader = DB.ExecuteQuery("SELECT *, CASE " +
+                "WHEN EXISTS(SELECT PersonId FROM Maintainer WHERE PersonId = @id) THEN 3 " +
+                "WHEN EXISTS(SELECT PersonId FROM Librarian WHERE PersonId = @id) THEN 2 " +
+                "WHEN EXISTS(SELECT PersonId FROM Professor WHERE PersonId = @id) THEN 1 " +
+                "WHEN EXISTS(SELECT PersonId FROM Student WHERE PersonId = @id) THEN 0 " +
+                "END AS PersonType FROM Person WHERE PersonId = @id", new KeyValuePair<string, object>("id", personId)))
+            {
+                if (reader.Read())
+                {
+                    return new Person
+                    {
+                        PersonId = personId,
+                        Username = reader["Username"].ToString(),
+                        PersonType = (PersonType)Convert.ToUInt32(reader["PersonType"])
+                    };
+                }
+                return new Person { Error = true };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/AccountApi/GetPersonOrders")]
+        public List<Order> GetPersonOrders(string token, int count)
+        {
+            int personId = TokenManager.TokenDictionaryHolder[token];
+            if (personId < 0) return null;
+
+            using (SqlDataReader reader = DB.ExecuteQuery("SELECT TOP(@count) *, " +
+                "(CASE WHEN IsDone = 1 THEN 0 WHEN GETDATE() < PickupDate  THEN 1 " +
+                "WHEN GETDATE() < ReturnDate THEN 2 ELSE 3 END) AS OrderType FROM Reservation " +
+                "JOIN Book ON Book.BookId = Reservation.BookId WHERE PersonId = @id ORDER BY OrderDate",
+                new KeyValuePair<string, object>("id", personId),
+                new KeyValuePair<string, object>("count", count)))
+            {
+                List<Order> retVal = new List<Order>();
+
+                while (reader.Read())
+                {
+                    retVal.Add(new Order
+                    {
+                        BookTitle = reader["BookTitle"].ToString(),
+                        IsDone = Convert.ToBoolean(reader["IsDone"]),
+                        OrderType = (OrderType)Convert.ToInt32(reader["OrderType"]),
+                        OrderDate = Convert.ToDateTime(reader["OrderDate"]).ToString("MM/dd/yyyy"),
+                        PickupDate = Convert.ToDateTime(reader["PickupDate"]).ToString("MM/dd/yyyy"),
+                        ReturnDate = Convert.ToDateTime(reader["ReturnDate"]).ToString("MM/dd/yyyy")
+                    });
+                }
+                return retVal;
+            }
+        }
     }
 
 }

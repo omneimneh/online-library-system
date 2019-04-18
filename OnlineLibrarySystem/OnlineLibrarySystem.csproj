@@ -148,13 +148,18 @@
     <Compile Include="App_Start\DB.cs" />
     <Compile Include="Controllers\ApiBookController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\LibrarianController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\CommonModel.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderType.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\PersonType.cs" />
     <Compile Include="Models\SearchFilter.cs" />
     <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -167,10 +172,16 @@
     <Content Include="app\book-root\book-root.component.html" />
     <Content Include="app\book-thumbnail\book-thumbnail.component.css" />
     <Content Include="app\book-thumbnail\book-thumbnail.component.html" />
+    <Content Include="app\order-item\order-item.component.css" />
+    <Content Include="app\order-item\order-item.component.html" />
+    <Content Include="app\order-root\order-root.component.css" />
+    <Content Include="app\order-root\order-root.component.html" />
     <Content Include="app\search-root\search-root.component.css" />
     <Content Include="app\search-root\search-root.component.html" />
+    <Content Include="Content\css\profile.css" />
     <Content Include="Media\default.png" />
     <Content Include="Scripts\date.js" />
+    <Content Include="Scripts\profile.js" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Book\Search.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
@@ -179,6 +190,7 @@
     <Content Include="Views\Account\Logout.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
     <Content Include="Views\Help\Contact.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
     <TypeScriptCompile Include="app\book-result\book-result.component.spec.ts" />
     <TypeScriptCompile Include="app\book-result\book-result.component.ts" />
     <TypeScriptCompile Include="app\book-root\book-root.component.spec.ts" />
@@ -246,6 +258,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Librarian\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -288,6 +302,11 @@
     <TypeScriptCompile Include="app\book-thumbnail\book-thumbnail.component.ts" />
     <TypeScriptCompile Include="app\home-root\home-root.component.spec.ts" />
     <TypeScriptCompile Include="app\home-root\home-root.component.ts" />
+    <TypeScriptCompile Include="app\order-item\order-item.component.spec.ts" />
+    <TypeScriptCompile Include="app\order-item\order-item.component.ts" />
+    <TypeScriptCompile Include="app\order-root\order-root.component.spec.ts" />
+    <TypeScriptCompile Include="app\order-root\order-root.component.ts" />
+    <TypeScriptCompile Include="app\orders.main.ts" />
     <TypeScriptCompile Include="app\search.main.ts" />
     <TypeScriptCompile Include="app\home.main.ts" />
     <TypeScriptCompile Include="app\search-root\search-root.component.spec.ts" />

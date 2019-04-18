@@ -8,10 +8,12 @@ import { HttpModule } from '@angular/http';
 import { BookRootComponent } from './book-root/book-root.component';
 import { SearchRootComponent } from './search-root/search-root.component';
 import { BookResultComponent } from './book-result/book-result.component';
+import { OrderRootComponent } from './order-root/order-root.component';
+import { OrderItemComponent } from './order-item/order-item.component';
 
 @NgModule({
     imports: [BrowserModule, HttpModule],
-    declarations: [SlideshowComponent, BookThumbnailComponent, HomeRootComponent, BookRootComponent, SearchRootComponent, BookResultComponent],
+    declarations: [SlideshowComponent, BookThumbnailComponent, HomeRootComponent, BookRootComponent, SearchRootComponent, BookResultComponent, OrderRootComponent, OrderItemComponent],
     bootstrap: [HomeRootComponent]
 })
 class HomeModule { }
@@ -30,4 +32,11 @@ class BookModule { }
 })
 class SearchModule { }
 
-export { HomeModule, BookModule, SearchModule };
+@NgModule({
+    imports: [BrowserModule, HttpModule],
+    declarations: [OrderItemComponent, OrderRootComponent],
+    bootstrap: [OrderRootComponent]
+})
+class OrdersModule { }
+
+export { HomeModule, BookModule, SearchModule, OrdersModule };

@@ -93,5 +93,15 @@ namespace OnlineLibrarySystem.Controllers
             ViewBag.Title = "Logout";
             return View(model);
         }
+
+        public new ActionResult Profile()
+        {
+            ViewBag.Title = "Profile";
+            var controller = new ApiAccountController();
+            string token = model.Token;
+            Person person = controller.GetPerson(TokenManager.TokenDictionaryHolder[token]);
+            person.Token = model.Token;
+            return View(person);
+        }
     }
 }
