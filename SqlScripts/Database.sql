@@ -68,7 +68,7 @@ CREATE TABLE Reservation (
 	ReservationId int PRIMARY KEY IDENTITY(0, 1),
 	PersonId int FOREIGN KEY REFERENCES Person(PersonId),
 	BookId int FOREIGN KEY REFERENCES Book(BookId),
-	OrderDate DATE DEFAULT GETDATE(),
+	OrderDate DATETIME DEFAULT GETDATE(),
 	PickupDate DATE NOT NULL,
 	ReturnDate DATE NOT NULL,
 	Quantity int DEFAULT 1 CHECK (Quantity > 0),

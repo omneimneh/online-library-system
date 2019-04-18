@@ -133,7 +133,7 @@ namespace OnlineLibrarySystem.Controllers
             using (SqlDataReader reader = DB.ExecuteQuery("SELECT TOP(@count) *, " +
                 "(CASE WHEN IsDone = 1 THEN 0 WHEN GETDATE() < PickupDate  THEN 1 " +
                 "WHEN GETDATE() < ReturnDate THEN 2 ELSE 3 END) AS OrderType FROM Reservation " +
-                "JOIN Book ON Book.BookId = Reservation.BookId WHERE PersonId = @id ORDER BY OrderDate",
+                "JOIN Book ON Book.BookId = Reservation.BookId WHERE PersonId = @id ORDER BY OrderDate DESC",
                 new KeyValuePair<string, object>("id", personId),
                 new KeyValuePair<string, object>("count", count)))
             {
