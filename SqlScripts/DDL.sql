@@ -21,6 +21,9 @@ CREATE TABLE Person (
 	PersonId int PRIMARY KEY IDENTITY(0, 1),
 	Username small_field NOT NULL UNIQUE,
 	UserPassword field NOT NULL,
+	ProfileImage url_field DEFAULT NULL,
+	Email field DEFAULT NULL,
+	Phone field DEFAULT NULL,
 	Deleted bit DEFAULT 0
 );
 

@@ -62,7 +62,7 @@ namespace OnlineLibrarySystem.Controllers
         {
             SearchResult retVal = new SearchResult { Results = new List<Book>() };
 
-            if (string.IsNullOrEmpty(key)) return retVal;
+            if (key == null) key = "";
 
             string byBook = searchBy.Equals("book") ? "1=0" : "1=1";
             string byAuthor = searchBy.Equals("author") ? "1=0" : "1=1";

@@ -112,7 +112,10 @@ namespace OnlineLibrarySystem.Controllers
                     {
                         PersonId = personId,
                         Username = reader["Username"].ToString(),
-                        PersonType = (PersonType)Convert.ToUInt32(reader["PersonType"])
+                        PersonType = (PersonType)Convert.ToUInt32(reader["PersonType"]),
+                        Email = reader["Email"]?.ToString(),
+                        Phone = reader["Phone"]?.ToString(),
+                        ProfileImage = reader["ProfileImage"]?.ToString()
                     };
                 }
                 return new Person { Error = true };
@@ -149,6 +152,22 @@ namespace OnlineLibrarySystem.Controllers
                 }
                 return retVal;
             }
+        }
+
+        [HttpPost]
+        [Route("api/AccountApi/UpdateProfile")]
+        public bool UpdateProfile([FromBody]Person personInfo)
+        {
+            if (string.IsNullOrEmpty(personInfo.Token)) return false;
+            int personId = TokenManager.TokenDictionaryHolder[personInfo.Token];
+            if (personId < 0) return false;
+
+            DB.ExecuteNonQuery("UPDATE Person SET Email = @email, Phone = @phone WHERE PersonId = @id",
+                new KeyValuePair<string, object>("email", personInfo.Email),
+                new KeyValuePair<string, object>("phone", personInfo.Phone),
+                new KeyValuePair<string, object>("id", personId));
+
+            return true;
         }
     }
 

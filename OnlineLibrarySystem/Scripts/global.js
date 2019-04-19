@@ -1,10 +1,17 @@
-﻿
+﻿// global functions
+function Alert(title, msg) {
+    $('#alertTitle').html(title);
+    $('#alertMsg').html(msg);
+    $('#alertModal').modal();
+}
+
 // create a scope to avoid variable names conflict
 // just make a function and call it immediately (function() {})();
 (function () {
+
     // load navbar ng-controller
-    $global.controller("navbarController", function ($scope) {
-        $scope.appTitle = appTitle;
+    _global.controller("navbarController", function ($scope) {
+        $scope.appTitle = _appTitle;
         $scope.links = [{ name: 'Home', url: '/' }, { name: 'Browse', url: '/Book/Search' }, { name: 'Help', url: '/Help' }];
         if ($('#Token').val()) {
             $scope.userActions = [{ name: 'Profile', url: '/Account/Profile' }, { name: 'Logout', url: '/Account/Logout' }];
@@ -13,7 +20,7 @@
         }
     });
 
-    $global.controller("rentModalController", function ($scope) {
+    _global.controller("rentModalController", function ($scope) {
 
         $scope.book = {};
 
@@ -43,13 +50,15 @@
             if (date < Date.today().addDays(-1) || date > Date.today().addDays(7)) {
                 return;
             }
-
-            var dataStr = 'Token=' + $('#Token').val() + '&BookId=' + $scope.book.BookId
-                + '&PickupDateStr=' + $scope.book.orderDate.toString('MM/dd/yyyy');
+            
             $.ajax({
                 url: '/api/ApiBook/Rent',
                 type: 'POST',
-                data: dataStr,
+                data: {
+                    Token: $('#Token').val(),
+                    BookId: $scope.book.BookId,
+                    PickupDateStr: $scope.book.orderDate.toString('MM/dd/yyyy')
+                },
                 success: function (res) {
                     if (res) {
                         window.location.href = '/Account/Profile#orders';

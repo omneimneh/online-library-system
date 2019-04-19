@@ -6,7 +6,6 @@ using System.Web;
 
 namespace OnlineLibrarySystem.Models
 {
-
     [DataContract]
     public class Person : CommonModel
     {
@@ -19,6 +18,12 @@ namespace OnlineLibrarySystem.Models
         [DataMember]
         public bool Error { get; set; }
         [DataMember]
-        public PersonType PersonType { get; internal set; }
+        public PersonType PersonType { get; set; }
+        [DataMember]
+        public string Email { get; set; }
+        [DataMember]
+        public string Phone { get; set; }
+        [DataMember]
+        public string ProfileImage { get; set; }
     }
 }

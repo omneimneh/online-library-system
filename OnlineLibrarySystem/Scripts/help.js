@@ -1,5 +1,5 @@
 ﻿(function () {
-    $global.controller("helpController", function ($scope) {
-        $scope.appTitle = appTitle;
+    _global.controller("helpController", function ($scope) {
+        $scope.appTitle = _appTitle;
     });
 })();
