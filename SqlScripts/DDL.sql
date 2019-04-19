@@ -20,7 +20,8 @@ GO
 CREATE TABLE Person (
 	PersonId int PRIMARY KEY IDENTITY(0, 1),
 	Username small_field NOT NULL UNIQUE,
-	UserPassword field NOT NULL
+	UserPassword field NOT NULL,
+	Deleted bit DEFAULT 0
 );
 
 -- Personnels can be in one of the following tables
@@ -78,3 +79,36 @@ CREATE TABLE Reservation (
 	-- @PersonId		@OrderDate:	I need @BookId ready to pick it up on @Pickup
 	-- LibrarySystem	@OrderDate:	You should return it @DeadlineDate
 );
+GO
+
+-- Creating some useful Views
+CREATE VIEW BookInfo AS (
+	 SELECT dbo.Book.BookId,
+	 Book.BookTitle,
+	 Book.BookDescription,
+	 Book.AuthorId,
+	 Book.PublisherId,
+	 Book.PublishingDate,
+	 Book.ThumbnailImage,
+	 Author.AuthorName, 
+	 Publisher.PublisherName,
+	 (Book.Quantity - (SELECT COALESCE(SUM(Quantity),0) FROM Reservation WHERE Reservation.BookId = dbo.Book.BookId AND IsDone = 0)) AS Quantity,
+	 (SELECT MIN(ReturnDate) FROM Reservation WHERE Reservation.BookId = dbo.Book.BookId AND IsDone = 0) AS NextAvailable
+	 FROM dbo.Book 
+	 LEFT OUTER JOIN dbo.Author ON dbo.Author.AuthorId = dbo.Book.AuthorId
+	 LEFT OUTER JOIN dbo.Publisher ON dbo.Publisher.PublisherId = dbo.Book.PublisherId
+	-- EXPLANATION:
+	-- Quantity is supposed to be the quantity currently available and ready to be rented
+);
+GO
+
+CREATE VIEW PersonInfo AS (
+	SELECT *,
+	(CASE WHEN PersonId IN (SELECT PersonId FROM Student) THEN 0
+	WHEN PersonId IN (SELECT PersonId FROM Professor) THEN 1
+	WHEN PersonId IN (SELECT PersonId FROM Librarian) THEN 2
+	WHEN PersonId IN (SELECT PersonId FROM Maintainer) THEN 3
+	ELSE 0 END) AS PersonType
+	FROM Person WHERE Deleted = 0
+)
+GO

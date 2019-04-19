@@ -1,54 +1,18 @@
-﻿
-@section AddToHead {
-    <style>
-        body {
-            background-image: url("book_image3.png");
-            background-size: 1300px;
-        }
-
-        h2 {
-            color: black;
-        }
-    </style>
-}
-
-
-<form method="post" action="ContactUs-process.php">
-    <table align=" ">
-
-        <tr>
-            <td> <h2>Enter Your Name Please :  </h2> </td>
-            <td>
-                <input type="text" name="searchBox">
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <h2>Enter Your E-mail Please :   </h2>
-            </td>
-            <td>
-                <input type="textarea" name="textarea">
-            </td>
-            </td>
-        </tr>
-        <tr>
-            <td><h2> How we can help you ? </h2> </td>
-            <td>
-                <textarea rows="5" cols="21"></textarea>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <h1>  <input type="Submit" value="Send"> </h1>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href=" "><h1>Home Page !</h1></a>
-            </td>
-        </tr>
-    </table>
-    <a href="Search-Page.html"><h3>Go back to Search Page</h3></a>
-</form>
+﻿<div class="container pt-4">
+    <form>
+        <div class="form-group">
+            <label for="name">Enter your name</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Full Name">
+        </div>
+        <div class="form-group">
+            <label for="email">Enter your email</label>
+            <input class="form-control" type="email" id="email" name="email" placeholder="example@gmail.com">
+        </div>
+        <div class="form-group">
+            <label for="details">How can we help you?</label>
+            <textarea class="form-control" id="details" name="details" placeholder="Please explain your problem so we can work on it..." rows="8"></textarea>
+        </div>
+        <input type="submit" class="btn btn-primary" />
+        <input type="reset" class="btn btn-secondary" />
+    </form>
+</div>

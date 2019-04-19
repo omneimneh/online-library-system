@@ -15,7 +15,7 @@
         <div class="btn-toolbar mt-2 mr-2 justify-content-end">
             <div class="btn-group-sm">
                 <a class="btn btn-outline-secondary" href="/Book/Index?bookId={{book.BookId}}">Details</a>
-                <button class="btn btn-primary{{book.Quantity < 1 || !signedIn ? ' disabled' : ''}}" (click)="openRentModal()">Rent now</button>
+                <button class="btn btn-primary" [attr.disabled]="book.Quantity < 1 || !signedIn ? '' : null" (click)="openRentModal()">Rent now</button>
             </div>
         </div>
     </div>

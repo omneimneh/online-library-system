@@ -17,8 +17,6 @@ var BookRootComponent = /** @class */ (function () {
         this.signedIn = $('#Token').val() != '';
     }
     BookRootComponent.prototype.openRentModal = function () {
-        if (!this.signedIn || this.book.Quantity < 1)
-            return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();

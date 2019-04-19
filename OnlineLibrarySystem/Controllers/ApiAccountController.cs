@@ -18,7 +18,7 @@ namespace OnlineLibrarySystem.Controllers
         {
             string encrypted = OneWayEncrpyt(password);
 
-            using (SqlDataReader reader = DB.ExecuteQuery("SELECT PersonId FROM Person WHERE Username = @user AND UserPassword = @pass",
+            using (SqlDataReader reader = DB.ExecuteQuery("SELECT PersonId FROM PersonInfo WHERE Username = @user AND UserPassword = @pass",
                 new KeyValuePair<string, object>("user", username), new KeyValuePair<string, object>("pass", encrypted)))
             {
 
@@ -62,7 +62,7 @@ namespace OnlineLibrarySystem.Controllers
                 return new Person { Error = true };
             }
 
-            using (SqlDataReader reader = DB.ExecuteQuery("Select PersonId FROM Person WHERE username = @user",
+            using (SqlDataReader reader = DB.ExecuteQuery("Select PersonId FROM PersonInfo WHERE username = @user",
                 new KeyValuePair<string, object>("user", username)))
             {
                 if (reader.Read())
@@ -77,8 +77,8 @@ namespace OnlineLibrarySystem.Controllers
 
             DB.ExecuteNonQuery("INSERT INTO Student(PersonId) VALUES (@id)", new KeyValuePair<string, object>("id", personId));
 
-            using (SqlDataReader reader = DB.ExecuteQuery("SELECT * FROM Person, Student " +
-                "WHERE Student.PersonId = Person.PersonId AND Person.PersonId = @id",
+            using (SqlDataReader reader = DB.ExecuteQuery("SELECT * FROM PersonInfo, Student " +
+                "WHERE Student.PersonId = PersonInfo.PersonId AND PersonInfo.PersonId = @id",
                 new KeyValuePair<string, object>("id", personId)))
             {
                 if (reader.Read())
@@ -103,12 +103,8 @@ namespace OnlineLibrarySystem.Controllers
         {
             if (personId < 0) return new Person { Error = true };
 
-            using (SqlDataReader reader = DB.ExecuteQuery("SELECT *, CASE " +
-                "WHEN EXISTS(SELECT PersonId FROM Maintainer WHERE PersonId = @id) THEN 3 " +
-                "WHEN EXISTS(SELECT PersonId FROM Librarian WHERE PersonId = @id) THEN 2 " +
-                "WHEN EXISTS(SELECT PersonId FROM Professor WHERE PersonId = @id) THEN 1 " +
-                "WHEN EXISTS(SELECT PersonId FROM Student WHERE PersonId = @id) THEN 0 " +
-                "END AS PersonType FROM Person WHERE PersonId = @id", new KeyValuePair<string, object>("id", personId)))
+            using (SqlDataReader reader = DB.ExecuteQuery("SELECT * FROM PersonInfo WHERE PersonId = @id",
+                new KeyValuePair<string, object>("id", personId)))
             {
                 if (reader.Read())
                 {

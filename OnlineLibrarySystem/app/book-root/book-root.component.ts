@@ -18,7 +18,6 @@ export class BookRootComponent implements OnInit {
     }
 
     openRentModal() {
-        if (!this.signedIn || this.book.Quantity < 1) return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();

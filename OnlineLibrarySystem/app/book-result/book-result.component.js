@@ -15,8 +15,6 @@ var BookResultComponent = /** @class */ (function () {
         this.signedIn = $('#Token').val() != '';
     }
     BookResultComponent.prototype.openRentModal = function () {
-        if (!this.signedIn || this.book.Quantity < 1)
-            return;
         $('#rentModal').modal();
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();

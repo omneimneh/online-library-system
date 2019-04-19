@@ -180,6 +180,8 @@
     <Content Include="app\search-root\search-root.component.html" />
     <Content Include="Content\css\profile.css" />
     <Content Include="Media\default.png" />
+    <Content Include="Scripts\const.js" />
+    <Content Include="Scripts\help.js" />
     <Content Include="Scripts\date.js" />
     <Content Include="Scripts\profile.js" />
     <Content Include="Views\Account\Login.cshtml" />

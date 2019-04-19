@@ -10,7 +10,7 @@
         <br />
         <div class="row">
             <div class="col-6 p-1"><a class="w-100 btn btn-outline-secondary px-2 py-1" href="/Book/Index?bookId={{book.BookId}}">Details</a></div>
-            <div class="col-6 p-1"><button class="w-100 btn btn-primary px-2 py-1{{book.Quantity < 1 || !signedIn ? ' disabled' : ''}}" (click)="openRentModal()">Rent</button></div>
+            <div class="col-6 p-1"><button class="w-100 btn btn-primary px-2 py-1" [attr.disabled]="book.Quantity < 1 || !signedIn ? '' : null" (click)="openRentModal()">Rent</button></div>
         </div>
     </div>
 </div>

@@ -95,7 +95,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" ng-controller="navbarController">
         <div class="container ng-cloak">
             <a class="navbar-brand" href="/">
-                <img src="~/Content/img/favicon.ico" width="30">
+                <img src="~/Content/img/favicon.ico" class="pr-2" height="30">
                 {{appTitle}}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -129,12 +129,12 @@
     @RenderBody()
 
     <!-- COMMON FOOTER -->
-    <footer class="footer mt-auto py-3 bg-light navbar-fixed-bottom">
+    <footer class="footer mt-auto py-3 bg-light navbar-fixed-bottom border-top">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h5 class="text-muted">CMPS 342 Database Systems</h5>
-                    <p class="text-muted">Online Library System Project. All rights reserved 2019.</p>
+                    <h5 class="font-weight-normal">CMPS 342 Database Systems</h5>
+                    <p class="font-weight-light">Online Library System Project. All rights reserved 2019.</p>
                 </div>
                 <div style="width: 150px" class="d-flex align-items-center">
                     <a class="btn btn-info" href="/Help/Contact">Contact us now!</a>
@@ -150,6 +150,7 @@
     @Scripts.Render("~/Scripts/date.js")
 
     <!-- GLOBAL SCRIPT FOR ALL PAGES -->
+    @Scripts.Render("~/Scripts/const.js")
     @Scripts.Render("~/Scripts/global.js")
 
     <!-- HERE GOES THE PAGE ADDITIONAL SCRIPTS -->
