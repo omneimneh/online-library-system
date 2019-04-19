@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using System.Web.Http;
 using OnlineLibrarySystem.Models;
 
@@ -168,6 +170,39 @@ namespace OnlineLibrarySystem.Controllers
                 new KeyValuePair<string, object>("id", personId));
 
             return true;
+        }
+
+        [HttpPost]
+        [Route("api/AccountApi/SetProfilePicture")]
+        public bool SetProfilePicture([FromUri]string token)
+        {
+            int personId = TokenManager.TokenDictionaryHolder[token];
+            if (personId < 0) return false;
+
+            HttpPostedFile file = HttpContext.Current.Request.Files[0];
+            string extension = Path.GetExtension(file.FileName);
+            if (extension.Equals(".png") || extension.Equals(".jpg") || extension.Equals(".jpeg"))
+            {
+                using (var reader = DB.ExecuteQuery("SELECT ProfileImage FROM PersonInfo WHERE PersonId = @id",
+                    new KeyValuePair<string, object>("id", personId)))
+                {
+                    if (reader.Read() && reader["ProfileImage"] != null)
+                    {
+                        FileInfo fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(reader["ProfileImage"].ToString()));
+                        fileInfo.Delete();
+                    }
+                }
+
+                string newFileName = "/Media/" + TokenGenerator() + extension;
+                string targetPath = HttpContext.Current.Server.MapPath(newFileName);
+                file.SaveAs(targetPath);
+
+                DB.ExecuteNonQuery("UPDATE Person SET ProfileImage = @img WHERE PersonId = @id",
+                    new KeyValuePair<string, object>("img", newFileName), new KeyValuePair<string, object>("id", personId));
+
+                return true;
+            }
+            return false;
         }
     }
 

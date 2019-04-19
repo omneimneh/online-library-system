@@ -16,8 +16,10 @@
     <div class="row mt-5">
         <div class="col-lg-auto col-md-auto col-sm-12 align-items-center d-flex flex-column">
             <div class="rounded img-thumbnail profile-img-top" style="background-image: url('@(string.IsNullOrEmpty(Model.ProfileImage) ? "/Media/default.png" : Model.ProfileImage)')"></div>
-            <button id="uploadBtn" disabled class="btn btn-sm btn-outline-primary mt-3" onclick="$(this).next().click()">Upload Image</button>
-            <input type="file" class="hidden" accept="image/png, image/jpeg" />
+            <button id="uploadBtn" class="btn btn-sm btn-outline-primary mt-3" onclick="$('#image').click()">Upload Image</button>
+            <form class="hidden">
+                <input type="file" id="image" name="image" onchange="profileUpload(this)" accept="image/png, image/jpeg" />
+            </form>
         </div>
         <div class="col-lg col-md col-sm-12">
             <ul class="nav nav-tabs mt-5" role="tablist">
