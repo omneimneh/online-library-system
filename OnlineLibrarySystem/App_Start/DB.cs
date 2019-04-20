@@ -10,37 +10,12 @@ namespace OnlineLibrarySystem.Controllers
 {
     public class DB
     {
-        private static SqlConnection connection;
+        public static readonly string ConnectionString =
+            ConfigurationManager.ConnectionStrings["OnlineLibrarySystemEntities"].ConnectionString;
 
-        public static bool Connected { get; set; } = false;
-
-        public static SqlConnection Open()
+        public static SqlDataReader ExecuteQuery(SqlConnection Connection, string sql, params KeyValuePair<string, object>[] pairs)
         {
-            if (connection == null)
-            {
-                connection = new SqlConnection(ConfigurationManager.ConnectionStrings["OnlineLibrarySystemEntities"].ConnectionString);
-            }
-            if (connection.State != ConnectionState.Open)
-            {
-                connection.Open();
-            }
-            Connected = true;
-            return connection;
-        }
-
-        public static void Shutdown()
-        {
-            if (connection != null && connection.State == ConnectionState.Open)
-            {
-                connection.Close();
-            }
-            Connected = false;
-        }
-
-        public static SqlDataReader ExecuteQuery(string sql, params KeyValuePair<string, object>[] pairs)
-        {
-            if (!Connected) Open();
-            SqlCommand cmd = new SqlCommand(sql, connection);
+            SqlCommand cmd = new SqlCommand(sql, Connection);
             foreach (var pair in pairs)
             {
                 cmd.Parameters.AddWithValue(pair.Key, pair.Value);
@@ -48,10 +23,9 @@ namespace OnlineLibrarySystem.Controllers
             return cmd.ExecuteReader();
         }
 
-        public static void ExecuteNonQuery(string sql, params KeyValuePair<string, object>[] pairs)
+        public static void ExecuteNonQuery(SqlConnection Connection, string sql, params KeyValuePair<string, object>[] pairs)
         {
-            if (!Connected) Open();
-            SqlCommand cmd = new SqlCommand(sql, connection);
+            SqlCommand cmd = new SqlCommand(sql, Connection);
             foreach (var pair in pairs)
             {
                 cmd.Parameters.AddWithValue(pair.Key, pair.Value);
@@ -59,10 +33,9 @@ namespace OnlineLibrarySystem.Controllers
             cmd.ExecuteNonQuery();
         }
 
-        public static int ExecuteInsertQuery(string sql, params KeyValuePair<string, object>[] pairs)
+        public static int ExecuteInsertQuery(SqlConnection Connection, string sql, params KeyValuePair<string, object>[] pairs)
         {
-            if (!Connected) Open();
-            SqlCommand cmd = new SqlCommand(sql + " SELECT SCOPE_IDENTITY()", connection);
+            SqlCommand cmd = new SqlCommand(sql + " SELECT SCOPE_IDENTITY()", Connection);
             foreach (var pair in pairs)
             {
                 cmd.Parameters.AddWithValue(pair.Key, pair.Value);
@@ -70,10 +43,9 @@ namespace OnlineLibrarySystem.Controllers
             return Convert.ToInt32(cmd.ExecuteScalar());
         }
 
-        public static int ExecuteScalar(string sql, params KeyValuePair<string, object>[] pairs)
+        public static int ExecuteScalar(SqlConnection Connection, string sql, params KeyValuePair<string, object>[] pairs)
         {
-            if (!Connected) Open();
-            SqlCommand cmd = new SqlCommand(sql, connection);
+            SqlCommand cmd = new SqlCommand(sql, Connection);
             foreach (var pair in pairs)
             {
                 cmd.Parameters.AddWithValue(pair.Key, pair.Value);

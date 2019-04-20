@@ -89,3 +89,7 @@ body {
         visibility: hidden;
     }
 }
+
+.remove-outline, .remove-outline:focus {
+    outline: none !important;
+}

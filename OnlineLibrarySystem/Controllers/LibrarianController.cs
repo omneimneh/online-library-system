@@ -8,6 +8,10 @@ namespace OnlineLibrarySystem.Controllers
 {
     public class LibrarianController : BaseController
     {
-
+        public ActionResult Index()
+        {
+            ViewBag.Title = "Librarian Dashboard";
+            return View(model);
+        }
     }
 }

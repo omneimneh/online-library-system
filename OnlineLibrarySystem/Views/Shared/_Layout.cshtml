@@ -16,6 +16,8 @@
     <script src="/systemjs.config.js"></script>
 
     @Styles.Render("~/Content/css/bootstrap.min.css")
+    @Styles.Render("~/Content/open-iconic/font/css/open-iconic-bootstrap.css")
+    @Styles.Render("~/Content/css/component.autocomplete.css")
     @Styles.Render("~/Content/css/site.css")
 
     @RenderSection("AddToHead", required: false)
@@ -166,7 +168,9 @@
     <!-- COMMON SCRIPTS FOR ALL PAGES -->
     @Scripts.Render("~/Scripts/jquery-3.3.1.js")
     @Scripts.Render("~/Scripts/angular.min.js")
+    @Scripts.Render("~/Scripts/popper.min.js")
     @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/component.autocomplete.js")
     @Scripts.Render("~/Scripts/date.js")
 
     <!-- GLOBAL SCRIPT FOR ALL PAGES -->

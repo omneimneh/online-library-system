@@ -1,0 +1,150 @@
+﻿@section AddToHead {
+    <style type="text/css">
+        #table .form-control-plaintext {
+            border-width: 1px;
+            border-radius: .25rem;
+            padding: 12px;
+        }
+
+        #table td {
+            padding: 0px !important;
+        }
+
+        #table .form-control-plaintext:focus {
+            outline: none;
+        }
+
+        #table .form-control-plaintext:active {
+            background-color: gray;
+            color: white;
+        }
+
+        #table .form-control-plaintext:hover {
+            border: 1px dashed red;
+            outline: none;
+        }
+
+        #table .form-control-plaintext:not([type="text"]) {
+            user-select: none;
+            cursor: pointer;
+        }
+    </style>
+}
+
+<div class="container py-5">
+    <table class="table table-hover border rounded shadow-sm">
+        <thead class="thead-light">
+            <tr>
+                <th colspan="6">
+                    <div class="row">
+                        <div class="col px-4">
+                            <input class="form-control-plaintext remove-outline form-control-sm" type="text" placeholder="Search for a specific book" />
+                        </div>
+                        <div class="col-auto px-4">
+                            <button class="btn btn-sm btn-primary rounded">Add a new book</button>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th style="width: 20%">Title</th>
+                <th style="width: 30%">Description</th>
+                <th style="width: 15%">Author</th>
+                <th style="width: 15%">Publisher</th>
+                <th style="width: 10%">Publishing date</th>
+                <th style="width: 10%">Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="table"></tbody>
+    </table>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        (function () {
+
+            var authors;
+            var publishers;
+            var books;
+
+            // load data to be used
+            function loadData() {
+                // load authors
+                var a1 = $.ajax({
+                    url: 'api/ApiBook/GetAuthors',
+                    success: function (res) {
+                        authors = [];
+                        for (var i = 0; i < res.length; i++) {
+                            authors.push({
+                                value: res[i].AuthorId,
+                                data: res[i].AuthorName
+                            });
+                        }
+                    }
+                });
+                // load publishers
+                var a2 = $.ajax({
+                    url: 'api/ApiBook/GetPublishers',
+                    success: function (res) {
+                        publishers = [];
+                        for (var i = 0; i < res.length; i++) {
+                            publishers.push({
+                                value: res[i].PublisherId,
+                                data: res[i].PublisherName
+                            });
+                        }
+                    }
+                });
+                // load books
+                var a3 = $.ajax({
+                    url: 'api/ApiBook/GetBooks',
+                    success: function (res) {
+                        books = res;
+                    }
+                });
+                // after all ajax calls are done
+                $.when(a1, a2, a3).then(fillData);
+            }
+
+            // fill books in table
+            function fillData() {
+                var $table = $('#table');
+                // clear old content
+                $table.html('');
+                for (var i = 0; i < books.length; i++) {
+                    var $tr = $(
+                        '<tr>' +
+                        '<td>' +
+                        '<input class="form-control-plaintext BookTitle" type="text" value="' + books[i].BookTitle + '" />' +
+                        '</td>' +
+                        '<td>' +
+                        '<input class="form-control-plaintext BookDescription" type="text" value="' + books[i].BookDescription + '" />' +
+                        '</td>' +
+                        '<td>' +
+                        '<input class="form-control-plaintext AuthorId" readonly value="' + books[i].AuthorName + '" />' +
+                        '</td>' +
+                        '<td>' +
+                        '<input class="form-control-plaintext PublisherId" readonly value="' + books[i].PublisherName + '" />' +
+                        '</td>' +
+                        '<td>' +
+                        '<input class="form-control-plaintext PublishingDate" type="date" value="' + Date.parse(books[i].PublishingDate).toString('yyyy-MM-dd') + '" />' +
+                        '</td>' +
+                        '<td>' +
+                        '<input class="form-control-plaintext Quantity" type="number" min="0" value="' + books[i].Quantity + '" />' +
+                        '</td>' +
+                        '</tr>'
+                    );
+                    $tr.find('.AuthorId')._autocomplete(authors);
+                    $tr.find('.PublisherId')._autocomplete(publishers);
+                    $table.append($tr);
+                }
+            }
+
+            $(document).ready(function () {
+                loadData();
+            });
+
+        })();
+    </script>
+}

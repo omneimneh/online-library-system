@@ -50,7 +50,7 @@ function Alert(title, msg) {
             if (date < Date.today().addDays(-1) || date > Date.today().addDays(7)) {
                 return;
             }
-            
+
             $.ajax({
                 url: '/api/ApiBook/Rent',
                 type: 'POST',
@@ -78,7 +78,16 @@ function Alert(title, msg) {
 
     // on page load this function will run
     $(document).ready(function () {
-
+        // enable bootstrap popovers on hover
+        var $popovers = $('[data-toggle="popover"]').not('[data-html]');
+        $popovers.mouseover(function () {
+            $(this).popover('show');
+        });
+        $popovers.mouseout(function () {
+            $(this).popover('hide');
+        });
+        // enable bootstrap popovers on click
+        $('[data-toggle="popover"][data-html="true"]').popover({ html: true });
     });
 
 })();

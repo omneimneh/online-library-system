@@ -1,0 +1,126 @@
+﻿.autocomplete-container {
+    position: absolute;
+    background-color: var(--light);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    border-radius: .25rem !important;
+    padding: .5rem;
+    border: 1px solid #dee2e6 !important;
+    border-top-color: rgb(222, 226, 230) !important;
+    border-top-style: solid !important;
+    border-top-width: 1px !important;
+    border-right-color: rgb(222, 226, 230) !important;
+    border-right-style: solid !important;
+    border-right-width: 1px !important;
+    border-bottom-color: rgb(222, 226, 230) !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
+    border-left-color: rgb(222, 226, 230) !important;
+    border-left-style: solid !important;
+    border-left-width: 1px !important;
+    border-image-source: initial !important;
+    border-image-slice: initial !important;
+    border-image-width: initial !important;
+    border-image-outset: initial !important;
+    border-image-repeat: initial !important;
+}
+
+.autocomplete-list {
+    padding-left: 0;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.autocomplete-item {
+    padding: .25rem .5rem;
+    border-radius: .25rem !important;
+    cursor: pointer;
+}
+
+    .autocomplete-item:hover {
+        background-color: var(--blue);
+        color: var(--white);
+    }
+
+        .autocomplete-item:hover * {
+            color: var(--white);
+        }
+
+.autocomplete-new {
+    border-radius: .25rem !important;
+    cursor: pointer;
+}
+
+    .autocomplete-new:hover {
+        background-color: var(--blue);
+        color: var(--white);
+    }
+
+        .autocomplete-new:hover * {
+            color: var(--white);
+        }
+
+.autocomplete-new {
+    position: relative;
+}
+
+    .autocomplete-new > div {
+        height: calc(1.5em + .5rem + 2px);
+        padding: .25rem .5rem;
+        font-size: .875rem;
+        line-height: 1.5;
+        padding-left: 30px !important;
+    }
+
+
+    .autocomplete-new .glyphicon {
+        position: absolute;
+        padding: 6px !important;
+        pointer-events: none;
+    }
+
+.oi {
+    color: gray;
+}
+
+.inner-addon, .inner-addon-sm {
+    position: relative;
+}
+
+    .inner-addon .glyphicon, .inner-addon-sm .glyphicon {
+        position: absolute;
+        padding: 10px !important;
+        pointer-events: none;
+    }
+
+    .inner-addon .glyphicon {
+        padding: 10px !important;
+    }
+
+    .inner-addon-sm .glyphicon {
+        padding: 6px !important;
+    }
+
+.left-addon .glyphicon {
+    left: 0px;
+}
+
+.right-addon .glyphicon {
+    right: 0px;
+}
+
+.left-addon input {
+    padding-left: 30px !important;
+}
+
+.left-addon-sm input {
+    padding-left: 18px !important;
+}
+
+.right-addon input {
+    padding-right: 30px !important;
+}
+
+.right-addon-sm input {
+    padding-right: 18px !important;
+}
