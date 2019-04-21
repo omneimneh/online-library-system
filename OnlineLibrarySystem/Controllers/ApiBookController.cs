@@ -88,7 +88,7 @@ namespace OnlineLibrarySystem.Controllers
                 "BookInfo.* FROM BookInfo LEFT OUTER JOIN(Select COUNT(BookId) AS[Count], BookId FROM Reservation GROUP " +
                 "BY BookId) AS Res ON BookInfo.BookId = Res.BookId WHERE (BookTitle LIKE CONCAT('{3}',@key,'{3}') OR {0}) " +
                 "AND(AuthorName LIKE CONCAT('{3}',@key,'{3}') OR {1}) AND (PublisherName LIKE CONCAT('{3}',@key,'{3}') OR " +
-                "{2}) AND YEAR(PublishingDate) BETWEEN @min AND @max) AS Result WHERE[Row] BETWEEN @start AND @end",
+                "{2}) AND (PublishingDate IS NULL OR YEAR(PublishingDate) BETWEEN @min AND @max)) AS Result WHERE[Row] BETWEEN @start AND @end",
                 byBook, byAuthor, byPublisher, match.Equals("on") ? "" : "%");
 
                 using (SqlDataReader reader = DB.ExecuteQuery(con, searchQuery, @params[0], @params[1], @params[2], @params[3], @params[4]))
@@ -112,7 +112,7 @@ namespace OnlineLibrarySystem.Controllers
                 string countQuery = string.Format("SELECT COUNT(*) FROM BookInfo LEFT OUTER JOIN(Select COUNT(BookId) AS[Count], " +
                     "BookId FROM Reservation GROUP BY BookId) AS Res ON BookInfo.BookId = Res.BookId WHERE (BookTitle LIKE " +
                     "CONCAT('{3}',@key,'{3}') OR {0}) AND (AuthorName LIKE CONCAT('{3}',@key,'{3}') OR {1}) AND (PublisherName " +
-                    "LIKE CONCAT('{3}',@key,'{3}') OR {2}) AND YEAR(PublishingDate) BETWEEN @min AND @max",
+                    "LIKE CONCAT('{3}',@key,'{3}') OR {2}) AND (PublishingDate IS NULL OR YEAR(PublishingDate) BETWEEN @min AND @max)",
                     byBook, byAuthor, byPublisher, match.Equals("on") ? "" : "%");
 
                 retVal.TotalCount = DB.ExecuteScalar(con, countQuery, @params[0], @params[1], @params[2]);
@@ -281,17 +281,110 @@ namespace OnlineLibrarySystem.Controllers
                      new KeyValuePair<string, object>("bid", book.BookId));
                 if (count < 1) return false;
 
-                DB.ExecuteNonQuery(con, "UPDATE Book SET BookDescription = @bdesc, AuthorId = @aid, " +
-                    "PublisherId = @pid, Quantity = @quantity, PublishingDate = @pubDate WHERE BookId = @bid",
+                string[] queryParts = new string[]
+                {
+                    book.BookDescription != null ? "BookDescription = @bdesc" : "",
+                    book.AuthorId != null ? "AuthorId = @aid" : "",
+                    book.PublisherId != null ? "PublisherId = @pid" : "",
+                    book.BookTitle != null ? "BookTitle = @btitle" : "",
+                    book.PublishingDate != null ? "PublishingDate = @pubDate" : "",
+                    book.Quantity != null ? "Quantity = @quantity" : ""
+                };
+
+                string queryBuilder = "";
+                bool flag = true;
+                // queryBuilder = "...SET A = @a, B = @b, ..."
+                foreach (var str in queryParts)
+                {
+                    if (!string.IsNullOrEmpty(str))
+                    {
+                        if (flag)
+                        {
+                            queryBuilder += str;
+                            flag = false;
+                        }
+                        else
+                        {
+                            queryBuilder += ", " + str;
+                        }
+                    }
+                }
+
+                if (string.IsNullOrEmpty(queryBuilder)) return false;
+
+                DB.ExecuteNonQuery(con, "UPDATE Book SET " + queryBuilder + " WHERE BookId = @bid " +
+                    "--@aid --@pid --@quantity --@bdesc --@btitle --@pubDate",
                     new KeyValuePair<string, object>("bid", book.BookId),
-                    new KeyValuePair<string, object>("aid", book.AuthorId),
-                    new KeyValuePair<string, object>("pid", book.PublisherId),
-                    new KeyValuePair<string, object>("quantity", book.Quantity),
-                    new KeyValuePair<string, object>("bdesc", book.BookDescription),
-                    new KeyValuePair<string, object>("pubDate", book.PublishingDate));
+                    new KeyValuePair<string, object>("aid", NegativeDBNull(book.AuthorId)),
+                    new KeyValuePair<string, object>("pid", NegativeDBNull(book.PublisherId)),
+                    new KeyValuePair<string, object>("quantity", book.Quantity ?? -1),
+                    new KeyValuePair<string, object>("bdesc", book.BookDescription ?? ""),
+                    new KeyValuePair<string, object>("btitle", book.BookTitle ?? ""),
+                    new KeyValuePair<string, object>("pubDate", book.PublishingDate ?? ""));
             }
             return true;
         }
+
+        public static object NegativeDBNull(int? val)
+        {
+            if (val == null) return "--any";
+            if (val < 0) return DBNull.Value;
+            else return val;
+        }
+
+        [HttpGet]
+        [Route("api/ApiBook/LibrarianSearch")]
+        public SearchResult LibrarianSearch(int page, int pageSize,
+            string key = null)
+        {
+            SearchResult retVal = new SearchResult { Results = new List<Book>() };
+
+            if (key == null) key = "";
+            int start = (page - 1) * pageSize + 1;
+            int end = start + pageSize - 1;
+
+            List<KeyValuePair<string, object>> @params = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("key", key),
+                new KeyValuePair<string, object>("start", start),
+                new KeyValuePair<string, object>("end", end)
+            };
+            using (SqlConnection con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                string searchQuery = string.Format("SELECT * FROM ( " +
+                    "SELECT ROW_NUMBER() OVER(ORDER BY BookId) AS[Row], Book.*, AuthorName, PublisherName FROM Book " +
+                    "LEFT OUTER JOIN Author ON Author.AuthorId = Book.AuthorId " +
+                    "LEFT OUTER JOIN Publisher ON Publisher.PublisherId = Book.PublisherId " +
+                    "WHERE(BookTitle LIKE CONCAT('%', @key, '%')) " +
+                    ") AS Result WHERE[Row] BETWEEN @start AND @end ");
+
+                using (SqlDataReader reader = DB.ExecuteQuery(con, searchQuery, @params[0], @params[1], @params[2]))
+                {
+                    while (reader.Read())
+                    {
+                        retVal.Results.Add(new Book
+                        {
+                            BookId = Convert.ToInt32(reader["BookId"]),
+                            AuthorName = reader["AuthorName"]?.ToString(),
+                            BookTitle = reader["BookTitle"].ToString(),
+                            BookDescription = reader["BookDescription"]?.ToString(),
+                            PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
+                            ThumbnailImage = reader["ThumbnailImage"].ToString(),
+                            PublisherName = reader["PublisherName"]?.ToString(),
+                            Quantity = Convert.ToInt32(reader["Quantity"])
+                        });
+                    }
+                }
+
+                string countQuery = string.Format("SELECT COUNT(*) FROM Book WHERE (BookTitle LIKE " +
+                "CONCAT('%',@key,'%'))");
+
+                retVal.TotalCount = DB.ExecuteScalar(con, countQuery, @params[0], @params[1], @params[2]);
+            }
+            return retVal;
+        }
+
     }
 
     [DataContract]

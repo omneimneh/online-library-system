@@ -24,11 +24,11 @@ namespace OnlineLibrarySystem.Models
         [DataMember]
         public string PublishingDate { get; set; }
         [DataMember]
-        public int AuthorId { get; set; }
+        public int? AuthorId { get; set; }
         [DataMember]
-        public int PublisherId { get; set; }
+        public int? PublisherId { get; set; }
         [DataMember]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
         [DataMember]
         public string NextAvailable { get; set; }
     }

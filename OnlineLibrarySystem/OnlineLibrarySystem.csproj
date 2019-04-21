@@ -1759,6 +1759,7 @@
     <Content Include="Content\open-iconic\svg\zoom-out.svg" />
     <Content Include="Media\default.png" />
     <Content Include="Scripts\component.autocomplete.js" />
+    <Content Include="Scripts\component.templates.js" />
     <Content Include="Scripts\const.js" />
     <Content Include="Scripts\help.js" />
     <Content Include="Scripts\date.js" />

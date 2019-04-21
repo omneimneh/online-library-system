@@ -4,6 +4,9 @@
             border-width: 1px;
             border-radius: .25rem;
             padding: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         #table td {
@@ -14,12 +17,11 @@
             outline: none;
         }
 
-        #table .form-control-plaintext:active {
-            background-color: gray;
-            color: white;
+        #table input.form-control-plaintext:active {
+            background-color: lightgrey;
         }
 
-        #table .form-control-plaintext:hover {
+        #table input.form-control-plaintext:hover {
             border: 1px dashed red;
             outline: none;
         }
@@ -31,35 +33,60 @@
     </style>
 }
 
-<div class="container my-5">
-    <div class="overflow-x-auto overflow-y-hidden shadow-sm border rounded p-0 m-0">
-        <table class="table table-hover m-0 p-0 mw-100">
-            <thead class="thead-light">
-                <tr>
-                    <th colspan="7">
-                        <div class="row m-0">
-                            <div class="col px-3">
-                                <input id="search" class="form-control-plaintext remove-outline form-control-sm" type="text" placeholder="Search for a specific book" />
+<div class="container mb-5">
+    <form>
+        <div class="overflow-x-auto overflow-y-hidden shadow-sm border rounded p-0 m-0 mt-5">
+            <table class="table table-hover m-0 p-0 mw-100">
+                <thead class="thead-light">
+                    <tr>
+                        <th colspan="9">
+                            <div class="row m-0">
+                                <button class="btn btn-sm btn-default">
+                                    <span class="oi oi-magnifying-glass"></span>
+                                </button>
+                                <div class="col px-3">
+                                    <input id="search" class="form-control-plaintext remove-outline form-control-sm" type="text" placeholder="Search for a specific book" />
+                                </div>
+                                <div class="col-auto px-2">
+                                    <button data-toggle="popover" data-content="Cancel changes and reload" class="btn btn-sm btn-default" onclick="window.location.reload(true)">
+                                        <span class="oi oi-reload"></span>
+                                    </button>
+                                    <span class="px-1"></span>
+                                    <button class="btn btn-sm btn-primary">Add a new book</button>
+                                </div>
                             </div>
-                            <div class="col-auto px-2">
-                                <button class="btn btn-sm btn-primary rounded">Add a new book</button>
-                            </div>
-                        </div>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Author</th>
-                    <th>Publisher</th>
-                    <th>Publishing date</th>
-                    <th style="width: 6%">Quantity</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody id="table"></tbody>
-        </table>
-    </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Author</th>
+                        <th>Publisher</th>
+                        <th>Publishing date</th>
+                        <th>Quantity</th>
+                        <th colspan="2">Options</th>
+                        <th>
+                            <button data-placement="right" data-toggle="popover" data-content="Click on any field to edit" class="btn btn-sm btn-default py-0">
+                                <span class="oi oi-question-mark"></span>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="table"></tbody>
+                <tfoot class="thead-light">
+                    <tr>
+                        <th colspan="9">
+                            <small class="font-weight-light d-inline-block d-flex justify-content-center flex-row px-3">
+                                <button id="prev" class="btn-sm btn-borderless rounded-circle oi oi-caret-left"></button>
+                                <span><input type="number" id="page" class="control-xs" min="1" value="1" /> out of <span id="outOf">100</span></span>
+                                <button id="next" class="btn-sm btn-borderless rounded-circle oi oi-caret-right"></button>
+                            </small>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
 </div>
 
 @section scripts {
@@ -70,14 +97,20 @@
             var authors;
             var publishers;
             var books;
+            var totalCount;
+            var page = 1;
+            var lastPage;
+            var pageSize = 20;
+            var key = '';
 
             // load data to be used
             function loadData() {
+
                 // load authors
                 var a1 = $.ajax({
                     url: 'api/ApiBook/GetAuthors',
                     success: function (res) {
-                        authors = [{ value: null, data: 'None' }];
+                        authors = [{ value: -1, data: 'None' }];
                         for (var i = 0; i < res.length; i++) {
                             authors.push({
                                 value: res[i].AuthorId,
@@ -90,7 +123,7 @@
                 var a2 = $.ajax({
                     url: 'api/ApiBook/GetPublishers',
                     success: function (res) {
-                        publishers = [{ value: null, data: 'None' }];
+                        publishers = [{ value: -1, data: 'None' }];
                         for (var i = 0; i < res.length; i++) {
                             publishers.push({
                                 value: res[i].PublisherId,
@@ -101,9 +134,15 @@
                 });
                 // load books
                 var a3 = $.ajax({
-                    url: 'api/ApiBook/GetBooks',
+                    url: 'api/ApiBook/LibrarianSearch',
+                    data: {
+                        key: key,
+                        page: page,
+                        pageSize: pageSize
+                    },
                     success: function (res) {
-                        books = res;
+                        books = res.Results;
+                        totalCount = res.TotalCount;
                     }
                 });
                 // after all ajax calls are done
@@ -113,44 +152,58 @@
             // fill books in table
             function fillData() {
                 var $table = $('#table');
+
                 // clear old content
                 $table.html('');
+
+                // transform float to closest greater than or equal integer
+                // ex: 0.6 | 1 = 1, 2.0 | 1 = 2 etc...
+                lastPage = (totalCount / pageSize) | 1;
+                $('#page').attr('max', lastPage);
+                $('#outOf').html(lastPage);
+
+                // disable pagination next or prev case current page is first or last page
+                if (page <= 1) $('#prev').attr('disabled', true);
+                else $('#prev').attr('disabled', null);
+                if (page >= lastPage) $('#next').attr('disabled', true);
+                else $('#next').attr('disabled', null);
+
                 for (var i = 0; i < books.length; i++) {
-                    var $tr = $(
-                        '<tr data-bookId="' + books[i].BookId + '">' +
-                        '<td>' +
-                        '<input class="form-control-plaintext BookTitle" type="text" value="' + books[i].BookTitle + '" />' +
-                        '</td>' +
-                        '<td>' +
-                        '<input class="form-control-plaintext BookDescription" type="text" value="' + books[i].BookDescription + '" />' +
-                        '</td>' +
-                        '<td>' +
-                        '<input class="form-control-plaintext AuthorId" readonly value="' + books[i].AuthorName + '" />' +
-                        '</td>' +
-                        '<td>' +
-                        '<input class="form-control-plaintext PublisherId" readonly value="' + books[i].PublisherName + '" />' +
-                        '</td>' +
-                        '<td>' +
-                        '<input class="form-control-plaintext PublishingDate" type="date" value="' + Date.parse(books[i].PublishingDate).toString('yyyy-MM-dd') + '" />' +
-                        '</td>' +
-                        '<td>' +
-                        '<input class="form-control-plaintext Quantity" type="number" min="0" value="' + books[i].Quantity + '" />' +
-                        '</td>' +
-                        '<td>' +
-                        '<div class="form-control-plaintext Options">' +
-                        '<div class="save hidden"><a class="btn-link">Save</a> | </div>' +
-                        '<a class="btn-link">Delete</a>' +
-                        '</div>' +
-                        '</td>' +
-                        '</tr>'
-                    );
-                    $tr.find('.AuthorId')._autocomplete(authors);
-                    $tr.find('.PublisherId')._autocomplete(publishers);
-                    books[i].$elem = $tr;
+
+                    // add a table row
+                    var $tr = $(createBookRow(books[i]));
                     $table.append($tr);
+                    // reference the row in the books array
+                    books[i].$elem = $tr;
+
+                    // pass a copy of $tr to this inner function and call instantly
                     (function (currentTr) {
-                        currentTr.find('input').change(function () {
-                            currentTr.find('.save').removeClass('hidden');
+                        // activate autocomplete custom component
+                        currentTr.find('.AuthorName')._autocomplete(authors, {
+                            selectAction: function (currentContent, $input) {
+                                var $tmp = currentTr.find('.AuthorId');
+                                $tmp.val(currentContent.value);
+                                $tmp.addClass('changed');
+                            },
+                            addAction: function () {
+                                // add a new author call api
+                            }
+                        });
+                        currentTr.find('.PublisherName')._autocomplete(publishers, {
+                            selectAction: function (currentContent, $input) {
+                                var $tmp = currentTr.find('.PublisherId');
+                                $tmp.val(currentContent.value);
+                                $tmp.addClass('changed');
+                            },
+                            addAction: function () {
+                                // add a new publisher call api
+                            }
+                        });
+                        currentTr.find('.form-control-plaintext').on('change keyup', function () {
+                            // this input has changed, send this to the server when save is clicked
+                            $(this).addClass('changed');
+                            currentTr.find('.save').attr('disabled', null);
+                            // disable other rows, focus on this one
                             for (var j = 0; j < books.length; j++) {
                                 if (books[j].BookId != currentTr.attr('data-bookId')) {
                                     books[j].$elem.css('opacity', 0.5);
@@ -158,18 +211,27 @@
                                 }
                             }
                         });
-                        currentTr.find('.save a').click(function () {
+                        currentTr.find('.save').click(function () {
+                            var $BookTitle = currentTr.find('.BookTitle');
+                            var $BookDescription = currentTr.find('.BookDescription');
+                            var $AuthorId = currentTr.find('.AuthorId');
+                            var $PublisherId = currentTr.find('.PublisherId');
+                            var $PublishingDate = currentTr.find('.PublishingDate');
+                            var $Quantity = currentTr.find('.Quantity');
+                            function getChangedData($dom) {
+                                return $dom.hasClass('changed') ? $dom.val() : null;
+                            }
                             $.ajax({
                                 url: 'api/ApiBook/UpdateBook',
                                 type: "post",
                                 data: {
                                     BookId: currentTr.attr('data-bookId'),
-                                    BookTitle: currentTr.find('.BookTitle').val(),
-                                    BookDescription: currentTr.find('.BookDescription').val(),
-                                    AuthorId: null,
-                                    Publisherid: null,
-                                    PublishingDate: currentTr.find('.PublishingDate').val(),
-                                    Quantity: currentTr.find('.Quantity').val(),
+                                    BookTitle: getChangedData($BookTitle),
+                                    BookDescription: getChangedData($BookDescription),
+                                    AuthorId: getChangedData($AuthorId),
+                                    PublisherId: getChangedData($PublisherId),
+                                    PublishingDate: getChangedData($PublishingDate),
+                                    Quantity: getChangedData($Quantity),
                                     Token: $('#Token').val()
                                 },
                                 success: function (res) {
@@ -189,21 +251,22 @@
             }
 
             function initSearch() {
-                $('#search').on('change keyup', function () {
-                    if (this.value === '') {
-                        for (var i = 0; i < books.length; i++) {
-                            books[i].$elem.show();
-                        }
-                    } else {
-                        for (var i = 0; i < books.length; i++) {
-                            if (books[i].BookTitle.toLowerCase().includes(this.value.toLowerCase())) {
-                                books[i].$elem.show();
-                            } else {
-                                books[i].$elem.hide();
-                            }
-                        }
-                    }
+                $('#search').on('change keyup', refreshTable);
+                $('#page').on('change keyup', refreshTable);
+                $('#next').click(function () {
+                    $('#page')[0].value++;
+                    refreshTable();
                 });
+                $('#prev').click(function () {
+                    $('#page')[0].value--;
+                    refreshTable();
+                });
+            }
+
+            function refreshTable() {
+                key = $('#search').val();
+                page = $('#page').val();
+                loadData();
             }
 
             $(document).ready(function () {

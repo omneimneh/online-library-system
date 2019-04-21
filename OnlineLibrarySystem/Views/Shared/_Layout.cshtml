@@ -165,16 +165,17 @@
         </div>
     </footer>
 
-    <!-- COMMON SCRIPTS FOR ALL PAGES -->
+    <!-- IMPORTED JS LIBRARIES -->
     @Scripts.Render("~/Scripts/jquery-3.3.1.js")
     @Scripts.Render("~/Scripts/angular.min.js")
     @Scripts.Render("~/Scripts/popper.min.js")
     @Scripts.Render("~/Scripts/bootstrap.min.js")
-    @Scripts.Render("~/Scripts/component.autocomplete.js")
     @Scripts.Render("~/Scripts/date.js")
 
-    <!-- GLOBAL SCRIPT FOR ALL PAGES -->
+    <!-- GLOBAL SCRIPTS FOR ALL PAGES -->
     @Scripts.Render("~/Scripts/const.js")
+    @Scripts.Render("~/Scripts/component.templates.js")
+    @Scripts.Render("~/Scripts/component.autocomplete.js")
     @Scripts.Render("~/Scripts/global.js")
 
     <!-- HERE GOES THE PAGE ADDITIONAL SCRIPTS -->

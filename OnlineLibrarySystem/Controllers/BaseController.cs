@@ -40,7 +40,7 @@ namespace OnlineLibrarySystem
                 switch (CurrentControllerName.ToLower() + "/" + CurrentActionName.ToLower())
                 {
                     case "home/index": case "account/login": return true;
-                    case "account/profile": return false;
+                    case "account/profile": case "librarian/index": return false;
                     default: return true; // for testing
                 }
             }

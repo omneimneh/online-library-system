@@ -1,6 +1,6 @@
 ﻿.autocomplete-container {
     position: absolute;
-    background-color: var(--light);
+    background-color: #f8f9fa;
     box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
     border-radius: .25rem !important;
     padding: .5rem;
@@ -23,6 +23,7 @@
     border-image-outset: initial !important;
     border-image-repeat: initial !important;
     z-index: 1000;
+    opacity: 1;
 }
 
 .autocomplete-list {
@@ -39,12 +40,12 @@
 }
 
     .autocomplete-item:hover {
-        background-color: var(--blue);
-        color: var(--white);
+        background-color: #007bff;
+        color: white;
     }
 
         .autocomplete-item:hover * {
-            color: var(--white);
+            color: white;
         }
 
 .autocomplete-new {
@@ -53,12 +54,12 @@
 }
 
     .autocomplete-new:hover {
-        background-color: var(--blue);
-        color: var(--white);
+        background-color: #007bff;
+        color: white;
     }
 
         .autocomplete-new:hover * {
-            color: var(--white);
+            color: white;
         }
 
 .autocomplete-new {

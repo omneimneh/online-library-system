@@ -62,7 +62,7 @@
                 + dataSnap[i].data + '</div>');
             (function (currentContent) {
                 $elem.click(function () {
-                    options.selectAction();
+                    options.selectAction(currentContent, $this);
                     $this.val(currentContent.data);
                     $this.change();
                     $html.fadeOut('fast');
@@ -103,7 +103,7 @@
         }
 
         $new.click(function () {
-            options.addAction();
+            options.addAction($search.val(), $this);
             $this.val($search.val());
             $html.fadeOut('fast');
             $search.val('');

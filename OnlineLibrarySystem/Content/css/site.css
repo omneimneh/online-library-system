@@ -62,7 +62,7 @@ body {
 
 .minw-0-r, .minw-0-r * {
     min-width: 0px !important;
-} 
+}
 
 .minh-0 {
     min-height: 0px !important;
@@ -100,9 +100,9 @@ body {
     color: #0000EE !important;
 }
 
-.btn-link:hover {
-    text-decoration: underline !important;
-}
+    .btn-link:hover {
+        text-decoration: underline !important;
+    }
 
 * {
     user-select: none;
@@ -142,3 +142,57 @@ body {
 .remove-outline, .remove-outline:focus {
     outline: none !important;
 }
+
+.oi-light {
+    color: #f8f9fa;
+}
+
+.oi-dark {
+    color: gray;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.control-xs {
+    width: 40px;
+    padding: 2px;
+    border: none;
+    background: none;
+    border-bottom: 1px solid gray;
+    outline: none;
+    text-align: center;
+}
+
+    .control-xs:active {
+        border: none;
+        transition: border .5s ease-out;
+    }
+
+    .control-xs:focus {
+        outline: none;
+        transition: border .5s ease-out;
+        border-bottom: 1px solid blue;
+    }
+
+.btn-borderless {
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    transition: all .5s ease-out;
+}
+
+    .btn-borderless:focus {
+        outline: none !important;
+        border: none !important;
+        transition: all .5s ease-out;
+    }
+
+    .btn-borderless:active {
+        background-color: gray !important;
+        outline: none !important;
+        border: none !important;
+        color: white !important;
+        transition: all .5s ease-out;
+    }
