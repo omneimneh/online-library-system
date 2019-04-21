@@ -24,7 +24,7 @@
                     }
                 },
                 error: function () {
-                    console.log('Something went wrong!');
+                    console.log(_errorMsg, _errorAdmin);
                 }
             });
         });
@@ -71,7 +71,7 @@ function profileUpload(input) {
             }
         },
         error: function () {
-            Alert(_errorMsg, 'File upload failed');
+            Alert(_errorMsg, _errorAdmin);
         }
     });
     console.log(input.files[0]);

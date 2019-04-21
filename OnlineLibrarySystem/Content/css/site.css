@@ -1,4 +1,5 @@
 ﻿html, body {
+    min-height: 100%;
     height: 100%;
 }
 
@@ -53,6 +54,54 @@ body {
 
 .w-500px {
     width: 500px;
+}
+
+.minw-0 {
+    min-width: 0px !important;
+}
+
+.minw-0-r, .minw-0-r * {
+    min-width: 0px !important;
+} 
+
+.minh-0 {
+    min-height: 0px !important;
+}
+
+.minh-0-r, .minh-0-r * {
+    min-height: 0px !important;
+}
+
+.overflow-x-auto {
+    overflow-x: auto !important;
+}
+
+.overflow-x-hidden {
+    overflow-x: hidden !important;
+}
+
+.overflow-y-visible {
+    overflow-y: visible !important;
+}
+
+.overflow-y-auto {
+    overflow-y: auto !important;
+}
+
+.overflow-y-hidden {
+    overflow-y: hidden !important;
+}
+
+.overflow-y-visible {
+    overflow-y: visible;
+}
+
+.btn-link {
+    color: #0000EE !important;
+}
+
+.btn-link:hover {
+    text-decoration: underline !important;
 }
 
 * {

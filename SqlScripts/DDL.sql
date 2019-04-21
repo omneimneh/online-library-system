@@ -107,10 +107,10 @@ GO
 
 CREATE VIEW PersonInfo AS (
 	SELECT *,
-	(CASE WHEN PersonId IN (SELECT PersonId FROM Student) THEN 0
-	WHEN PersonId IN (SELECT PersonId FROM Professor) THEN 1
+	(CASE WHEN PersonId IN (SELECT PersonId FROM Maintainer) THEN 3
 	WHEN PersonId IN (SELECT PersonId FROM Librarian) THEN 2
-	WHEN PersonId IN (SELECT PersonId FROM Maintainer) THEN 3
+	WHEN PersonId IN (SELECT PersonId FROM Professor) THEN 1
+	WHEN PersonId IN (SELECT PersonId FROM Student) THEN 0
 	ELSE 0 END) AS PersonType
 	FROM Person WHERE Deleted = 0
 )

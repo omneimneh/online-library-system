@@ -31,32 +31,35 @@
     </style>
 }
 
-<div class="container py-5">
-    <table class="table table-hover border rounded shadow-sm">
-        <thead class="thead-light">
-            <tr>
-                <th colspan="6">
-                    <div class="row">
-                        <div class="col px-4">
-                            <input class="form-control-plaintext remove-outline form-control-sm" type="text" placeholder="Search for a specific book" />
+<div class="container my-5">
+    <div class="overflow-x-auto overflow-y-hidden shadow-sm border rounded p-0 m-0">
+        <table class="table table-hover m-0 p-0 mw-100">
+            <thead class="thead-light">
+                <tr>
+                    <th colspan="7">
+                        <div class="row m-0">
+                            <div class="col px-3">
+                                <input id="search" class="form-control-plaintext remove-outline form-control-sm" type="text" placeholder="Search for a specific book" />
+                            </div>
+                            <div class="col-auto px-2">
+                                <button class="btn btn-sm btn-primary rounded">Add a new book</button>
+                            </div>
                         </div>
-                        <div class="col-auto px-4">
-                            <button class="btn btn-sm btn-primary rounded">Add a new book</button>
-                        </div>
-                    </div>
-                </th>
-            </tr>
-            <tr>
-                <th style="width: 20%">Title</th>
-                <th style="width: 30%">Description</th>
-                <th style="width: 15%">Author</th>
-                <th style="width: 15%">Publisher</th>
-                <th style="width: 10%">Publishing date</th>
-                <th style="width: 10%">Quantity</th>
-            </tr>
-        </thead>
-        <tbody id="table"></tbody>
-    </table>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                    <th>Publishing date</th>
+                    <th style="width: 6%">Quantity</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody id="table"></tbody>
+        </table>
+    </div>
 </div>
 
 @section scripts {
@@ -74,7 +77,7 @@
                 var a1 = $.ajax({
                     url: 'api/ApiBook/GetAuthors',
                     success: function (res) {
-                        authors = [];
+                        authors = [{ value: null, data: 'None' }];
                         for (var i = 0; i < res.length; i++) {
                             authors.push({
                                 value: res[i].AuthorId,
@@ -87,7 +90,7 @@
                 var a2 = $.ajax({
                     url: 'api/ApiBook/GetPublishers',
                     success: function (res) {
-                        publishers = [];
+                        publishers = [{ value: null, data: 'None' }];
                         for (var i = 0; i < res.length; i++) {
                             publishers.push({
                                 value: res[i].PublisherId,
@@ -114,7 +117,7 @@
                 $table.html('');
                 for (var i = 0; i < books.length; i++) {
                     var $tr = $(
-                        '<tr>' +
+                        '<tr data-bookId="' + books[i].BookId + '">' +
                         '<td>' +
                         '<input class="form-control-plaintext BookTitle" type="text" value="' + books[i].BookTitle + '" />' +
                         '</td>' +
@@ -133,16 +136,79 @@
                         '<td>' +
                         '<input class="form-control-plaintext Quantity" type="number" min="0" value="' + books[i].Quantity + '" />' +
                         '</td>' +
+                        '<td>' +
+                        '<div class="form-control-plaintext Options">' +
+                        '<div class="save hidden"><a class="btn-link">Save</a> | </div>' +
+                        '<a class="btn-link">Delete</a>' +
+                        '</div>' +
+                        '</td>' +
                         '</tr>'
                     );
                     $tr.find('.AuthorId')._autocomplete(authors);
                     $tr.find('.PublisherId')._autocomplete(publishers);
+                    books[i].$elem = $tr;
                     $table.append($tr);
+                    (function (currentTr) {
+                        currentTr.find('input').change(function () {
+                            currentTr.find('.save').removeClass('hidden');
+                            for (var j = 0; j < books.length; j++) {
+                                if (books[j].BookId != currentTr.attr('data-bookId')) {
+                                    books[j].$elem.css('opacity', 0.5);
+                                    books[j].$elem.find('input').attr('disabled', true);
+                                }
+                            }
+                        });
+                        currentTr.find('.save a').click(function () {
+                            $.ajax({
+                                url: 'api/ApiBook/UpdateBook',
+                                type: "post",
+                                data: {
+                                    BookId: currentTr.attr('data-bookId'),
+                                    BookTitle: currentTr.find('.BookTitle').val(),
+                                    BookDescription: currentTr.find('.BookDescription').val(),
+                                    AuthorId: null,
+                                    Publisherid: null,
+                                    PublishingDate: currentTr.find('.PublishingDate').val(),
+                                    Quantity: currentTr.find('.Quantity').val(),
+                                    Token: $('#Token').val()
+                                },
+                                success: function (res) {
+                                    if (res) {
+                                        window.location.reload(true);
+                                    } else {
+                                        Alert(_errorMsg, 'Make sure your data is valid!');
+                                    }
+                                },
+                                error: function () {
+                                    Alert(_errorMsg, _errorAdmin);
+                                }
+                            });
+                        });
+                    })($tr);
                 }
+            }
+
+            function initSearch() {
+                $('#search').on('change keyup', function () {
+                    if (this.value === '') {
+                        for (var i = 0; i < books.length; i++) {
+                            books[i].$elem.show();
+                        }
+                    } else {
+                        for (var i = 0; i < books.length; i++) {
+                            if (books[i].BookTitle.toLowerCase().includes(this.value.toLowerCase())) {
+                                books[i].$elem.show();
+                            } else {
+                                books[i].$elem.hide();
+                            }
+                        }
+                    }
+                });
             }
 
             $(document).ready(function () {
                 loadData();
+                initSearch();
             });
 
         })();

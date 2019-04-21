@@ -263,6 +263,35 @@ namespace OnlineLibrarySystem.Controllers
             }
             return retVal;
         }
+
+        [HttpPost]
+        [Route("api/ApiBook/UpdateBook")]
+        public bool UpdateBook([FromBody] Book book)
+        {
+            if (string.IsNullOrEmpty(book.Token)) return false;
+            int personId = TokenManager.TokenDictionaryHolder[book.Token];
+            if (personId < 0) return false;
+            Person person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Librarian) return false;
+
+            using (var con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                int count = DB.ExecuteScalar(con, "SELECT COUNT(BookId) FROM Book WHERE BookId = @bid",
+                     new KeyValuePair<string, object>("bid", book.BookId));
+                if (count < 1) return false;
+
+                DB.ExecuteNonQuery(con, "UPDATE Book SET BookDescription = @bdesc, AuthorId = @aid, " +
+                    "PublisherId = @pid, Quantity = @quantity, PublishingDate = @pubDate WHERE BookId = @bid",
+                    new KeyValuePair<string, object>("bid", book.BookId),
+                    new KeyValuePair<string, object>("aid", book.AuthorId),
+                    new KeyValuePair<string, object>("pid", book.PublisherId),
+                    new KeyValuePair<string, object>("quantity", book.Quantity),
+                    new KeyValuePair<string, object>("bdesc", book.BookDescription),
+                    new KeyValuePair<string, object>("pubDate", book.PublishingDate));
+            }
+            return true;
+        }
     }
 
     [DataContract]

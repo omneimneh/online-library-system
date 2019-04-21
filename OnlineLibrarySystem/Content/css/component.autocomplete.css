@@ -22,6 +22,7 @@
     border-image-width: initial !important;
     border-image-outset: initial !important;
     border-image-repeat: initial !important;
+    z-index: 1000;
 }
 
 .autocomplete-list {

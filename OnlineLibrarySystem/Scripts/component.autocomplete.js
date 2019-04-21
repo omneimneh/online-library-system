@@ -17,7 +17,7 @@
             enableSearch: true,
             enableAdd: true,
             filter: function (searchKey, currentContent) {
-                return currentContent.data.includes(searchKey);
+                return currentContent.data.toLowerCase().includes(searchKey.toLowerCase());
             },
             addAction: function () { },
             selectAction: function () { }
@@ -64,6 +64,7 @@
                 $elem.click(function () {
                     options.selectAction();
                     $this.val(currentContent.data);
+                    $this.change();
                     $html.fadeOut('fast');
                     $search.val('');
                     $search.keyup();
@@ -76,26 +77,23 @@
 
         $new.hide();
         if (options.enableSearch) {
-            $search.keyup(function () {
+            $search.on('keyup change', function () {
                 var searchKey = $(this).val();
-                var noValues = true;
                 if (searchKey === '') {
                     for (i = 0; i < dataSnap.length; i++) {
                         dataSnap[i].$elem.show();
-                        noValues = false;
                     }
                 } else {
                     for (i = 0; i < dataSnap.length; i++) {
                         if (options.filter(searchKey, dataSnap[i])) {
                             dataSnap[i].$elem.show();
-                            noValues = false;
                         } else {
                             dataSnap[i].$elem.hide();
                         }
                     }
                 }
                 $new.hide();
-                if (options.enableAdd && noValues) {
+                if (options.enableAdd && searchKey !== '') {
                     $new.show();
                     $add.html('Add new value <b>"' + searchKey + '"</b>');
                 }
