@@ -1,0 +1,38 @@
+﻿#table .form-control-plaintext {
+    border-width: 1px;
+    border-radius: .25rem;
+    padding: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#table td {
+    padding: 0px !important;
+}
+
+#table .form-control-plaintext:focus {
+    outline: none;
+}
+
+#table input.form-control-plaintext:active {
+    background-color: lightgrey;
+}
+
+#table input.form-control-plaintext:hover {
+    border: 1px dashed red;
+    outline: none;
+}
+
+#table .form-control-plaintext:not([type="text"]) {
+    user-select: none;
+    cursor: pointer;
+}
+
+.book-img {
+    background-position: center;
+    background-size: cover;
+    height: 256px;
+    width: 256px;
+    background-image: url('/Media/default.png')
+}

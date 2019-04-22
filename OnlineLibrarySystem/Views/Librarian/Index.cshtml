@@ -1,36 +1,62 @@
 ﻿@section AddToHead {
-    <style type="text/css">
-        #table .form-control-plaintext {
-            border-width: 1px;
-            border-radius: .25rem;
-            padding: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+    @Styles.Render("~/Content/css/librarian.css")
+}
 
-        #table td {
-            padding: 0px !important;
-        }
+@section AddToModals {
+    <div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form id="nBookForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add a new book</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="text-muted">Book Title</label>
+                                    <input class="form-control" type="text" name="BookTitle" id="nBookTitle" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-muted">Author</label>
+                                    <input type="hidden" id="nAuthorId" name="AuthorId" value="-1" />
+                                    <input class="form-control bg-white" type="text" readonly name="AuthorName" id="nAuthorName" value="None" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-muted">Publisher</label>
+                                    <input type="hidden" id="nPublisherId" name="PublisherId" value="-1" />
+                                    <input class="form-control bg-white" type="text" readonly name="PublisherName" id="nPublisherName" value="None" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-muted">Publishing date</label>
+                                    <input class="form-control bg-white" type="date" id="nPublishingDate" name="PublishingDate" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-muted">Book Descripion</label>
+                                    <textarea class="form-control" id="nBookDescription" name="BookDescription"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-auto p-3 pt-4 text-center">
+                                <input type="file" accept="image/jpeg, image/png" class="hidden" id="nThumbnailImage" />
+                                <div class="img-thumbnail book-img bg-light" id="nImageDisplay">
 
-        #table .form-control-plaintext:focus {
-            outline: none;
-        }
-
-        #table input.form-control-plaintext:active {
-            background-color: lightgrey;
-        }
-
-        #table input.form-control-plaintext:hover {
-            border: 1px dashed red;
-            outline: none;
-        }
-
-        #table .form-control-plaintext:not([type="text"]) {
-            user-select: none;
-            cursor: pointer;
-        }
-    </style>
+                                </div>
+                                <button class="btn btn-outline-secondary my-2" onclick="$('#nThumbnailImage').click()">Upload</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="reset" id="nBookReset" class="btn btn-secondary" data-dismiss="modal" value="Close">
+                        <button type="button" class="btn btn-primary" id="nSubmit">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
 }
 
 <div class="container mb-5">
@@ -52,7 +78,7 @@
                                         <span class="oi oi-reload"></span>
                                     </button>
                                     <span class="px-1"></span>
-                                    <button class="btn btn-sm btn-primary">Add a new book</button>
+                                    <button class="btn btn-sm btn-primary" onclick="$('#addBookModal').modal()">Add a new book</button>
                                 </div>
                             </div>
                         </th>

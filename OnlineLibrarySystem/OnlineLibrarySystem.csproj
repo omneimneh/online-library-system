@@ -181,6 +181,7 @@
     <Content Include="app\search-root\search-root.component.css" />
     <Content Include="app\search-root\search-root.component.html" />
     <Content Include="Content\css\component.autocomplete.css" />
+    <Content Include="Content\css\librarian.css" />
     <Content Include="Content\css\profile.css" />
     <Content Include="Content\open-iconic\.gitignore" />
     <Content Include="Content\open-iconic\font\css\open-iconic-bootstrap.css" />

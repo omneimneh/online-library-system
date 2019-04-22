@@ -317,21 +317,14 @@ namespace OnlineLibrarySystem.Controllers
                 DB.ExecuteNonQuery(con, "UPDATE Book SET " + queryBuilder + " WHERE BookId = @bid " +
                     "--@aid --@pid --@quantity --@bdesc --@btitle --@pubDate",
                     new KeyValuePair<string, object>("bid", book.BookId),
-                    new KeyValuePair<string, object>("aid", NegativeDBNull(book.AuthorId)),
-                    new KeyValuePair<string, object>("pid", NegativeDBNull(book.PublisherId)),
+                    new KeyValuePair<string, object>("aid", PositiveOrDBNull(book.AuthorId)),
+                    new KeyValuePair<string, object>("pid", PositiveOrDBNull(book.PublisherId)),
                     new KeyValuePair<string, object>("quantity", book.Quantity ?? -1),
                     new KeyValuePair<string, object>("bdesc", book.BookDescription ?? ""),
                     new KeyValuePair<string, object>("btitle", book.BookTitle ?? ""),
                     new KeyValuePair<string, object>("pubDate", book.PublishingDate ?? ""));
             }
             return true;
-        }
-
-        public static object NegativeDBNull(int? val)
-        {
-            if (val == null) return "--any";
-            if (val < 0) return DBNull.Value;
-            else return val;
         }
 
         [HttpGet]
@@ -440,6 +433,11 @@ namespace OnlineLibrarySystem.Controllers
             if (person.PersonType < PersonType.Librarian) return false;
 
             HttpPostedFile file = HttpContext.Current.Request.Files[0];
+            return UpdateImageImpl(file, bookId);
+        }
+
+        private bool UpdateImageImpl(HttpPostedFile file, int bookId)
+        {
             string extension = Path.GetExtension(file.FileName);
             if (extension.Equals(".png") || extension.Equals(".jpg") || extension.Equals(".jpeg"))
             {
@@ -467,6 +465,53 @@ namespace OnlineLibrarySystem.Controllers
                 return true;
             }
             return false;
+        }
+
+        [HttpPost]
+        [Route("api/ApiBook/AddBook")]
+        public bool AddBook([FromUri] Book book)
+        {
+            if (string.IsNullOrEmpty(book.Token)) return false;
+            int personId = TokenManager.TokenDictionaryHolder[book.Token];
+            if (personId < 0) return false;
+            Person person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Librarian) return false;
+
+            if (string.IsNullOrEmpty(book.BookTitle) || string.IsNullOrEmpty(book.PublishingDate)) return false;
+
+            int bookId;
+            using (var con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                bookId = DB.ExecuteInsertQuery(con, "INSERT INTO Book (BookTitle, BookDescription, AuthorId, PublisherId, " +
+                    "PublishingDate) VALUES (@btitle, @bdesc, @aid, @pid, @pubDate)",
+                    new KeyValuePair<string, object>("btitle", book.BookTitle),
+                    new KeyValuePair<string, object>("bdesc", StringOrDBNull(book.BookDescription)),
+                    new KeyValuePair<string, object>("aid", PositiveOrDBNull(book.AuthorId)),
+                    new KeyValuePair<string, object>("pid", PositiveOrDBNull(book.PublisherId)),
+                    new KeyValuePair<string, object>("pubDate", StringOrDBNull(book.PublishingDate)));
+            }
+
+            if (HttpContext.Current.Request.Files.Count > 0)
+            {
+                HttpPostedFile file = HttpContext.Current.Request.Files[0];
+                UpdateImageImpl(file, bookId);
+            }
+
+            return true;
+        }
+
+        private object StringOrDBNull(string val)
+        {
+            if (val == null) return DBNull.Value;
+            return val;
+        }
+
+        public static object PositiveOrDBNull(int? val)
+        {
+            if (val == null) return "--any";
+            if (val < 0) return DBNull.Value;
+            else return val;
         }
 
         private string TokenGenerator()

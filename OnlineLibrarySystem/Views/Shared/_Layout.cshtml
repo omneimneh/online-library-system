@@ -25,18 +25,20 @@
 </head>
 <body ng-app="global">
 
-
     <!-- SOME IMPORTANT VARIABLES -->
     @Html.HiddenFor(x => x.Token, new { @id = "Token" })
 
     <!-- ONLY APPEARS IF JAVASCRIPT WAS DISABLED -->
     <noscript>
-        <div class="alert-danger alert m-3">
+        <div class="alert-danger bg-danger alert rounded-0 m-0 text-white text-center p-1">
             Javascript <b>must</b> be enabled in order for this site to work correctly!
         </div>
     </noscript>
 
-    <!-- SOME DIALOGS THAT MAY APPEAR IN ANY PAGE -->
+    <!-- DIALOGS FOR THE CURRENT PAGE -->
+    @RenderSection("AddToModals", false)
+
+    <!-- DIALOGS THAT MAY APPEAR IN ANY PAGE -->
     <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

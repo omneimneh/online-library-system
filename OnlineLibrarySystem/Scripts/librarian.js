@@ -11,6 +11,11 @@
 
     // load data to be used
     function loadData() {
+        var $table = $('#table');
+
+        // clear old content
+        $table.html('');
+        $('.popover').remove();
 
         // load authors
         var a1 = $.ajax({
@@ -23,6 +28,11 @@
                         data: res[i].AuthorName
                     });
                 }
+                $('#nAuthorName')._autocomplete(authors, {
+                    selectAction: function (currentContent, $input) {
+                        $('#nAuthorId').val(currentContent.value);
+                    }
+                });
             }
         });
         // load publishers
@@ -36,6 +46,11 @@
                         data: res[i].PublisherName
                     });
                 }
+                $('#nPublisherName')._autocomplete(publishers, {
+                    selectAction: function (currentContent, $input) {
+                        $('#nPublisherId').val(currentContent.value);
+                    }
+                });
             }
         });
         // load books
@@ -64,7 +79,7 @@
 
         // transform float to closest greater than or equal integer
         // ex: 0.6 | 1 = 1, 2.0 | 1 = 2 etc...
-        lastPage = (totalCount / pageSize) | 1;
+        lastPage = totalCount / pageSize | 1;
         $('#page').attr('max', lastPage);
         $('#outOf').html(lastPage);
 
@@ -113,7 +128,7 @@
                     currentTr.find('.save').attr('disabled', null);
                     // disable other rows, focus on this one
                     for (var j = 0; j < books.length; j++) {
-                        if (books[j].BookId != currentTr.attr('data-bookId')) {
+                        if (books[j].BookId !== currentBook.BookId) {
                             books[j].$elem.css('opacity', 0.5);
                             books[j].$elem.find('input').attr('disabled', true);
                         }
@@ -136,7 +151,7 @@
                                     },
                                     success: function (res) {
                                         if (res) {
-                                            window.location.reload(true);
+                                            loadData();
                                         } else {
                                             Alert(_errorSomethingWentWrong, 'Please try again');
                                         }
@@ -145,7 +160,7 @@
                                 });
                             }
                         }
-                    )
+                    );
                 });
 
                 // handle image upload
@@ -166,7 +181,7 @@
                                 Alert('Sucess', 'Cover image was updated successfully');
                                 currentTr.find('.save').attr('disabled', true);
                                 for (var j = 0; j < books.length; j++) {
-                                    if (books[j].BookId != currentTr.attr('data-bookId')) {
+                                    if (books[j].BookId !== currentBook.BookId) {
                                         books[j].$elem.css('opacity', 1);
                                         books[j].$elem.find('input').attr('disabled', false);
                                     }
@@ -205,7 +220,7 @@
                         },
                         success: function (res) {
                             if (res) {
-                                window.location.reload(true);
+                                loadData();
                             } else {
                                 Alert(_errorSomethingWentWrong, 'Make sure your data is valid!');
                             }
@@ -221,7 +236,7 @@
     }
 
     function initSearch() {
-        $('#search').on('change keyup', refreshTable);
+        $('#search').on('keyup', refreshTable);
         $('#page').on('change keyup', refreshTable);
         $('#next').click(function () {
             $('#page')[0].value++;
@@ -239,9 +254,103 @@
         loadData();
     }
 
+    function initAddNewBook() {
+
+        function isValid(val) {
+            return val !== null && val !== "";
+        }
+
+        function removeError() {
+            $(this).removeClass('is-invalid');
+        }
+
+        var $BookTitle = $('#nBookTitle');
+        var $BookDescription = $('#nBookDescription');
+        var $AuthorId = $('#nAuthorId');
+        var $AuthorName = $('#nAuthorName');
+        var $PublisherId = $('#nPublisherId');
+        var $PublisherName = $('#nPublisherName');
+        var $PublishingDate = $('#nPublishingDate');
+        var $ThumbnailImage = $('#nThumbnailImage');
+
+        $BookTitle.on('change keyup', removeError);
+        $AuthorName.on('change keyup', removeError);
+        $PublisherName.on('change keyup', removeError);
+        $PublishingDate.on('change keyup', removeError);
+
+        $('#nThumbnailImage').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                $('#nImageDisplay')[0].style.backgroundImage = "url(" + reader.result + ")";
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                $('#nImageDisplay')[0].style.backgroundImage = "none";
+            }
+        });
+
+        $('#nBookReset').click(function () {
+            $('#nBookForm').trigger("reset");
+            $('#nThumbnailImage').change();
+        });
+
+        $('#nSubmit').click(function () {
+            // verify if data is valid
+            var valid = true;
+            if (!isValid($BookTitle.val())) {
+                $BookTitle.addClass('is-invalid');
+                valid = false;
+            }
+            // notice $AuthorId is hidden displaying error on AuthorName
+            if (!isValid($AuthorId.val())) {
+                $AuthorName.addClass('is-invalid');
+                valid = false;
+            }
+            // notice $PublisherId is hidden displaying error on PublisherName
+            if (!isValid($PublisherId.val())) {
+                $PublisherName.addClass('is-invalid');
+                valid = false;
+            }
+            if (!isValid($PublishingDate.val())) {
+                $PublishingDate.addClass('is-invalid');
+                valid = false;
+            }
+
+            // if user uploaded a cover image
+            var formData = new FormData();
+            if ($ThumbnailImage[0].files.length > 0 && $ThumbnailImage[0].files[0]) {
+                formData.append($ThumbnailImage[0].files[0].name, $ThumbnailImage[0].files[0]);
+            }
+
+            if (valid) {
+                $.ajax({
+                    url: 'api/ApiBook/AddBook?Token=' + $('#Token').val() + '&' + $('#nBookForm').serialize(),
+                    type: 'post',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (res) {
+                        if (res) {
+                            $('#addBookModal').modal('hide');
+                            $('#nBookForm').trigger("reset");
+                            loadData();
+                        } else {
+                            Alert(_errorSomethingWentWrong, 'Please try again');
+                        }
+                    },
+                    error: _requestError
+                });
+            }
+
+        });
+    }
+
     $(document).ready(function () {
         loadData();
         initSearch();
+        initAddNewBook();
     });
 
 })();
