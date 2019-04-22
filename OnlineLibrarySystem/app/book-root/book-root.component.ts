@@ -23,6 +23,13 @@ export class BookRootComponent implements OnInit {
         $('#rentBook').click();
     }
 
+    getBackground() {
+        if (this.book.ThumbnailImage) {
+            return "url('" + this.book.ThumbnailImage + "')";
+        }
+        return "url('/Media/default.png')";
+    }
+
     formatDate(date: any) {
         return date;
     }

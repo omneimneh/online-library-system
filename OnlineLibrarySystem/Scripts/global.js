@@ -1,8 +1,43 @@
 ﻿// global functions
+
+// simple bootstrap modal
 function Alert(title, msg) {
     $('#alertTitle').html(title);
     $('#alertMsg').html(msg);
     $('#alertModal').modal();
+}
+
+// simple bootstrap confirmation
+function Confirm(title, msg, callback) {
+    $('#confirmTitle').html(title);
+    $('#confirmMsg').html(msg);
+    $('#confirmCancel').click(function () {
+        callback(false);
+    });
+    $('#confirmOk').click(function () {
+        callback(true);
+    });
+    $('#confirmModal').modal();
+}
+
+// enables bootstrap popovers
+function initPopovers($parent) {
+    // find popovers inside $parent or inside document
+    var $popovers;
+    if (typeof $parent === "object") {
+        $popovers = $parent.find('[data-toggle="popover"]').not('[data-html]');
+    } else {
+        $popovers = $('[data-toggle="popover"]').not('[data-html]');
+    }
+    // enable bootstrap popovers on hover
+    $popovers.mouseover(function () {
+        $(this).popover('show');
+    });
+    $popovers.on('click mouseout', function () {
+        $(this).popover('hide');
+    });
+    // enable bootstrap popovers on click
+    $('[data-toggle="popover"][data-html="true"]').popover({ html: true });
 }
 
 // create a scope to avoid variable names conflict
@@ -78,16 +113,7 @@ function Alert(title, msg) {
 
     // on page load this function will run
     $(document).ready(function () {
-        // enable bootstrap popovers on hover
-        var $popovers = $('[data-toggle="popover"]').not('[data-html]');
-        $popovers.mouseover(function () {
-            $(this).popover('show');
-        });
-        $popovers.mouseout(function () {
-            $(this).popover('hide');
-        });
-        // enable bootstrap popovers on click
-        $('[data-toggle="popover"][data-html="true"]').popover({ html: true });
+        initPopovers();
     });
 
 })();

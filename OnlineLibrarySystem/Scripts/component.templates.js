@@ -21,18 +21,19 @@
         '<input class="form-control-plaintext Quantity" type="number" min="0" value="' + book.Quantity + '" />' +
         '</td>' +
         '<td>' +
-        '<div class="form-control-plaintext Options">' +
-        '<button class="btn btn-default btn-sm upload"><span class="oi oi-image"></span></button>' +
+        '<div class="form-control-plaintext Upload">' +
+        '<input class="hidden ThumbnailImage" type="file" accept="image/jpeg, image/png" />' +
+        '<button class="btn btn-default btn-sm upload" data-toggle="popover" data-content="Upload cover image"><span class="oi oi-image"></span></button>' +
         '</div>' +
         '</td>' +
         '<td>' +
-        '<div class="form-control-plaintext Options">' +
-        '<button class="btn btn-default btn-sm delete"><span class="oi oi-trash"></span></button>' +
+        '<div class="form-control-plaintext Delete">' +
+        '<button class="btn btn-default btn-sm delete" data-toggle="popover" data-content="Delete this book"><span class="oi oi-trash"></span></button>' +
         '</div>' +
         '</td>' +
         '<td>' +
-        '<div class="form-control-plaintext Options">' +
-        '<button data-toggle="popover" title="save this row" class="btn btn-outline-primary btn-sm save" disabled>Save</button>' +
+        '<div class="form-control-plaintext Save">' +
+        '<button class="btn btn-outline-primary btn-sm save" data-toggle="popover" data-content="Save updated info" disabled>Save</button>' +
         '</div>' +
         '</td>' +
         '</tr>';

@@ -121,3 +121,12 @@ OnlineLibrarySystem/e2e/*.map
 # System Files
 .DS_Store
 Thumbs.db
+
+
+##################################################################
+
+# images upload
+OnlineLibrarySystem/Media/*
+
+# keep the default picture
+!OnlineLibrarySystem/Media/default.png

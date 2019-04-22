@@ -1,0 +1,10 @@
+.result-thumbnail {
+    background-position: center;
+    background-size: cover;
+    height: 176px;
+    width: 176px;
+}
+
+.result-description {
+    min-height: 95px;
+}

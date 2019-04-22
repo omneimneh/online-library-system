@@ -1763,6 +1763,7 @@
     <Content Include="Scripts\const.js" />
     <Content Include="Scripts\help.js" />
     <Content Include="Scripts\date.js" />
+    <Content Include="Scripts\librarian.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\profile.js" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -3179,7 +3180,6 @@
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="systemjs-angular-loader.js" />
     <Content Include="systemjs.config.js" />
     <Content Include="Web.config" />

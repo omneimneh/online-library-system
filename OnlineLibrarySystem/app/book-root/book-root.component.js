@@ -21,6 +21,12 @@ var BookRootComponent = /** @class */ (function () {
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();
     };
+    BookRootComponent.prototype.getBackground = function () {
+        if (this.book.ThumbnailImage) {
+            return "url('" + this.book.ThumbnailImage + "')";
+        }
+        return "url('/Media/default.png')";
+    };
     BookRootComponent.prototype.formatDate = function (date) {
         return date;
     };

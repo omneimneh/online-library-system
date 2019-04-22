@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Web;
 using System.Web.Http;
 
 namespace OnlineLibrarySystem.Controllers
@@ -385,6 +387,92 @@ namespace OnlineLibrarySystem.Controllers
             return retVal;
         }
 
+        [HttpPost]
+        [Route("api/ApiBook/Delete")]
+        public bool Delete(Book book)
+        {
+            // making sure someone who has permission is doing this
+            string token = book.Token;
+            if (string.IsNullOrEmpty(token)) return false;
+            int personId = TokenManager.TokenDictionaryHolder[token];
+            if (personId < 0) return false;
+            Person person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Librarian) return false;
+
+            using (var con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                string imagePath;
+                var bidparam = new KeyValuePair<string, object>("bid", book.BookId);
+                using (var reader = DB.ExecuteQuery(con, "SELECT * FROM Book WHERE BookId = @bid", bidparam))
+                {
+                    if (reader.Read())
+                    {
+                        imagePath = reader["ThumbnailImage"]?.ToString();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                if (!string.IsNullOrEmpty(imagePath))
+                {
+                    // delete the thumbnail image
+                    var fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(imagePath));
+                    fileInfo.Delete();
+                }
+
+                // any foreign key references should be also deleted
+                DB.ExecuteNonQuery(con, "DELETE FROM Reservation WHERE BookId = @bid", bidparam);
+                DB.ExecuteNonQuery(con, "DELETE FROM Book WHERE BookId = @bid", bidparam);
+            }
+            return true;
+        }
+
+        [HttpPost]
+        [Route("api/ApiBook/UpdateImage")]
+        public bool UpdateImage([FromUri]string token, [FromUri] int bookId)
+        {
+            int personId = TokenManager.TokenDictionaryHolder[token];
+            if (personId < 0) return false;
+
+            var person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Librarian) return false;
+
+            HttpPostedFile file = HttpContext.Current.Request.Files[0];
+            string extension = Path.GetExtension(file.FileName);
+            if (extension.Equals(".png") || extension.Equals(".jpg") || extension.Equals(".jpeg"))
+            {
+                using (SqlConnection con = new SqlConnection(DB.ConnectionString))
+                {
+                    con.Open();
+                    using (var reader = DB.ExecuteQuery(con, "SELECT ThumbnailImage FROM Book WHERE BookId = @id",
+                    new KeyValuePair<string, object>("id", bookId)))
+                    {
+                        if (reader.Read() && !string.IsNullOrEmpty(reader["ThumbnailImage"]?.ToString()))
+                        {
+                            FileInfo fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(reader["ThumbnailImage"].ToString()));
+                            fileInfo.Delete();
+                        }
+                    }
+
+                    string newFileName = "/Media/" + TokenGenerator() + extension;
+                    string targetPath = HttpContext.Current.Server.MapPath(newFileName);
+                    file.SaveAs(targetPath);
+
+                    DB.ExecuteNonQuery(con, "UPDATE Book SET ThumbnailImage = @img WHERE BookId = @id",
+                        new KeyValuePair<string, object>("img", newFileName), new KeyValuePair<string, object>("id", bookId));
+                }
+
+                return true;
+            }
+            return false;
+        }
+
+        private string TokenGenerator()
+        {
+            return ApiAccountController.TokenGenerator();
+        }
     }
 
     [DataContract]

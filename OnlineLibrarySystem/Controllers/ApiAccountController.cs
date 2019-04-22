@@ -222,7 +222,7 @@ namespace OnlineLibrarySystem.Controllers
                     using (var reader = DB.ExecuteQuery(con, "SELECT ProfileImage FROM PersonInfo WHERE PersonId = @id",
                     new KeyValuePair<string, object>("id", personId)))
                     {
-                        if (reader.Read() && reader["ProfileImage"] != null)
+                        if (reader.Read() && !string.IsNullOrEmpty(reader["ProfileImage"]?.ToString()))
                         {
                             FileInfo fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(reader["ProfileImage"].ToString()));
                             fileInfo.Delete();

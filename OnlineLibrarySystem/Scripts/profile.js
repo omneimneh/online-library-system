@@ -20,12 +20,10 @@
                         }
                         window.location.href = '/Account/Profile';
                     } else {
-                        Alert(_errorMsg, 'Make sure your input is valid!');
+                        Alert(_errorSomethingWentWrong, 'Make sure your input is valid!');
                     }
                 },
-                error: function () {
-                    console.log(_errorMsg, _errorAdmin);
-                }
+                error: _requestError
             });
         });
     });
@@ -67,12 +65,9 @@ function profileUpload(input) {
             if (res) {
                 window.location.href = '/Account/Profile';
             } else {
-                Alert(_errorMsg, 'File upload failed');
+                Alert(_errorSomethingWentWrong, 'File upload failed');
             }
         },
-        error: function () {
-            Alert(_errorMsg, _errorAdmin);
-        }
+        error: _requestError
     });
-    console.log(input.files[0]);
 }

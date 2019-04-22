@@ -19,6 +19,12 @@ var BookResultComponent = /** @class */ (function () {
         $('#rentBook').val(JSON.stringify(this.book));
         $('#rentBook').click();
     };
+    BookResultComponent.prototype.getBackground = function () {
+        if (this.book.ThumbnailImage) {
+            return "url('" + this.book.ThumbnailImage + "')";
+        }
+        return "url('/Media/default.png')";
+    };
     BookResultComponent.prototype.ngOnInit = function () {
     };
     __decorate([
