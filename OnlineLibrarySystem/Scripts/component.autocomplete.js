@@ -3,6 +3,30 @@
     // so we called it "_autocomplete" to avoid conflict in case we needed to use both
     _autocomplete: function (contentData, options) {
         var $this = $(this);
+
+        // handle specific actions
+        if (typeof contentData === 'string') {
+            var $next = $this.next();
+            switch (contentData) {
+                case 'remove':
+                    if ($next.hasClass('autocomplete-container')) {
+                        $next.remove();
+                    }
+                    break;
+                case 'show':
+                    if ($next.hasClass('autocomplete-container')) {
+                        $next.fadeIn('fast');
+                    }
+                    break;
+                case 'hide':
+                    if ($next.hasClass('autocomplete-container')) {
+                        $next.fadeOut('fast');
+                    }
+                    break;
+            }
+            return;
+        }
+
         var dataSnap = Array(contentData.length);
         var i;
 
@@ -105,6 +129,7 @@
         $new.click(function () {
             options.addAction($search.val(), $this);
             $this.val($search.val());
+            $this.change();
             $html.fadeOut('fast');
             $search.val('');
             $search.keyup();

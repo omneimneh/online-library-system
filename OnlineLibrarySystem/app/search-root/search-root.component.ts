@@ -31,7 +31,6 @@ export class SearchRootComponent implements OnInit {
     }
 
     ngOnInit() {
-
     }
 
     goToPage(page: number) {

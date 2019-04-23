@@ -62,9 +62,10 @@ CREATE TABLE Book (
 	BookDescription long_field,
 	AuthorId int FOREIGN KEY REFERENCES Author,
 	PublisherId int FOREIGN KEY REFERENCES Publisher,
-	PublishingDate DATE,
+	PublishingDate Date,
 	Quantity int NOT NULL DEFAULT 1,
 	ThumbnailImage url_field DEFAULT NULL,
+	DateAdded DateTime DEFAULT GETDate()
 );
 
 -- Rental storage
@@ -72,9 +73,9 @@ CREATE TABLE Reservation (
 	ReservationId int PRIMARY KEY IDENTITY(0, 1),
 	PersonId int FOREIGN KEY REFERENCES Person(PersonId),
 	BookId int FOREIGN KEY REFERENCES Book(BookId),
-	OrderDate DATETIME DEFAULT GETDATE(),
-	PickupDate DATE NOT NULL,
-	ReturnDate DATE NOT NULL,
+	OrderDate DateTime DEFAULT GETDate(),
+	PickupDate Date NOT NULL,
+	ReturnDate Date NOT NULL,
 	Quantity int DEFAULT 1 CHECK (Quantity > 0),
 	IsDone bit DEFAULT 0
 

@@ -14,5 +14,11 @@ namespace OnlineLibrarySystem.Controllers
             ViewBag.Title = "Librarian Dashboard";
             return View(model);
         }
+
+        public ActionResult Checkout()
+        {
+            ViewBag.Title = "Librarian Checkout";
+            return View(model);
+        }
     }
 }

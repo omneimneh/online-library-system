@@ -18,6 +18,7 @@
     @Styles.Render("~/Content/css/bootstrap.min.css")
     @Styles.Render("~/Content/open-iconic/font/css/open-iconic-bootstrap.css")
     @Styles.Render("~/Content/css/component.autocomplete.css")
+    @Styles.Render("~/Content/css/component.loader.css")
     @Styles.Render("~/Content/css/site.css")
 
     @RenderSection("AddToHead", required: false)
@@ -36,7 +37,7 @@
     </noscript>
 
     <!-- DIALOGS FOR THE CURRENT PAGE -->
-    @RenderSection("AddToModals", false)
+    @RenderSection("AddToModals", required: false)
 
     <!-- DIALOGS THAT MAY APPEAR IN ANY PAGE -->
     <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -119,6 +120,7 @@
                             <dd>{{book.PublisherName}}</dd>
                         </dl>
 
+
                         <div class="form-group">
                             <label for="orderDate">Pickup this book on</label>
                             <input class="form-control" type="date" id="orderDate" ng-change="removeWarning()" ng-model="book.orderDate" />
@@ -136,38 +138,41 @@
     </div>
 
     <!-- COMMON HEADER FOR ALL PAGES -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top" ng-controller="navbarController">
-        <div class="container ng-cloak">
-            <a class="navbar-brand" href="/">
-                <img src="~/Content/img/favicon.ico" class="pr-2" height="30">
-                {{appTitle}}
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" ng-controller="navbarController">
+            <div class="container ng-cloak">
+                <a class="navbar-brand" href="/">
+                    <img src="~/Content/img/favicon.ico" class="pr-2" height="30">
+                    {{appTitle}}
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav w-100">
-                    <li ng-repeat="x in links" class="nav-item" id="link-{{x.name}}">
-                        <a class="nav-link" href="{{x.url}}">{{x.name}}</a>
-                    </li>
-                    <li class="nav-item dropdown px-lg-5 w-100">
-                        <form class="input-group" method="get" action="/Book/Search">
-                            <input name="key" type="text" class="form-control" aria-label="Search" placeholder="Search for any book">
-                            <input name="searchBy" type="hidden" value="book" />
-                            <div class="input-group-append">
-                                <input class="btn btn-outline-secondary" type="submit" value="Search" />
-                            </div>
-                        </form>
-                    </li>
-                    <li class="nav-item" ng-repeat="x in userActions">
-                        <a class="nav-link" href="{{x.url}}">{{x.name}}</a>
-                    </li>
-                </ul>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav w-100">
+                        <li ng-repeat="x in links" class="nav-item" id="link-{{x.name}}">
+                            <a class="nav-link" href="{{x.url}}">{{x.name}}</a>
+                        </li>
+                        <li class="nav-item dropdown px-lg-5 w-100">
+                            <form class="input-group" method="get" action="/Book/Search">
+                                <input name="key" type="text" class="form-control" aria-label="Search" placeholder="Search for any book">
+                                <input name="searchBy" type="hidden" value="book" />
+                                <div class="input-group-append">
+                                    <input class="btn btn-outline-secondary" type="submit" value="Search" />
+                                </div>
+                            </form>
+                        </li>
+                        <li class="nav-item" ng-repeat="x in userActions">
+                            <a class="nav-link" href="{{x.url}}">{{x.name}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+        <div class="progress-line" id="loader"></div>
+    </header>
 
     <!-- PAGE CONTENT -->
     @RenderBody()
@@ -198,6 +203,7 @@
     @Scripts.Render("~/Scripts/const.js")
     @Scripts.Render("~/Scripts/component.templates.js")
     @Scripts.Render("~/Scripts/component.autocomplete.js")
+    @Scripts.Render("~/Scripts/component.loader.js")
     @Scripts.Render("~/Scripts/global.js")
 
     <!-- HERE GOES THE PAGE ADDITIONAL SCRIPTS -->

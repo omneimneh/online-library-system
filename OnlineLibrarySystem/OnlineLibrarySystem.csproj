@@ -181,6 +181,7 @@
     <Content Include="app\search-root\search-root.component.css" />
     <Content Include="app\search-root\search-root.component.html" />
     <Content Include="Content\css\component.autocomplete.css" />
+    <Content Include="Content\css\component.loader.css" />
     <Content Include="Content\css\librarian.css" />
     <Content Include="Content\css\profile.css" />
     <Content Include="Content\open-iconic\.gitignore" />
@@ -1760,6 +1761,7 @@
     <Content Include="Content\open-iconic\svg\zoom-out.svg" />
     <Content Include="Media\default.png" />
     <Content Include="Scripts\component.autocomplete.js" />
+    <Content Include="Scripts\component.loader.js" />
     <Content Include="Scripts\component.templates.js" />
     <Content Include="Scripts\const.js" />
     <Content Include="Scripts\help.js" />
@@ -1777,6 +1779,7 @@
     <Content Include="Views\Help\Contact.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Librarian\Index.cshtml" />
+    <Content Include="Views\Librarian\Checkout.cshtml" />
     <TypeScriptCompile Include="app\book-result\book-result.component.spec.ts" />
     <TypeScriptCompile Include="app\book-result\book-result.component.ts" />
     <TypeScriptCompile Include="app\book-root\book-root.component.spec.ts" />

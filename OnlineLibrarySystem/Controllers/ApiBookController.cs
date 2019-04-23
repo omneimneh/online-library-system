@@ -348,7 +348,7 @@ namespace OnlineLibrarySystem.Controllers
             {
                 con.Open();
                 string searchQuery = string.Format("SELECT * FROM ( " +
-                    "SELECT ROW_NUMBER() OVER(ORDER BY BookId) AS[Row], Book.*, AuthorName, PublisherName FROM Book " +
+                    "SELECT ROW_NUMBER() OVER(ORDER BY DateAdded DESC) AS[Row], Book.*, AuthorName, PublisherName FROM Book " +
                     "LEFT OUTER JOIN Author ON Author.AuthorId = Book.AuthorId " +
                     "LEFT OUTER JOIN Publisher ON Publisher.PublisherId = Book.PublisherId " +
                     "WHERE(BookTitle LIKE CONCAT('%', @key, '%')) " +
@@ -499,6 +499,49 @@ namespace OnlineLibrarySystem.Controllers
             }
 
             return true;
+        }
+
+        [HttpPost]
+        [Route("api/ApiBook/AddPublisher")]
+        public int AddPublisher(Publisher publisher)
+        {
+            if (string.IsNullOrEmpty(publisher.Token)) return -1;
+            int personId = TokenManager.TokenDictionaryHolder[publisher.Token];
+            if (personId < 0) return -1;
+            Person person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Librarian) return -1;
+
+            if (string.IsNullOrEmpty(publisher.PublisherName)) return -1;
+
+            using (var con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                int pubId = DB.ExecuteInsertQuery(con, "INSERT INTO Publisher (PublisherName) VALUES (@pubname)",
+                    new KeyValuePair<string, object>("pubname", publisher.PublisherName));
+                return pubId;
+            }
+
+        }
+
+        [HttpPost]
+        [Route("api/ApiBook/AddAuthor")]
+        public int AddAuthor(Author author)
+        {
+            if (string.IsNullOrEmpty(author.Token)) return -1;
+            int personId = TokenManager.TokenDictionaryHolder[author.Token];
+            if (personId < 0) return -1;
+            Person person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Librarian) return -1;
+
+            if (string.IsNullOrEmpty(author.AuthorName)) return -1;
+
+            using (var con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                int auId = DB.ExecuteInsertQuery(con, "INSERT INTO Author (AuthorName) VALUES (@auname)",
+                    new KeyValuePair<string, object>("auname", author.AuthorName));
+                return auId;
+            }
         }
 
         private object StringOrDBNull(string val)

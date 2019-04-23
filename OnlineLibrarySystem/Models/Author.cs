@@ -3,7 +3,7 @@
 namespace OnlineLibrarySystem.Models
 {
     [DataContract]
-    public class Author
+    public class Author : CommonModel
     {
         [DataMember]
         public int AuthorId { get; set; }

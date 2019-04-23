@@ -1,5 +1,4 @@
 ﻿// global functions
-
 // simple bootstrap modal
 function Alert(title, msg) {
     $('#alertTitle').html(title);
@@ -55,6 +54,7 @@ function initPopovers($parent) {
         }
     });
 
+    // load rent modal ng-controller
     _global.controller("rentModalController", function ($scope) {
 
         $scope.book = {};
@@ -114,6 +114,7 @@ function initPopovers($parent) {
     // on page load this function will run
     $(document).ready(function () {
         initPopovers();
+        Loader('hide', 1500);
     });
 
 })();
