@@ -1780,6 +1780,7 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Librarian\Index.cshtml" />
     <Content Include="Views\Librarian\Checkout.cshtml" />
+    <Content Include="Views\Admin\Manage.cshtml" />
     <TypeScriptCompile Include="app\book-result\book-result.component.spec.ts" />
     <TypeScriptCompile Include="app\book-result\book-result.component.ts" />
     <TypeScriptCompile Include="app\book-root\book-root.component.spec.ts" />
@@ -3202,7 +3203,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -101,6 +101,7 @@ namespace OnlineLibrarySystem.Controllers
             string token = model.Token;
             Person person = controller.GetPerson(TokenManager.TokenDictionaryHolder[token]);
             person.Token = model.Token;
+            person.TokenPersonType = model.TokenPersonType;
             return View(person);
         }
     }

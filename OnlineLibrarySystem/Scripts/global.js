@@ -48,7 +48,18 @@ function initPopovers($parent) {
     // load navbar ng-controller
     _global.controller("navbarController", function ($scope) {
         $scope.appTitle = _appTitle;
-        $scope.links = [{ name: 'Home', url: '/' }, { name: 'Browse', url: '/Book/Search' }, { name: 'Help', url: '/Help' }];
+        var personType = $('#TokenPersonType').val();
+        switch (personType) {
+            case 'Student':
+            case 'Professor':
+                $scope.links = [{ name: 'Home', url: '/' }, { name: 'Browse', url: '/Book/Search' }, { name: 'Help', url: '/Help' }];
+                break;
+            case 'Librarian':
+                $scope.links = [{ name: 'Home', url: '/' }, { name: 'Librarian', url: '/Librarian' }, { name: 'Checkout', url: '/Librarian/Checkout' } ];
+                break;
+            case 'Admin':
+                $scope.links = [{ name: 'Manage', url: '/Admin/Manage' }, { name: 'Librarian', url: '/Librarian' }, { name: 'Checkout', url: '/Librarian/Checkout' }];
+        }
         if ($('#Token').val()) {
             $scope.userActions = [{ name: 'Profile', url: '/Account/Profile' }, { name: 'Logout', url: '/Account/Logout' }];
         } else {

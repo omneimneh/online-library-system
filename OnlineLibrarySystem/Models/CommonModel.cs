@@ -10,5 +10,6 @@ namespace OnlineLibrarySystem.Models
     public class CommonModel
     {
         public string Token { get; set; }
+        public PersonType TokenPersonType { get; set; }
     }
 }

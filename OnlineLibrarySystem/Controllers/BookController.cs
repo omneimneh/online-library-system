@@ -32,6 +32,7 @@ namespace OnlineLibrarySystem.Views
             Book bookModel = new ApiBookController().Get(bookId);
             if (bookModel.BookId == -1) throw new HttpException(404, "Book not found!");
             bookModel.Token = model.Token;
+            bookModel.TokenPersonType = model.TokenPersonType;
             ViewBag.Title = bookModel.BookTitle;
             return View(bookModel);
         }

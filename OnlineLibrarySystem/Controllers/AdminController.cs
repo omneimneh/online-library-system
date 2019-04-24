@@ -8,6 +8,10 @@ namespace OnlineLibrarySystem.Controllers
 {
     public class AdminController : BaseController
     {
-
+        public ActionResult Manage()
+        {
+            ViewBag.Title = "Manage";
+            return View(model);
+        }
     }
 }
