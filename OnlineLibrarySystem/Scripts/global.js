@@ -10,11 +10,13 @@ function Alert(title, msg) {
 function Confirm(title, msg, callback) {
     $('#confirmTitle').html(title);
     $('#confirmMsg').html(msg);
-    $('#confirmCancel').click(function () {
+    $('#confirmCancel').on('click.callback', function () {
         callback(false);
+        $('#confirmCancel').off('click.callback');
     });
-    $('#confirmOk').click(function () {
+    $('#confirmOk').on('click.callback', function () {
         callback(true);
+        $('#confirmOk').off('click.callback');
     });
     $('#confirmModal').modal();
 }

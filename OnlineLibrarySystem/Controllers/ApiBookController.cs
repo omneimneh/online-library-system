@@ -32,14 +32,14 @@ namespace OnlineLibrarySystem.Controllers
                     {
                         retVal.Add(new Book
                         {
-                            BookId = Convert.ToInt32(reader["BookId"]),
+                            BookId = ConvertToNullableInt32(reader["BookId"]),
                             BookTitle = reader["BookTitle"].ToString(),
                             BookDescription = reader["BookDescription"]?.ToString(),
                             AuthorName = reader["AuthorName"]?.ToString(),
                             PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
                             ThumbnailImage = reader["ThumbnailImage"]?.ToString(),
                             PublisherName = reader["PublisherName"]?.ToString(),
-                            Quantity = Convert.ToInt32(reader["Quantity"]),
+                            Quantity = ConvertToNullableInt32(reader["Quantity"]),
                             NextAvailable = ExtractDate(reader["NextAvailable"])
                         });
                     }
@@ -99,14 +99,14 @@ namespace OnlineLibrarySystem.Controllers
                     {
                         retVal.Results.Add(new Book
                         {
-                            BookId = Convert.ToInt32(reader["BookId"]),
+                            BookId = ConvertToNullableInt32(reader["BookId"]),
                             AuthorName = reader["AuthorName"]?.ToString(),
                             BookTitle = reader["BookTitle"].ToString(),
                             BookDescription = reader["BookDescription"]?.ToString(),
                             PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
                             ThumbnailImage = reader["ThumbnailImage"].ToString(),
                             PublisherName = reader["PublisherName"]?.ToString(),
-                            Quantity = Convert.ToInt32(reader["Quantity"])
+                            Quantity = ConvertToNullableInt32(reader["Quantity"])
                         });
                     }
                 }
@@ -136,14 +136,14 @@ namespace OnlineLibrarySystem.Controllers
                     {
                         retVal = new Book
                         {
-                            BookId = Convert.ToInt32(reader["BookId"]),
+                            BookId = ConvertToNullableInt32(reader["BookId"]),
                             AuthorName = reader["AuthorName"]?.ToString(),
                             BookDescription = reader["BookDescription"]?.ToString(),
                             BookTitle = reader["BookTitle"].ToString(),
                             PublishingDate = ExtractDate(reader["PublishingDate"]),
                             ThumbnailImage = reader["ThumbnailImage"].ToString(),
                             PublisherName = reader["PublisherName"]?.ToString(),
-                            Quantity = Convert.ToInt32(reader["Quantity"]),
+                            Quantity = ConvertToNullableInt32(reader["Quantity"]),
                             NextAvailable = ExtractDate(reader["NextAvailable"])
                         };
                     }
@@ -176,7 +176,7 @@ namespace OnlineLibrarySystem.Controllers
                 {
                     if (reader.Read())
                     {
-                        if (Convert.ToInt32(reader["Quantity"]) < 1) return false;
+                        if (ConvertToNullableInt32(reader["Quantity"]) < 1) return false;
                     }
                     else return false;
                 }
@@ -208,8 +208,8 @@ namespace OnlineLibrarySystem.Controllers
                         {
                             BookTitle = reader["BookTitle"].ToString(),
                             AuthorName = reader["AuthorName"]?.ToString(),
-                            Quantity = Convert.ToInt32(reader["Quantity"]),
-                            BookId = Convert.ToInt32(reader["BookId"]),
+                            Quantity = ConvertToNullableInt32(reader["Quantity"]),
+                            BookId = ConvertToNullableInt32(reader["BookId"]),
                             BookDescription = reader["BookDescription"]?.ToString(),
                             PublisherName = reader["PublisherName"]?.ToString(),
                             PublishingDate = ExtractDate(reader["PublishingDate"])
@@ -234,7 +234,7 @@ namespace OnlineLibrarySystem.Controllers
                     {
                         retVal.Add(new Author
                         {
-                            AuthorId = Convert.ToInt32(reader["AuthorId"]),
+                            AuthorId = ConvertToNullableInt32(reader["AuthorId"]),
                             AuthorName = reader["AuthorName"]?.ToString()
                         });
                     }
@@ -257,7 +257,7 @@ namespace OnlineLibrarySystem.Controllers
                     {
                         retVal.Add(new Publisher
                         {
-                            PublisherId = Convert.ToInt32(reader["PublisherId"]),
+                            PublisherId = ConvertToNullableInt32(reader["PublisherId"]),
                             PublisherName = reader["PublisherName"]?.ToString()
                         });
                     }
@@ -360,14 +360,16 @@ namespace OnlineLibrarySystem.Controllers
                     {
                         retVal.Results.Add(new Book
                         {
-                            BookId = Convert.ToInt32(reader["BookId"]),
+                            BookId = ConvertToNullableInt32(reader["BookId"]),
+                            AuthorId = ConvertToNullableInt32(reader["AuthorId"]),
                             AuthorName = reader["AuthorName"]?.ToString(),
                             BookTitle = reader["BookTitle"].ToString(),
                             BookDescription = reader["BookDescription"]?.ToString(),
                             PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
                             ThumbnailImage = reader["ThumbnailImage"].ToString(),
+                            PublisherId = ConvertToNullableInt32(reader["PublisherId"]),
                             PublisherName = reader["PublisherName"]?.ToString(),
-                            Quantity = Convert.ToInt32(reader["Quantity"])
+                            Quantity = ConvertToNullableInt32(reader["Quantity"])
                         });
                     }
                 }
@@ -542,6 +544,55 @@ namespace OnlineLibrarySystem.Controllers
                     new KeyValuePair<string, object>("auname", author.AuthorName));
                 return auId;
             }
+        }
+
+        [HttpPost]
+        [Route("api/ApiBook/DeleteAuthor")]
+        public bool DeleteAuthor(Author author)
+        {
+            if (string.IsNullOrEmpty(author.Token)) return false;
+            int personId = TokenManager.TokenDictionaryHolder[author.Token];
+            if (personId < 0) return false;
+            Person person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Librarian) return false;
+
+            using (var con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                DB.ExecuteNonQuery(con, "UPDATE Book SET AuthorId = NULL WHERE AuthorId = @aid",
+                    new KeyValuePair<string, object>("aid", author.AuthorId));
+                DB.ExecuteNonQuery(con, "DELETE FROM Author WHERE AuthorId = @aid",
+                    new KeyValuePair<string, object>("aid", author.AuthorId));
+            }
+            return true;
+        }
+
+        [HttpPost]
+        [Route("api/ApiBook/DeletePublisher")]
+        public bool DeletePublisher(Publisher publisher)
+        {
+            if (string.IsNullOrEmpty(publisher.Token)) return false;
+            int personId = TokenManager.TokenDictionaryHolder[publisher.Token];
+            if (personId < 0) return false;
+            Person person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Librarian) return false;
+
+            using (var con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                DB.ExecuteNonQuery(con, "UPDATE Book SET PublisherId = NULL WHERE PublisherId = @pid",
+                    new KeyValuePair<string, object>("pid", publisher.PublisherId));
+                DB.ExecuteNonQuery(con, "DELETE FROM Publisher WHERE PublisherId = @pid",
+                    new KeyValuePair<string, object>("pid", publisher.PublisherId));
+            }
+            return true;
+        }
+
+        private static int ConvertToNullableInt32(object obj)
+        {
+            if (obj == null) return -1;
+            if (obj == DBNull.Value) return -1;
+            return Convert.ToInt32(obj);
         }
 
         private object StringOrDBNull(string val)

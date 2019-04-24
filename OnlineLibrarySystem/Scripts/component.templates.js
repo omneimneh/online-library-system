@@ -11,7 +11,7 @@
         '<input class="form-control-plaintext AuthorName" readonly value="' + (book.AuthorName ? book.AuthorName : 'None') + '" />' +
         '</td>' +
         '<td>' +
-        '<input class="form-control-plaintext PublisherId" type="hidden" readonly value="' + book.PublsiherId + '" />' +
+        '<input class="form-control-plaintext PublisherId" type="hidden" readonly value="' + book.PublisherId + '" />' +
         '<input class="form-control-plaintext PublisherName" readonly value="' + (book.PublisherName ? book.PublisherName : 'None') + '" />' +
         '</td>' +
         '<td>' +

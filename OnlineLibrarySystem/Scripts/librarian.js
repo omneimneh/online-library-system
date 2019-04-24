@@ -2,6 +2,8 @@
 
     var authors;
     var publishers;
+    var autoAuthors;
+    var autoPublishers;
     var books;
     var totalCount;
     var page = 1;
@@ -14,8 +16,6 @@
         // show loader
         Loader('show');
 
-        var $table = $('#table');
-
         // load authors
         var a1 = $.ajax({
             url: 'api/ApiBook/GetAuthors',
@@ -27,7 +27,7 @@
                         data: res[i].AuthorName
                     });
                 }
-                setUpAutocompleteAuthorAdd();
+                initAutoAuthorsAdd();
             }
         });
         // load publishers
@@ -41,7 +41,7 @@
                         data: res[i].PublisherName
                     });
                 }
-                setUpAutocompletePublisherAdd();
+                initAutoPublishersAdd();
             }
         });
         // load books
@@ -61,73 +61,49 @@
         $.when(a1, a2, a3).then(fillData);
     }
 
-    function setUpAutocompleteAuthor(currentTr, currentBook) {
-        currentTr.find('.AuthorName')._autocomplete(authors, {
-            selectAction: function (currentContent, $input) {
-                var $tmp = currentTr.find('.AuthorId');
-                $tmp.val(currentContent.value);
-                $tmp.addClass('changed');
-            },
-            addAction: function (newVal) {
-                Loader('show');
+    function deleteAuthor(currentContent, $input) {
+        if (currentContent.value === -1) return;
+        Confirm(_confirmation, 'Are you sure you want to delete <b>' + currentContent.data + '</b>?', function (confirm) {
+            if (confirm) {
                 $.ajax({
-                    url: 'api/ApiBook/AddAuthor',
-                    type: 'post',
+                    url: 'api/ApiBook/DeleteAuthor',
                     data: {
                         Token: $('#Token').val(),
-                        AuthorName: newVal
+                        AuthorId: currentContent.value
                     },
+                    type: 'post',
                     success: function (res) {
-                        if (res !== -1) {
-                            currentTr.find('.AuthorId').val(res);
-                            currentTr.find('.AuthorId').change();
-                            var addedAuthor = { data: newVal, value: res };
-                            authors.push(addedAuthor);
-                            currentTr.find('.AuthorName')._autocomplete('remove');
-                            setUpAutocompleteAuthor(currentTr, currentBook);
+                        if (res) {
+                            loadData();
                         } else {
-                            Alert(_errorSomethingWentWrong, 'Failed to add author');
+                            Alert(_errorContactAdmin, 'Delete author failed!');
                         }
                     },
                     error: _requestError
-                }).done(function () {
-                    Loader('hide', 500);
                 });
             }
         });
     }
 
-    function setUpAutocompletePublisher(currentTr, currentBook) {
-        currentTr.find('.PublisherName')._autocomplete(publishers, {
-            selectAction: function (currentContent, $input) {
-                var $tmp = currentTr.find('.PublisherId');
-                $tmp.val(currentContent.value);
-                $tmp.addClass('changed');
-            },
-            addAction: function (newVal) {
-                Loader('show');
+    function deletePublisher(currentContent, $input) {
+        if (currentContent.value === -1) return;
+        Confirm(_confirmation, 'Are you sure you want to delete <b>' + currentContent.data + '</b>?', function (confirm) {
+            if (confirm) {
                 $.ajax({
-                    url: 'api/ApiBook/AddPublisher',
+                    url: 'api/ApiBook/DeletePublisher',
                     type: 'post',
                     data: {
                         Token: $('#Token').val(),
-                        PublisherName: newVal
+                        PublisherId: currentContent.value
                     },
                     success: function (res) {
-                        if (res !== -1) {
-                            currentTr.find('.PublisherId').val(res);
-                            currentTr.find('.PublisherId').change();
-                            var addedPublisher = { data: newVal, value: res };
-                            publishers.push(addedPublisher);
-                            currentTr.find('.PublisherName')._autocomplete('remove');
-                            setUpAutocompletePublisher(currentTr, currentBook);
+                        if (res) {
+                            loadData();
                         } else {
-                            Alert(_errorSomethingWentWrong, 'Failed to add publisher');
+                            Alert(_errorContactAdmin, 'Delete publisher failed!');
                         }
                     },
                     error: _requestError
-                }).done(function () {
-                    Loader('hide', 500);
                 });
             }
         });
@@ -163,8 +139,8 @@
             // pass a copy of $tr to this inner function and call instantly
             (function (currentTr, currentBook) {
                 // activate autocomplete custom component
-                setUpAutocompleteAuthor(currentTr, currentBook);
-                setUpAutocompletePublisher(currentTr, currentBook);
+                initAutoAuthors(currentTr, currentBook);
+                initAutoPublishers(currentTr, currentBook);
 
                 // handle any change in inputs
                 currentTr.find('.form-control-plaintext').on('change keyup', function () {
@@ -303,6 +279,7 @@
             $('#page')[0].value--;
             refreshTable();
         });
+        $('#reload').click(loadData);
     }
 
     function refreshTable() {
@@ -311,8 +288,86 @@
         loadData();
     }
 
-    function setUpAutocompleteAuthorAdd() {
-        $('#nAuthorName')._autocomplete(authors, {
+    // setup autocomplete popup in table
+    function initAutoAuthors(currentTr, currentBook) {
+        currentTr.find('.AuthorName')._attachAutocomplete(autoAuthors, {
+            selectAction: function (currentContent, $input) {
+                var $tmp = currentTr.find('.AuthorId');
+                $tmp.val(currentContent.value);
+                $tmp.addClass('changed');
+            },
+            addAction: function (newVal) {
+                Loader('show');
+                $.ajax({
+                    url: 'api/ApiBook/AddAuthor',
+                    type: 'post',
+                    data: {
+                        Token: $('#Token').val(),
+                        AuthorName: newVal
+                    },
+                    success: function (res) {
+                        if (res !== -1) {
+                            currentTr.find('.AuthorId').val(res);
+                            currentTr.find('.AuthorId').change();
+                            var addedAuthor = { data: newVal, value: res };
+                            authors.push(addedAuthor);
+                            currentTr.find('.AuthorName')._autocomplete('remove');
+                            initAutoAuthors(currentTr, currentBook);
+                        } else {
+                            Alert(_errorSomethingWentWrong, 'Failed to add author');
+                        }
+                    },
+                    error: _requestError
+                }).done(function () {
+                    Loader('hide', 500);
+                });
+            },
+            deleteAction: deleteAuthor
+        });
+    }
+
+    // setup autocomplete popup in table
+    function initAutoPublishers(currentTr, currentBook) {
+        currentTr.find('.PublisherName')._attachAutocomplete(autoPublishers, {
+            selectAction: function (currentContent, $input) {
+                var $tmp = currentTr.find('.PublisherId');
+                $tmp.val(currentContent.value);
+                $tmp.addClass('changed');
+            },
+            addAction: function (newVal) {
+                Loader('show');
+                $.ajax({
+                    url: 'api/ApiBook/AddPublisher',
+                    type: 'post',
+                    data: {
+                        Token: $('#Token').val(),
+                        PublisherName: newVal
+                    },
+                    success: function (res) {
+                        if (res !== -1) {
+                            currentTr.find('.PublisherId').val(res);
+                            currentTr.find('.PublisherId').change();
+                            var addedPublisher = { data: newVal, value: res };
+                            publishers.push(addedPublisher);
+                            currentTr.find('.PublisherName')._autocomplete('remove');
+                            initAutoPublishers(currentTr, currentBook);
+                        } else {
+                            Alert(_errorSomethingWentWrong, 'Failed to add publisher');
+                        }
+                    },
+                    error: _requestError
+                }).done(function () {
+                    Loader('hide', 500);
+                });
+            },
+            deleteAction: deletePublisher
+        });
+    }
+
+    // setup autocomplete popup in add book modal
+    function initAutoAuthorsAdd() {
+        autoAuthors = new _Autocomplete(authors);
+        $('#nAuthorName')._attachAutocomplete(autoAuthors, {
             selectAction: function (currentContent, $input) {
                 $('#nAuthorId').val(currentContent.value);
             },
@@ -331,7 +386,7 @@
                             var addedAuthor = { data: newVal, value: res };
                             authors.push(addedAuthor);
                             $('#nAuthorName')._autocomplete('remove');
-                            setUpAutocompleteAuthorAdd();
+                            initAutoAuthorsAdd();
                         } else {
                             Alert(_errorSomethingWentWrong, 'Failed to add author');
                         }
@@ -340,12 +395,15 @@
                 }).done(function () {
                     Loader('hide', 500);
                 });
-            }
+            },
+            deleteAction: deleteAuthor
         });
     }
 
-    function setUpAutocompletePublisherAdd() {
-        $('#nPublisherName')._autocomplete(publishers, {
+    // setup autocomplete popup in add book modal
+    function initAutoPublishersAdd() {
+        autoPublishers = new _Autocomplete(publishers);
+        $('#nPublisherName')._attachAutocomplete(autoPublishers, {
             selectAction: function (currentContent, $input) {
                 $('#nPublisherId').val(currentContent.value);
             },
@@ -364,7 +422,7 @@
                             var addedPublisher = { data: newVal, value: res };
                             publishers.push(addedPublisher);
                             $('#nPublisherName')._autocomplete('remove');
-                            setUpAutocompletePublisherAdd();
+                            initAutoPublishersAdd();
                         } else {
                             Alert(_errorSomethingWentWrong, 'Failed to add publisher');
                         }
@@ -373,7 +431,8 @@
                 }).done(function () {
                     Loader('hide', 500);
                 });
-            }
+            },
+            deleteAction: deletePublisher
         });
     }
 
