@@ -2,16 +2,25 @@
 
     <div class="btn-toolbar my-4">
         <div class="btn-group mr-2">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
-                <span class="oi oi-plus text-white"></span>
-                Create a new account
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">
+                <span class="oi oi-plus mr-2 oi-btn-outline-primary"></span>
+                <span>Create account</span>
             </button>
-        </div>
-        <div class="btn-group mr-2">
-            <button class="btn btn-secondary" onclick="toggleData()">
-                <span class="oi oi-list text-white"></span>
+            <button class="btn btn-outline-primary" onclick="toggleData()">
+                <span class="oi oi-list mr-2 oi-btn-outline-primary"></span>
                 <span id="btnTxt">Show all users</span>
             </button>
+        </div>
+
+        <div class="col"></div>
+        <div class="btn-group mr-2">
+            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="oi oi-cog text-white"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="mailto://help@onlinelibrarysystem.com">Having trouble? Give us a call</a>
+                <a class="dropdown-item" href="/Account/Profile#changePassword">Security settings</a>
+            </div>
         </div>
     </div>
 
@@ -65,7 +74,7 @@
         <table class="table text-center m-0">
             <thead class="thead-light">
                 <tr>
-                    <th>Librarians & Admins</th>
+                    <th>Users</th>
                     <th>Account Type</th>
                     <th>Options</th>
                 </tr>
@@ -136,7 +145,8 @@
         }
 
         function loadData() {
-            $("#tableId").html('<tr><td colspan="3" class="text-center"><p class="my-3">Please wait...</p></td></tr>');
+            Loader('show');
+            $("#tableId").html('<tr><td colspan="3" class="text-center"><p class="my-2">Please wait...</p></td></tr>');
             $.ajax({
                 url: "api/AccountApi/GetLibrarians?token=" + $('#Token').val(),
                 success: function (result) {
@@ -146,12 +156,18 @@
                             '<td>' + _getPersonType(result[i].PersonType) + '</td>' +
                             '<td><button class="btn-sm btn btn-outline-primary" onclick="ConfirmDeletePerson(' + result[i].PersonId + ')" ' + ((result[i].PersonType | 0) === 3 ? 'disabled' : '') + '>Delete</button></td></tr>');
                     }
+                    if (result.length == 0) {
+                        $("#tableId").html('<tr><td colspan="3" class="text-center"><p class="my-2">No records were found</p></td></tr>');
+                    }
                 }
+            }).done(function () {
+                Loader('hide', 500);
             });
         }
 
         function loadDataAll() {
-            $("#tableId").html('<tr><td colspan="3" class="text-center"><p class="my-3">Please wait...</p></td></tr>');
+            Loader('show');
+            $("#tableId").html('<tr><td colspan="3" class="text-center"><p class="my-2">Please wait...</p></td></tr>');
             $.ajax({
                 url: "api/AccountApi/GetPersons?token=" + $('#Token').val(),
                 success: function (result) {
@@ -161,7 +177,12 @@
                             '<td>' + _getPersonType(result[i].PersonType) + '</td>' +
                             '<td><button class="btn-sm btn btn-outline-primary" onclick="ConfirmDeletePerson(' + result[i].PersonId + ')" ' + ((result[i].PersonType | 0) === 3 ? 'disabled' : '') + '>Delete</button></td ></tr>');
                     }
+                    if (result.length == 0) {
+                        $("#tableId").html('<tr><td colspan="3" class="text-center"><p class="my-2">No records were found</p></td></tr>');
+                    }
                 }
+            }).done(function () {
+                Loader('hide', 500);
             });
         }
 

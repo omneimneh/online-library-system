@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\ApiReservationController.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonType.cs" />
     <Compile Include="Models\Publisher.cs" />
+    <Compile Include="Models\Reseravtion.cs" />
     <Compile Include="Models\SearchFilter.cs" />
     <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

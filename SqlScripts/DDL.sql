@@ -77,6 +77,7 @@ CREATE TABLE Reservation (
 	PickupDate Date NOT NULL,
 	ReturnDate Date NOT NULL,
 	Quantity int DEFAULT 1 CHECK (Quantity > 0),
+	IsPickedUp bit DEFAULT 0,
 	IsDone bit DEFAULT 0
 
 	-- EXPLANATION:

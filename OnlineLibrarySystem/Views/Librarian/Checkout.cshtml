@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="border rounded shadow-sm p-0 m-3">
+    <div class="border rounded shadow-sm p-0 mt-5">
         <table class="table table-hover m-0 text-center">
             <thead class="thead-light">
                 <tr>
@@ -23,17 +23,6 @@
                 </tr>
             </thead>
             <tbody id="reservations"></tbody>
-            <tfoot class="thead-light">
-                <tr>
-                    <th colspan="9">
-                        <small class="font-weight-light d-inline-block d-flex justify-content-center flex-row px-3">
-                            <button id="prev" class="btn-sm btn-borderless rounded-circle oi oi-caret-left"></button>
-                            <span><input type="number" id="page" class="control-xs" min="1" value="1" /> out of <span id="outOf">100</span></span>
-                            <button id="next" class="btn-sm btn-borderless rounded-circle oi oi-caret-right"></button>
-                        </small>
-                    </th>
-                </tr>
-            </tfoot>
         </table>
     </div>
 </div>
@@ -41,26 +30,25 @@
 @section scripts {
     <script type="text/javascript">
         var $reservations;
-
-        function getBtnClass(status) {
-            var btnClass;
-            switch (status) {
-                case 'late':
-                    btnClass = 'btn-outline-danger';
-                    break;
-                case 'rented':
-                    btnClass = 'btn-outline-info';
-                    break;
-                case 'ready':
-                    btnClass = 'btn-outline-primary';
-                    break;
-                default:
-            }
-            return btnClass;
-        }
+        var $search;
 
         function checkout(resId) {
-            alert('server should handle stuff now');
+            $.ajax({
+                url: 'api/ApiReservation/Checkout',
+                type: 'post',
+                data: {
+                    ReservationId: resId,
+                    Token: $('#Token').val()
+                },
+                success: function (res) {
+                    if (res) {
+                        loadData('');
+                    } else {
+                        Alert(_errorSomethingWentWrong, 'Checkout failed!');
+                    }
+                },
+                error: _requestError
+            });
         }
 
         function confirmCheckout(resId) {
@@ -71,41 +59,67 @@
             });
         }
 
-        function loadData() {
-            //$.ajax({
-            //    ...
-            //});
-            var result = [
-                { Status: 'late' },
-                { Status: 'late' },
-                { Status: 'late' },
-                { Status: 'late' },
-                { Status: 'late' },
-                { Status: 'late' },
-                { Status: 'late' },
-                { Status: 'late' },
-                { Status: 'late' }];
-            if (result.length === 0) {
-                $reservations.append('<tr><td colspan="6">No records were found!</td></tr>');
+        function getBtn(book) {
+            var btn;
+            switch (book.Status) {
+                case 'late':
+                    btn = '<span class="oi oi-warning text-warning mr-3 pointer" data-placement="top" data-toggle="popover" data-content="Exceeded Deadline!"></span>' +
+                        '<button class="btn btn-sm btn-outline-danger" onclick="confirmCheckout(' + book.ReservationId + ')">Confirm book returned ' +
+                        '</button>';
+                    break;
+                case 'rented':
+                    btn = '<button class="btn btn-sm btn-outline-info" onclick="confirmCheckout(' + book.ReservationId + ')">Confirm book returned</button>';
+                    break;
+                case 'ready':
+                    btn = '<button class="btn btn-sm btn-outline-primary" onclick="confirmCheckout(' + book.ReservationId + ')">Confirm pickup</button>';
+                    break;
+                default:
             }
-            for (var i = 0; i < result.length; i++) {
-                $reservations.append(
-                    '<tr>' +
-                    '<td>' + result[i].Username + '</td>' +
-                    '<td>' + result[i].BookTitle + '</td>' +
-                    '<td>' + result[i].PickupDate + '</td>' +
-                    '<td>' + result[i].ReturnDate + '</td>' +
-                    '<td>' +
-                    '<button class="btn btn-sm ' + getBtnClass(result[i].Status) + '" onclick="confirmCheckout(' + result[i].ReservationId + ')">Confirm</button>' +
-                    '</td>' +
-                    '</tr>'
-                );
-            }
+            return btn;
+        }
+
+        function loadData(key) {
+            Loader('show');
+            $reservations.html('<tr><td colspan="5" class="text-center"><p class="my-2">Please wait...</p></td></tr>');
+            $.ajax({
+                url: 'api/ApiReservation/ReservationSearch?token=' + $('#Token').val() + '&key=' + key,
+                success: function (result) {
+                    if (result) {
+                        $reservations.html('');
+                        for (var i = 0; i < result.length; i++) {
+                            $reservations.append(
+                                '<tr>' +
+                                '<td>' + result[i].Username + '</td>' +
+                                '<td>' + result[i].BookTitle + '</td>' +
+                                '<td>' + result[i].PickupDate + '</td>' +
+                                '<td>' + result[i].ReturnDate + '</td>' +
+                                '<td>' +
+                                getBtn(result[i]) +
+                                '</td>' +
+                                '</tr>'
+                            );
+                        }
+                        if (result.length === 0) {
+                            $reservations.html('<tr><td colspan="6">No records were found!</td></tr>');
+                        }
+                        initPopovers($reservations);
+                    } else {
+                        Alert(_errorSomethingWentWrong, 'Could not retrieve records!');
+                    }
+                },
+                error: _requestError
+            }).done(function () {
+                Loader('hide', 500);
+            });
         }
 
         $(document).ready(function () {
             $reservations = $('#reservations');
-            loadData();
+            $search = $('#search');
+            $search.on('keyup', function () {
+                loadData($search.val());
+            });
+            loadData('');
         });
     </script>
 }

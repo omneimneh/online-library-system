@@ -151,6 +151,22 @@ body {
     color: gray;
 }
 
+.oi-btn-outline-primary {
+    color: #007bff;
+}
+
+.btn:hover .oi-btn-outline-primary {
+    color: white;
+}
+
+.oi-btn-outline-danger {
+    color: #dc3545;
+}
+
+.btn:hover .oi-btn-outline-danger {
+    color: white;
+}
+
 .pointer {
     cursor: pointer;
 }
