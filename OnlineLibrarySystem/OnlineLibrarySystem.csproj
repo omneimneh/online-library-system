@@ -158,7 +158,6 @@
     </Compile>
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\CommonModel.cs" />
-    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\ReservationType.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonType.cs" />

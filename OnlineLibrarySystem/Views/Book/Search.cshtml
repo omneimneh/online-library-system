@@ -7,9 +7,7 @@
         function keyChanged() {
             $('#page').val(1);
         }
-
-
-/**/</script>
+    </script>
 }
 
 <div class="container mt-4">
@@ -47,8 +45,8 @@
                     <div class="input-group-append input-group-prepend">
                         <div class="input-group-text px-1">
                             <button data-toggle="popover" data-placement="top" data-content="Sort ASC or DESC"
-                               class="btn btn-default btn-sm oi @(Model.SortType.Equals("ASC") ? "oi-sort-ascending" : "oi-sort-descending") oi-sort-ascending"
-                               onclick="$(this).next().val($(this).next().val() === 'ASC' ? 'DESC' : 'ASC')"></button>
+                                    class="btn btn-default btn-sm oi @(Model.SortType.Equals("ASC") ? "oi-sort-ascending" : "oi-sort-descending") oi-sort-ascending"
+                                    onclick="$(this).next().val($(this).next().val() === 'ASC' ? 'DESC' : 'ASC')"></button>
                             <input type="hidden" name="sortType" value="@Model.SortType" />
                         </div>
                     </div>
