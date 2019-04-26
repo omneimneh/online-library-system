@@ -8,7 +8,8 @@
             $('#page').val(1);
         }
 
-    </script>
+
+/**/</script>
 }
 
 <div class="container mt-4">
@@ -16,7 +17,7 @@
         <input type="hidden" value="@Model.Page" name="page" id="page" />
         <input type="hidden" value="@Model.PageSize" name="pageSize" id="pageSize" />
         <div class="row align-items-end">
-            <div class="form-group col-md-12 col-lg-6">
+            <div class="form-group col-md-12 col-lg-5">
                 <label for="key" class="text-muted">What are you searching for?</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -35,13 +36,29 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-6 col-lg-3">
+            <div class="form-group col-md-6 col-lg-4">
                 <label for="searchBy" class="text-muted">Search by</label>
-                <select class="form-control" id="searchBy" name="searchBy">
-                    <option value="book" @(Model.SearchBy.Equals("book") ? "selected" : "")>Book title</option>
-                    <option value="author" @(Model.SearchBy.Equals("author") ? "selected" : "")>Author name</option>
-                    <option value="publisher" @(Model.SearchBy.Equals("publisher") ? "selected" : "")>Publisher name</option>
-                </select>
+                <div class="input-group">
+                    <select class="form-control" id="searchBy" name="searchBy">
+                        <option value="book" @(Model.SearchBy.Equals("book") ? "selected" : "")>Book title</option>
+                        <option value="author" @(Model.SearchBy.Equals("author") ? "selected" : "")>Author name</option>
+                        <option value="publisher" @(Model.SearchBy.Equals("publisher") ? "selected" : "")>Publisher name</option>
+                    </select>
+                    <div class="input-group-append input-group-prepend">
+                        <div class="input-group-text px-1">
+                            <button data-toggle="popover" data-placement="top" data-content="Sort ASC or DESC"
+                               class="btn btn-default btn-sm oi @(Model.SortType.Equals("ASC") ? "oi-sort-ascending" : "oi-sort-descending") oi-sort-ascending"
+                               onclick="$(this).next().val($(this).next().val() === 'ASC' ? 'DESC' : 'ASC')"></button>
+                            <input type="hidden" name="sortType" value="@Model.SortType" />
+                        </div>
+                    </div>
+                    <select class="form-control" id="sortBy" name="sortBy">
+                        <option value="default" @(Model.SortBy.Equals("default") ? "selected" : "")>Most Popular</option>
+                        <option value="book" @(Model.SortBy.Equals("book") ? "selected" : "")>Book title</option>
+                        <option value="author" @(Model.SortBy.Equals("author") ? "selected" : "")>Author name</option>
+                        <option value="publisher" @(Model.SortBy.Equals("publisher") ? "selected" : "")>Publisher name</option>
+                    </select>
+                </div>
             </div>
             <div class="form-group col-md-6 col-lg-3">
                 <label for="minPub" class="text-muted">Published between</label>

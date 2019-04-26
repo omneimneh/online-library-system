@@ -63,7 +63,7 @@ namespace OnlineLibrarySystem.Controllers
         [HttpGet]
         [Route("api/ApiBook/Search")]
         public SearchResult Search(string searchBy, int minPub, int maxPub, int page, int pageSize,
-            string key = null, string match = "off")
+             string sortBy, string sortType, string key = null, string match = "off")
         {
             SearchResult retVal = new SearchResult { Results = new List<Book>() };
 
@@ -86,12 +86,12 @@ namespace OnlineLibrarySystem.Controllers
             using (SqlConnection con = new SqlConnection(DB.ConnectionString))
             {
                 con.Open();
-                string searchQuery = string.Format("SELECT * FROM ( SELECT ROW_NUMBER() OVER(ORDER BY[Count]) AS[Row], " +
+                string searchQuery = string.Format("SELECT * FROM ( SELECT ROW_NUMBER() OVER(ORDER BY {4} {5}) AS[Row], " +
                 "BookInfo.* FROM BookInfo LEFT OUTER JOIN(Select COUNT(BookId) AS[Count], BookId FROM Reservation GROUP " +
                 "BY BookId) AS Res ON BookInfo.BookId = Res.BookId WHERE (BookTitle LIKE CONCAT('{3}',@key,'{3}') OR {0}) " +
                 "AND(AuthorName LIKE CONCAT('{3}',@key,'{3}') OR {1}) AND (PublisherName LIKE CONCAT('{3}',@key,'{3}') OR " +
                 "{2}) AND (PublishingDate IS NULL OR YEAR(PublishingDate) BETWEEN @min AND @max)) AS Result WHERE[Row] BETWEEN @start AND @end",
-                byBook, byAuthor, byPublisher, match.Equals("on") ? "" : "%");
+                byBook, byAuthor, byPublisher, match.Equals("on") ? "" : "%", ExtractSortBy(sortBy), ExtractSortType(sortType));
 
                 using (SqlDataReader reader = DB.ExecuteQuery(con, searchQuery, @params[0], @params[1], @params[2], @params[3], @params[4]))
                 {
@@ -120,6 +120,26 @@ namespace OnlineLibrarySystem.Controllers
                 retVal.TotalCount = DB.ExecuteScalar(con, countQuery, @params[0], @params[1], @params[2]);
             }
             return retVal;
+        }
+
+        private string ExtractSortType(string sortType)
+        {
+            return sortType.ToLower().Equals("asc") ? "ASC" : "DESC";
+        }
+
+        private string ExtractSortBy(string sortBy)
+        {
+            switch (sortBy)
+            {
+                case "book":
+                    return "BookTitle";
+                case "author":
+                    return "AuthorName";
+                case "publisher":
+                    return "PublisherName";
+                default:
+                    return "[Count]";
+            }
         }
 
         [HttpGet]

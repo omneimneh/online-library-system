@@ -3,7 +3,7 @@
 namespace OnlineLibrarySystem.Models
 {
     [DataContract]
-    public enum OrderType
+    public enum ReservationType
     {
         Done = 0,
         Ready = 1,

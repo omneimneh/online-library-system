@@ -40,9 +40,9 @@ namespace OnlineLibrarySystem.Controllers
 
         public static string OneWayEncrpyt(string toEncrypt)
         {
-            byte[] data = Encoding.ASCII.GetBytes("password");
-            data = new MD5CryptoServiceProvider().ComputeHash(data);
-            return Encoding.ASCII.GetString(data);
+            byte[] data = Encoding.UTF8.GetBytes(toEncrypt + "password");
+            data = new SHA256CryptoServiceProvider().ComputeHash(data);
+            return BitConverter.ToString(data);
         }
 
         public static string TokenGenerator()
@@ -153,30 +153,29 @@ namespace OnlineLibrarySystem.Controllers
 
         [HttpGet]
         [Route("api/AccountApi/GetPersonOrders")]
-        public List<Order> GetPersonOrders(string token, int count)
+        public List<Reseravtion> GetPersonOrders(string token, int count)
         {
             int personId = TokenManager.TokenDictionaryHolder[token];
             if (personId < 0) return null;
 
-            List<Order> retVal = new List<Order>();
+            List<Reseravtion> retVal = new List<Reseravtion>();
             using (SqlConnection con = new SqlConnection(DB.ConnectionString))
             {
                 con.Open();
                 using (SqlDataReader reader = DB.ExecuteQuery(con, "SELECT TOP(@count) *, " +
-                "(CASE WHEN IsDone = 1 THEN 0 WHEN GETDATE() < PickupDate  THEN 1 " +
-                "WHEN GETDATE() < ReturnDate THEN 2 ELSE 3 END) AS OrderType FROM Reservation " +
-                "JOIN Book ON Book.BookId = Reservation.BookId WHERE PersonId = @id ORDER BY OrderDate DESC",
+                "(CASE WHEN IsDone = 1 THEN 0 WHEN IsPickedUp = 1 AND GETDATE() > ReturnDate THEN 3 WHEN IsPickedUp = 1 THEN 2 ELSE 1 END) AS Status " +
+                "FROM Reservation JOIN Book ON Book.BookId = Reservation.BookId WHERE PersonId = @id ORDER BY OrderDate DESC",
                 new KeyValuePair<string, object>("id", personId),
                 new KeyValuePair<string, object>("count", count)))
                 {
 
                     while (reader.Read())
                     {
-                        retVal.Add(new Order
+                        retVal.Add(new Reseravtion
                         {
                             BookTitle = reader["BookTitle"].ToString(),
                             IsDone = Convert.ToBoolean(reader["IsDone"]),
-                            OrderType = (OrderType)Convert.ToInt32(reader["OrderType"]),
+                            Status = (ReservationType)Convert.ToInt32(reader["Status"]),
                             OrderDate = Convert.ToDateTime(reader["OrderDate"]).ToString("MM/dd/yyyy"),
                             PickupDate = Convert.ToDateTime(reader["PickupDate"]).ToString("MM/dd/yyyy"),
                             ReturnDate = Convert.ToDateTime(reader["ReturnDate"]).ToString("MM/dd/yyyy")
@@ -392,8 +391,6 @@ namespace OnlineLibrarySystem.Controllers
             if (string.IsNullOrEmpty(Token)) return false;
             int personId = TokenManager.TokenDictionaryHolder[Token];
             if (personId < 0) return false;
-            var person = new ApiAccountController().GetPerson(personId);
-            if (person.PersonType < PersonType.Admin) return false;
 
             if (newPassword == null || newPassword.Length < 6 || !newPassword.Equals(newPasswordVerify)) return false;
 

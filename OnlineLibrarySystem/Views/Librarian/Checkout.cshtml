@@ -9,7 +9,11 @@
                                 <span class="oi oi-magnifying-glass"></span>
                             </button>
                             <div class="col px-3">
-                                <input id="search" class="form-control-plaintext remove-outline form-control-sm" type="text" placeholder="Search for a specific book" />
+                                <input id="search" class="form-control-plaintext remove-outline form-control-sm" type="text" placeholder="Search by username or book title" />
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="today" onchange="loadData($search.val())" />
+                                <label for="today" class="custom-control-label font-weight-normal">Show only today's transactions</label>
                             </div>
                         </div>
                     </th>
@@ -62,15 +66,15 @@
         function getBtn(book) {
             var btn;
             switch (book.Status) {
-                case 'late':
+                case 3:
                     btn = '<span class="oi oi-warning text-warning mr-3 pointer" data-placement="top" data-toggle="popover" data-content="Exceeded Deadline!"></span>' +
                         '<button class="btn btn-sm btn-outline-danger" onclick="confirmCheckout(' + book.ReservationId + ')">Confirm book returned ' +
                         '</button>';
                     break;
-                case 'rented':
+                case 2:
                     btn = '<button class="btn btn-sm btn-outline-info" onclick="confirmCheckout(' + book.ReservationId + ')">Confirm book returned</button>';
                     break;
-                case 'ready':
+                case 1:
                     btn = '<button class="btn btn-sm btn-outline-primary" onclick="confirmCheckout(' + book.ReservationId + ')">Confirm pickup</button>';
                     break;
                 default:
@@ -82,7 +86,7 @@
             Loader('show');
             $reservations.html('<tr><td colspan="5" class="text-center"><p class="my-2">Please wait...</p></td></tr>');
             $.ajax({
-                url: 'api/ApiReservation/ReservationSearch?token=' + $('#Token').val() + '&key=' + key,
+                url: 'api/ApiReservation/ReservationSearch?token=' + $('#Token').val() + '&key=' + key + '&today=' + $('#today').prop('checked'),
                 success: function (result) {
                     if (result) {
                         $reservations.html('');

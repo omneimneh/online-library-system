@@ -11,19 +11,23 @@ namespace OnlineLibrarySystem.Views
 {
     public class BookController : BaseController
     {
-        public ActionResult Search(string key = null, string searchBy = "book", int minPub = 0, int maxPub = 2020, string match = "off", int page = 1, int pageSize = 8)
+        public ActionResult Search(string key = null, string searchBy = "book", int minPub = 0, int maxPub = 2020,
+            string match = "off", int page = 1, int pageSize = 8, string sortBy = "default", string sortType = "ASC")
         {
             ViewBag.Title = "Search";
             return View(new SearchFilter
             {
+                Token = model.Token,
+                TokenPersonType = model.TokenPersonType,
                 Key = key,
                 SearchBy = searchBy,
                 Match = match.Equals("on"),
                 MaxPub = maxPub,
                 MinPub = minPub,
-                Token = model.Token,
                 Page = page,
-                PageSize = pageSize
+                PageSize = pageSize,
+                SortBy = sortBy,
+                SortType = sortType
             });
         }
 

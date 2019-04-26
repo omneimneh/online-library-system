@@ -318,7 +318,7 @@ INSERT INTO Book([BookTitle],[BookDescription],[AuthorId],[PublisherId],[Quantit
 INSERT INTO Book([BookTitle],[BookDescription],[AuthorId],[PublisherId],[Quantity],[PublishingDate]) VALUES('Nunc ac sem ut dolor','litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget,',81,94,34,'10/14/1861');
 
 -- Adding an Admin: Username = 'admin', UserPassword = '123123'
-INSERT INTO Person(Username, UserPassword) VALUES ('admin', '_M?;Z?e??''?????')
+INSERT INTO Person(Username, UserPassword) VALUES ('admin', 'BE-5D-D9-A6-34-85-CF-02-4E-8E-A2-67-DB-CC-FC-9B-7D-68-0B-60-D7-05-E3-CE-DD-B9-57-D7-CE-D2-EC-8A')
 DECLARE @@ADMIN int = SCOPE_IDENTITY()
 INSERT INTO Librarian(PersonId) VALUES (@@ADMIN)
 INSERT INTO Maintainer(PersonId) VALUES (@@ADMIN)

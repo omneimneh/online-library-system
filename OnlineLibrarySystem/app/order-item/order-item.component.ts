@@ -13,7 +13,7 @@ export class OrderItemComponent implements OnInit {
     }
 
     badgeClass() {
-        switch (this.order.OrderType) {
+        switch (this.order.Status) {
             case 0:
                 return 'badge-success';
             case 1:
@@ -26,7 +26,7 @@ export class OrderItemComponent implements OnInit {
     }
 
     badgeTxt() {
-        switch (this.order.OrderType) {
+        switch (this.order.Status) {
             case 0:
                 return 'done';
             case 1:

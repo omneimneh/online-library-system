@@ -14,7 +14,7 @@ var OrderItemComponent = /** @class */ (function () {
     function OrderItemComponent() {
     }
     OrderItemComponent.prototype.badgeClass = function () {
-        switch (this.order.OrderType) {
+        switch (this.order.Status) {
             case 0:
                 return 'badge-success';
             case 1:
@@ -26,7 +26,7 @@ var OrderItemComponent = /** @class */ (function () {
         }
     };
     OrderItemComponent.prototype.badgeTxt = function () {
-        switch (this.order.OrderType) {
+        switch (this.order.Status) {
             case 0:
                 return 'done';
             case 1:

@@ -20,6 +20,6 @@ namespace OnlineLibrarySystem.Models
         [DataMember]
         public bool IsDone { get; set; }
         [DataMember]
-        public OrderType OrderType { get; set; }
+        public ReservationType OrderType { get; set; }
     }
 }

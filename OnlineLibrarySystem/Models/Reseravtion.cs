@@ -26,10 +26,12 @@ namespace OnlineLibrarySystem.Models
         [DataMember]
         public bool IsDone { get; set; }
         [DataMember]
-        public string Status { get; set; }
-        [DataMember]
         public string Username { get; set; }
         [DataMember]
         public string BookTitle { get; set; }
+        [DataMember]
+        public string OrderDate { get; set; }
+        [DataMember]
+        public ReservationType Status { get; set; }
     }
 }
