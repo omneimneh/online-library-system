@@ -1783,6 +1783,7 @@
     <Content Include="Views\Librarian\Index.cshtml" />
     <Content Include="Views\Librarian\Checkout.cshtml" />
     <Content Include="Views\Admin\Manage.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
     <TypeScriptCompile Include="app\book-result\book-result.component.spec.ts" />
     <TypeScriptCompile Include="app\book-result\book-result.component.ts" />
     <TypeScriptCompile Include="app\book-root\book-root.component.spec.ts" />

@@ -104,5 +104,11 @@ namespace OnlineLibrarySystem.Controllers
             person.TokenPersonType = model.TokenPersonType;
             return View(person);
         }
+
+        public ActionResult ChangePassword()
+        {
+            ViewBag.Title = "Change Password";
+            return View(model);
+        }
     }
 }

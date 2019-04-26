@@ -10,7 +10,7 @@ namespace OnlineLibrarySystem.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Home";
             return View(model);
         }
     }

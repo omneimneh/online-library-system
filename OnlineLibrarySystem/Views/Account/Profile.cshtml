@@ -7,7 +7,8 @@
 @section scripts {
     <script type="text/javascript">
         System.import('../app/orders.main.js').catch(function (err) { console.error(err); });
-    </script>
+
+/**/</script>
 
     @Scripts.Render("~/Scripts/profile.js")
 }
@@ -46,8 +47,11 @@
                             </div>
                             <div class="row">
                                 <b class="col-lg-3 col-md-4 col-sm-6 py-1">Password</b>
-                                <div class="col-lg-9 col-md-8 col-sm-6">
+                                <div class="col">
                                     <input class="form-control-plaintext my-1" type="password" readonly value="********" />
+                                </div>
+                                <div class="col-auto">
+                                    <a href="/Account/ChangePassword" id="changePassword">Change</a>
                                 </div>
                             </div>
                             <div class="row">

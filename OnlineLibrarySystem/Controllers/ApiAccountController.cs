@@ -380,5 +380,46 @@ namespace OnlineLibrarySystem.Controllers
             return true;
         }
 
+        [HttpPost]
+        [Route("api/AccountApi/ChangePassword")]
+        public bool ChangePassword(ChangePasswordData passwordData)
+        {
+            string Token = passwordData.Token,
+                oldPassword = passwordData.OldPassword,
+                newPassword = passwordData.NewPassword,
+                newPasswordVerify = passwordData.NewPasswordVerify;
+
+            if (string.IsNullOrEmpty(Token)) return false;
+            int personId = TokenManager.TokenDictionaryHolder[Token];
+            if (personId < 0) return false;
+            var person = new ApiAccountController().GetPerson(personId);
+            if (person.PersonType < PersonType.Admin) return false;
+
+            if (newPassword == null || newPassword.Length < 6 || !newPassword.Equals(newPasswordVerify)) return false;
+
+            using (var con = new SqlConnection(DB.ConnectionString))
+            {
+                con.Open();
+                int passTrue = DB.ExecuteScalar(con, "SELECT COUNT(*) FROM Person WHERE PersonId = @pid AND UserPassword = @pass",
+                    new KeyValuePair<string, object>("pid", personId),
+                    new KeyValuePair<string, object>("pass", OneWayEncrpyt(oldPassword)));
+
+                if (passTrue == 0) return false;
+
+                DB.ExecuteQuery(con, "UPDATE Person SET UserPassword = @pass WHERE PersonId = @pid",
+                    new KeyValuePair<string, object>("pid", personId),
+                    new KeyValuePair<string, object>("pass", OneWayEncrpyt(newPassword)));
+            }
+            return true;
+        }
+
+    }
+
+    public class ChangePasswordData
+    {
+        public string Token { get; set; }
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string NewPasswordVerify { get; set; }
     }
 }
