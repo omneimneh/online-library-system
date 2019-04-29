@@ -40,7 +40,8 @@ namespace OnlineLibrarySystem.Controllers
                             ThumbnailImage = reader["ThumbnailImage"]?.ToString(),
                             PublisherName = reader["PublisherName"]?.ToString(),
                             Quantity = ConvertToNullableInt32(reader["Quantity"]),
-                            NextAvailable = ExtractDate(reader["NextAvailable"])
+                            NextAvailable = ExtractDate(reader["NextAvailable"]),
+                            Price = Convert.ToDecimal(reader["Price"])
                         });
                     }
                 }
@@ -106,7 +107,8 @@ namespace OnlineLibrarySystem.Controllers
                             PublishingDate = Convert.ToDateTime(reader["PublishingDate"]).ToString("MM/dd/yyyy"),
                             ThumbnailImage = reader["ThumbnailImage"].ToString(),
                             PublisherName = reader["PublisherName"]?.ToString(),
-                            Quantity = ConvertToNullableInt32(reader["Quantity"])
+                            Quantity = ConvertToNullableInt32(reader["Quantity"]),
+                            Price = Convert.ToDecimal(reader["Price"])
                         });
                     }
                 }
@@ -137,6 +139,8 @@ namespace OnlineLibrarySystem.Controllers
                     return "AuthorName";
                 case "publisher":
                     return "PublisherName";
+                case "date":
+                    return "DateAdded";
                 default:
                     return "[Count]";
             }
@@ -164,7 +168,8 @@ namespace OnlineLibrarySystem.Controllers
                             ThumbnailImage = reader["ThumbnailImage"].ToString(),
                             PublisherName = reader["PublisherName"]?.ToString(),
                             Quantity = ConvertToNullableInt32(reader["Quantity"]),
-                            NextAvailable = ExtractDate(reader["NextAvailable"])
+                            NextAvailable = ExtractDate(reader["NextAvailable"]),
+                            Price = Convert.ToDecimal(reader["Price"])
                         };
                     }
                     else
@@ -232,7 +237,8 @@ namespace OnlineLibrarySystem.Controllers
                             BookId = ConvertToNullableInt32(reader["BookId"]),
                             BookDescription = reader["BookDescription"]?.ToString(),
                             PublisherName = reader["PublisherName"]?.ToString(),
-                            PublishingDate = ExtractDate(reader["PublishingDate"])
+                            PublishingDate = ExtractDate(reader["PublishingDate"]),
+                            Price = Convert.ToDecimal(reader["Price"])
                         });
                     }
                 }
@@ -310,7 +316,8 @@ namespace OnlineLibrarySystem.Controllers
                     book.PublisherId != null ? "PublisherId = @pid" : "",
                     book.BookTitle != null ? "BookTitle = @btitle" : "",
                     book.PublishingDate != null ? "PublishingDate = @pubDate" : "",
-                    book.Quantity != null ? "Quantity = @quantity" : ""
+                    book.Quantity != null ? "Quantity = @quantity" : "",
+                    book.Price != null ? "Price = @price" : ""
                 };
 
                 string queryBuilder = "";
@@ -335,13 +342,14 @@ namespace OnlineLibrarySystem.Controllers
                 if (string.IsNullOrEmpty(queryBuilder)) return false;
 
                 DB.ExecuteNonQuery(con, "UPDATE Book SET " + queryBuilder + " WHERE BookId = @bid " +
-                    "--@aid --@pid --@quantity --@bdesc --@btitle --@pubDate",
+                    "--@aid --@pid --@quantity --@bdesc --@btitle --@pubDate --@price",
                     new KeyValuePair<string, object>("bid", book.BookId),
                     new KeyValuePair<string, object>("aid", PositiveOrDBNull(book.AuthorId)),
                     new KeyValuePair<string, object>("pid", PositiveOrDBNull(book.PublisherId)),
                     new KeyValuePair<string, object>("quantity", book.Quantity ?? -1),
                     new KeyValuePair<string, object>("bdesc", book.BookDescription ?? ""),
                     new KeyValuePair<string, object>("btitle", book.BookTitle ?? ""),
+                    new KeyValuePair<string, object>("price", PositiveOrDBNull(book.Price)),
                     new KeyValuePair<string, object>("pubDate", book.PublishingDate ?? ""));
             }
             return true;
@@ -389,7 +397,8 @@ namespace OnlineLibrarySystem.Controllers
                             ThumbnailImage = reader["ThumbnailImage"].ToString(),
                             PublisherId = ConvertToNullableInt32(reader["PublisherId"]),
                             PublisherName = reader["PublisherName"]?.ToString(),
-                            Quantity = ConvertToNullableInt32(reader["Quantity"])
+                            Quantity = ConvertToNullableInt32(reader["Quantity"]),
+                            Price = Convert.ToDecimal(reader["Price"])
                         });
                     }
                 }
@@ -505,12 +514,13 @@ namespace OnlineLibrarySystem.Controllers
             using (var con = new SqlConnection(DB.ConnectionString))
             {
                 con.Open();
-                bookId = DB.ExecuteInsertQuery(con, "INSERT INTO Book (BookTitle, BookDescription, AuthorId, PublisherId, " +
-                    "PublishingDate) VALUES (@btitle, @bdesc, @aid, @pid, @pubDate)",
+                bookId = DB.ExecuteInsertQuery(con, "INSERT INTO Book (BookTitle, BookDescription, AuthorId, PublisherId, Price, " +
+                    "PublishingDate) VALUES (@btitle, @bdesc, @aid, @pid, @price, @pubDate)",
                     new KeyValuePair<string, object>("btitle", book.BookTitle),
                     new KeyValuePair<string, object>("bdesc", StringOrDBNull(book.BookDescription)),
                     new KeyValuePair<string, object>("aid", PositiveOrDBNull(book.AuthorId)),
                     new KeyValuePair<string, object>("pid", PositiveOrDBNull(book.PublisherId)),
+                    new KeyValuePair<string, object>("price", book.Price),
                     new KeyValuePair<string, object>("pubDate", StringOrDBNull(book.PublishingDate)));
             }
 
@@ -622,6 +632,13 @@ namespace OnlineLibrarySystem.Controllers
         }
 
         public static object PositiveOrDBNull(int? val)
+        {
+            if (val == null) return "--any";
+            if (val < 0) return DBNull.Value;
+            else return val;
+        }
+
+        public static object PositiveOrDBNull(decimal? val)
         {
             if (val == null) return "--any";
             if (val < 0) return DBNull.Value;

@@ -65,6 +65,7 @@ CREATE TABLE Book (
 	PublishingDate Date,
 	Quantity int NOT NULL DEFAULT 1,
 	ThumbnailImage url_field DEFAULT NULL,
+	Price decimal(9,3),
 	DateAdded DateTime DEFAULT GETDate()
 );
 
@@ -95,6 +96,8 @@ CREATE VIEW BookInfo AS (
 	 Book.PublisherId,
 	 Book.PublishingDate,
 	 Book.ThumbnailImage,
+	 Book.Price,
+	 Book.DateAdded,
 	 Author.AuthorName, 
 	 Publisher.PublisherName,
 	 (Book.Quantity - (SELECT COALESCE(SUM(Quantity),0) FROM Reservation WHERE Reservation.BookId = dbo.Book.BookId AND IsDone = 0)) AS Quantity,

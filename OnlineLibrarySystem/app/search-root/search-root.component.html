@@ -7,7 +7,7 @@
     </ul>
 
     <nav>
-        <ul class="pagination justify-content-center">
+        <ul class="pagination justify-content-center" *ngIf="page">
             <li class="page-item{{start ? ' disabled' : ''}}"><button id="prev" class="page-link" (click)="goToPage(page-1)">Previous</button></li>
             <li class="page-item" *ngIf="!start"><button id="before" class="page-link" (click)="goToPage(page-1)">{{page-1}}</button></li>
             <li class="page-item active"><button id="current" class="page-link">{{page}}</button></li>

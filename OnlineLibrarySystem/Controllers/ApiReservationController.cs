@@ -24,7 +24,7 @@ namespace OnlineLibrarySystem.Controllers
             using (var con = new SqlConnection(DB.ConnectionString))
             {
                 con.Open();
-                using (var reader = DB.ExecuteQuery(con, string.Format("SELECT Reservation.*, PersonInfo.Username, Book.BookTitle, " +
+                using (var reader = DB.ExecuteQuery(con, string.Format("SELECT Reservation.*, PersonInfo.Username, Book.Price * Reservation.Quantity AS Price, Book.BookTitle, " +
                     "(CASE WHEN IsDone = 1 THEN 0 WHEN IsPickedUp = 1 AND GETDATE() > ReturnDate THEN 3 WHEN IsPickedUp = 1 THEN 2 ELSE 1 END) AS Status " +
                     "FROM Reservation JOIN PersonInfo ON PersonInfo.PersonId = Reservation.PersonId " +
                     "JOIN Book ON Reservation.BookId = Book.BookId WHERE IsDone = 0 AND (Username LIKE CONCAT('%', @key ,'%')" +
@@ -45,7 +45,8 @@ namespace OnlineLibrarySystem.Controllers
                             IsDone = Convert.ToBoolean(reader["IsDone"]),
                             Username = reader["Username"].ToString(),
                             BookTitle = reader["BookTitle"]?.ToString(),
-                            Status = (ReservationType)Convert.ToInt32(reader["Status"])
+                            Status = (ReservationType)Convert.ToInt32(reader["Status"]),
+                            Price = Convert.ToDecimal(reader["Price"])
                         });
                     }
                 }

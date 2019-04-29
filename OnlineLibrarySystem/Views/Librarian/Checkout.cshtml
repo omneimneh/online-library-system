@@ -1,9 +1,9 @@
 <div class="container">
-    <div class="border rounded shadow-sm p-0 mt-5">
+    <div class="border rounded shadow-sm p-0 mt-5 overflow-x-auto">
         <table class="table table-hover m-0 text-center">
             <thead class="thead-light">
                 <tr>
-                    <th colspan="5">
+                    <th colspan="6">
                         <div class="row m-0">
                             <button class="btn btn-sm btn-default">
                                 <span class="oi oi-magnifying-glass"></span>
@@ -23,6 +23,7 @@
                     <th>Book Title</th>
                     <th>Pickup Date</th>
                     <th>Return Date</th>
+                    <th>Book Price</th>
                     <th>Confirmation</th>
                 </tr>
             </thead>
@@ -84,7 +85,7 @@
 
         function loadData(key) {
             Loader('show');
-            $reservations.html('<tr><td colspan="5" class="text-center"><p class="my-2">Please wait...</p></td></tr>');
+            $reservations.html('<tr><td colspan="6" class="text-center"><p class="my-2">Please wait...</p></td></tr>');
             $.ajax({
                 url: 'api/ApiReservation/ReservationSearch?token=' + $('#Token').val() + '&key=' + key + '&today=' + $('#today').prop('checked'),
                 success: function (result) {
@@ -97,6 +98,7 @@
                                 '<td>' + result[i].BookTitle + '</td>' +
                                 '<td>' + result[i].PickupDate + '</td>' +
                                 '<td>' + result[i].ReturnDate + '</td>' +
+                                '<td>' + result[i].Price + '</td>' +
                                 '<td>' +
                                 getBtn(result[i]) +
                                 '</td>' +

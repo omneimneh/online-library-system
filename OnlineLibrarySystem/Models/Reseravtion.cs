@@ -33,5 +33,7 @@ namespace OnlineLibrarySystem.Models
         public string OrderDate { get; set; }
         [DataMember]
         public ReservationType Status { get; set; }
+        [DataMember]
+        public decimal Price { get; set; }
     }
 }

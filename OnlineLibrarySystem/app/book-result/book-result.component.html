@@ -6,9 +6,13 @@
             <span class="font-weight-normal">
                 <span> &bull; </span>
                 <span>{{book.AuthorName}}</span>
+                <span class="mb-2 float-right badge badge-danger">${{book.Price}}</span>
             </span>
         </h5>
-        <div class="text-muted mb-2">{{book.PublisherName}}</div>
+        <div class="text-muted mb-2">
+            {{book.PublisherName}}
+        </div>
+
         <p class="result-description">
             {{book.BookDescription}}
         </p>

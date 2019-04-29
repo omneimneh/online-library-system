@@ -31,5 +31,7 @@ namespace OnlineLibrarySystem.Models
         public int? Quantity { get; set; }
         [DataMember]
         public string NextAvailable { get; set; }
+        [DataMember]
+        public decimal? Price { get; set; }
     }
 }

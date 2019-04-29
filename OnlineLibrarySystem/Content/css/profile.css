@@ -5,3 +5,7 @@
     height: 256px;
     width: 256px;
 }
+
+app-order-root > div{
+    min-height: 128px;
+}

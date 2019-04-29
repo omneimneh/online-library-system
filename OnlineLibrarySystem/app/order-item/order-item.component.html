@@ -6,6 +6,7 @@
         <span>Ordered on: </span> <b>{{order.OrderDate}}</b>
         <span>Pickup date:</span> <b>{{order.PickupDate}}</b>
         <span>Return date:</span> <b>{{order.ReturnDate}}</b>
+        <span>Book price:</span> <b class="text-danger">${{order.Price}}</b>
         <span class="float-right badge {{badgeClass()}} w-50px">{{badgeTxt()}}</span>
     </div>
 </div>

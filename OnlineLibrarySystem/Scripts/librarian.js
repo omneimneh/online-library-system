@@ -230,6 +230,7 @@
                     var $PublisherId = currentTr.find('.PublisherId');
                     var $PublishingDate = currentTr.find('.PublishingDate');
                     var $Quantity = currentTr.find('.Quantity');
+                    var $Price = currentTr.find('.Price');
                     function getChangedData($dom) {
                         return $dom.hasClass('changed') ? $dom.val() : null;
                     }
@@ -245,6 +246,7 @@
                             PublisherId: getChangedData($PublisherId),
                             PublishingDate: getChangedData($PublishingDate),
                             Quantity: getChangedData($Quantity),
+                            Price: getChangedData($Price),
                             Token: $('#Token').val()
                         },
                         success: function (res) {
@@ -460,11 +462,13 @@
         var $PublisherName = $('#nPublisherName');
         var $PublishingDate = $('#nPublishingDate');
         var $ThumbnailImage = $('#nThumbnailImage');
+        var $Price = $('#nPrice');
 
         $BookTitle.on('change keyup', removeError);
         $AuthorName.on('change keyup', removeError);
         $PublisherName.on('change keyup', removeError);
         $PublishingDate.on('change keyup', removeError);
+        $Price.on('change keyup', removeError);
 
         $('#nThumbnailImage').change(function () {
             var file = this.files[0];
@@ -503,6 +507,10 @@
             }
             if (!isValid($PublishingDate.val())) {
                 $PublishingDate.addClass('is-invalid');
+                valid = false;
+            }
+            if (!isValid($Price.val())) {
+                $Price.addClass('is-invalid');
                 valid = false;
             }
 

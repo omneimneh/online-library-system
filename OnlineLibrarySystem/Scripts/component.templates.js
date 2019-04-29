@@ -21,6 +21,9 @@
         '<input class="form-control-plaintext Quantity" type="number" min="0" value="' + book.Quantity + '" />' +
         '</td>' +
         '<td>' +
+        '<input class="form-control-plaintext Price" type="number" min="0" step="0.01" value="' + book.Price + '" />' +
+        '</td>' +
+        '<td>' +
         '<div class="form-control-plaintext Upload">' +
         '<input class="hidden ThumbnailImage" type="file" accept="image/jpeg, image/png" />' +
         '<button class="btn btn-default btn-sm upload" data-toggle="popover" data-content="Upload cover image"><span class="oi oi-image"></span></button>' +

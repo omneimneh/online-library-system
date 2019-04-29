@@ -8,3 +8,10 @@
 .result-description {
     min-height: 95px;
 }
+
+@media only screen and (max-width: 576px) {
+    .result-thumbnail {
+        height: 96px;
+        width: 96px;
+    }
+}

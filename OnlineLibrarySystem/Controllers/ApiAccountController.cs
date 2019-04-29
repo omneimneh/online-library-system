@@ -162,7 +162,7 @@ namespace OnlineLibrarySystem.Controllers
             using (SqlConnection con = new SqlConnection(DB.ConnectionString))
             {
                 con.Open();
-                using (SqlDataReader reader = DB.ExecuteQuery(con, "SELECT TOP(@count) *, " +
+                using (SqlDataReader reader = DB.ExecuteQuery(con, "SELECT TOP(@count) Reservation.*, Book.BookTitle, Reservation.Quantity * Book.Price AS Price, " +
                 "(CASE WHEN IsDone = 1 THEN 0 WHEN IsPickedUp = 1 AND GETDATE() > ReturnDate THEN 3 WHEN IsPickedUp = 1 THEN 2 ELSE 1 END) AS Status " +
                 "FROM Reservation JOIN Book ON Book.BookId = Reservation.BookId WHERE PersonId = @id ORDER BY OrderDate DESC",
                 new KeyValuePair<string, object>("id", personId),
@@ -178,7 +178,8 @@ namespace OnlineLibrarySystem.Controllers
                             Status = (ReservationType)Convert.ToInt32(reader["Status"]),
                             OrderDate = Convert.ToDateTime(reader["OrderDate"]).ToString("MM/dd/yyyy"),
                             PickupDate = Convert.ToDateTime(reader["PickupDate"]).ToString("MM/dd/yyyy"),
-                            ReturnDate = Convert.ToDateTime(reader["ReturnDate"]).ToString("MM/dd/yyyy")
+                            ReturnDate = Convert.ToDateTime(reader["ReturnDate"]).ToString("MM/dd/yyyy"),
+                            Price = Convert.ToDecimal(reader["Price"])
                         });
                     }
                 }
