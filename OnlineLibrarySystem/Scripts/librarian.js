@@ -15,7 +15,7 @@
     function loadData() {
         // show loader
         Loader('show');
-        $('#table').html('<tr><td colspan="9" class="text-center"><p class="my-2">Please wait...</p></td></tr>');
+        $('#table').html('<tr><td colspan="10" class="text-center"><p class="my-2">Please wait...</p></td></tr>');
 
         // load authors
         var a1 = $.ajax({
