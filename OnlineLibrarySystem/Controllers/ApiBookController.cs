@@ -141,6 +141,8 @@ namespace OnlineLibrarySystem.Controllers
                     return "PublisherName";
                 case "date":
                     return "DateAdded";
+                case "pubdate":
+                    return "PublishingDate";
                 default:
                     return "[Count]";
             }
