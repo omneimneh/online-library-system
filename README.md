@@ -2,7 +2,7 @@
 
 ## Quick Notes
 
-A simple and easy to use library system to be used by universities, allow students and professors to request a book online and admins to checkout orders and maintain the books data.
+A simple and easy to use library system for universities, allow students and professors to request a book online and admins to checkout orders and maintain the books data.
 
 <br>
 
