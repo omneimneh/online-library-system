@@ -24,7 +24,7 @@ A simple and easy to use library system to be used by unversities, allow student
   * Clone or download the source code from [here](https://github.com/omneimneh/online-library-system/archive/master.zip)
   * Open the solution in Visual Studio
   * Open Microsoft Sql Server 2017
-  * Copy contents in the files `/SqlScripts/DML.sql` and `/SqlScripts/DDL` respectively to a new query window in Sql Server
+  * Copy contents in the files `/SqlScripts/DDL.sql` and `/SqlScripts/DML.sql` respectively to a new query window in Sql Server
   * Run the query and refresh the databases in the Object Explorer, you should find `OnlineLibrarySystem` in your databases list
   * Open `/OnlineLibrarySystem/Web.config` and edit your connection string, replace the server name with your PC name.
   * Go back to visual studio, in the solution explorer right click on the file `/OnlineLibrarySystem/packages.json` and click on `Restore packages`, this will trigger the command `npm install` to install the required `node_modules` since we're using angular
@@ -64,3 +64,18 @@ Some but not all pages are made with angular. Angular components and layouts are
 #### Entity Relations Diagram
 
 ![ER Diagram](https://github.com/omneimneh/online-library-system/blob/master/SqlScripts/ER_Diagram.PNG)
+
+<br>
+
+## Additional Notes
+
+Queries used are saved under
+
+  * `/SqlScripts/DDL.sql` Data definition, creates the database, tables and views
+  * `/SqlScripts/DML.sql` Data manipulation, inserts a dummy data and and admin
+  * `/SqlScripts/ApiQueries.sql` Queries that were used inside the Api, paramaters are not supplied!
+
+Additional files
+
+  * `/SqlScripts/ER_Diagram.PNG` Entity relations diagram
+  * `/SqlScripts/OnlineLibrarySystem.mdf` generated database
