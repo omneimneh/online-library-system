@@ -69,13 +69,13 @@ Some but not all pages are made with angular. Angular components and layouts are
 
 ## Additional Notes
 
-Queries used are saved under
+#### Queries used are saved under
 
   * `/SqlScripts/DDL.sql` Data definition, creates the database, tables and views
   * `/SqlScripts/DML.sql` Data manipulation, inserts a dummy data and and admin
   * `/SqlScripts/ApiQueries.sql` Queries that were used inside the Api, paramaters are not supplied!
 
-Additional files
+#### Additional files
 
   * `/SqlScripts/ER_Diagram.PNG` Entity relations diagram
   * `/SqlScripts/OnlineLibrarySystem.mdf` generated database
