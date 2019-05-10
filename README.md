@@ -2,7 +2,7 @@
 
 ## Quick Notes
 
-A simple and easy to use library system for universities, allow students and professors to request a book online and admins to checkout orders and maintain the books data.
+A simple and easy to use library system for universities, that allows students and professors to request a book online and provide admins with an interface to checkout orders and maintain the books data.
 
 <br>
 
@@ -47,7 +47,7 @@ A simple and easy to use library system for universities, allow students and pro
 ### Angular 5
 
 The routing is handeled by ASP.NET MVC, so angular is used without routing.
-Some but not all pages are made with angular. Angular components and layouts are found in the `/app` folder
+Some but not all pages are made with angular. Angular components and layouts are found in the `/OnlineLibrarySystem/app` folder
 
 ### JavaScript & CSS Files
 
@@ -72,7 +72,7 @@ Some but not all pages are made with angular. Angular components and layouts are
 #### Queries used are saved under
 
   * `/SqlScripts/DDL.sql` Data definition, creates the database, tables and views
-  * `/SqlScripts/DML.sql` Data manipulation, inserts a dummy data and and admin
+  * `/SqlScripts/DML.sql` Data manipulation, inserts a dummy data and setup the admin account
   * `/SqlScripts/ApiQueries.sql` Queries that were used inside the Api, paramaters are not supplied!
 
 #### Additional files
