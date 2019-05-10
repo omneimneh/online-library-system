@@ -56,7 +56,7 @@ Some but not all pages are made with angular. Angular components and layouts are
 
 ### Other Libraries
   * jQuery
-  * Boostrap
+  * Bootsrap
   * Date.js
   
 ### Database Structure
