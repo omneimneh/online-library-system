@@ -104,12 +104,20 @@ body {
         text-decoration: underline !important;
     }
 
-* {
+*:not(input):not(textarea) {
     user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-user-drag: none;
     -webkit-user-select: none;
+}
+
+input, textarea {
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 /* BOOTSTRAP EXTENSION */
