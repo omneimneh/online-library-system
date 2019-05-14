@@ -63,7 +63,7 @@ Some but not all pages are made with angular. Angular components and layouts are
 
 #### Entity Relations Diagram
 
-![ER Diagram](https://github.com/omneimneh/online-library-system/blob/master/SqlScripts/ER_Diagram.PNG)
+![ER Diagram](https://github.com/omneimneh/online-library-system/blob/master/SqlScripts/ER_Diagram.png)
 
 <br>
 
