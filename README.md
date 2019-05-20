@@ -63,7 +63,7 @@ Some but not all pages are made with angular. Angular components and layouts are
 
 #### Entity Relations Diagram
 
-![ER Diagram](https://github.com/omneimneh/online-library-system/blob/master/SqlScripts/ER_Diagram.png)
+![ER Diagram](https://github.com/omneimneh/online-library-system/blob/master/SqlScripts/diagrams/ER_Diagram.png)
 
 <br>
 
@@ -77,5 +77,5 @@ Some but not all pages are made with angular. Angular components and layouts are
 
 #### Additional files
 
-  * `/SqlScripts/ER_Diagram.PNG` Entity relations diagram
-  * `/SqlScripts/OnlineLibrarySystem.mdf` generated database
+  * `/SqlScripts/diagrams/ER_Diagram.PNG` Entity relations diagram
+  * `/SqlScripts/database/OnlineLibrarySystem.mdf` generated database
