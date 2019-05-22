@@ -266,7 +266,7 @@
         }
 
         if (books.length === 0) {
-            $table.html('<tr><td colspan="9" class="text-center"><p class="my-2">No records were found</p></td></tr>');
+            $table.html('<tr><td colspan="10" class="text-center"><p class="my-2">No records were found</p></td></tr>');
         }
 
         // popover hint for upload image, and delete
