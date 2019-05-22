@@ -29,20 +29,20 @@ CREATE TABLE Person (
 
 -- Personnels can be in one of the following tables
 CREATE TABLE Professor (
-	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Person(PersonId)
+	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Person(PersonId) ON DELETE CASCADE
 );
 
 CREATE TABLE Student (
-	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Person(PersonId)
+	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Person(PersonId) ON DELETE CASCADE
 );
 
 CREATE TABLE Librarian (
-	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Person(PersonId)
+	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Person(PersonId) ON DELETE CASCADE
 );
 
 -- Personnels with extended privileges
 CREATE TABLE Maintainer (
-	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Librarian(PersonId)
+	PersonId int PRIMARY KEY FOREIGN KEY REFERENCES Librarian(PersonId) ON DELETE CASCADE
 );
 
 CREATE TABLE Author (
