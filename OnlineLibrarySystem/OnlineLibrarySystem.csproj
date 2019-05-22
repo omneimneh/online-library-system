@@ -1761,6 +1761,7 @@
     <Content Include="Content\open-iconic\svg\zoom-in.svg" />
     <Content Include="Content\open-iconic\svg\zoom-out.svg" />
     <Content Include="Media\default.png" />
+    <Content Include="Scripts\checkout.js" />
     <Content Include="Scripts\component.autocomplete.js" />
     <Content Include="Scripts\component.loader.js" />
     <Content Include="Scripts\component.templates.js" />
