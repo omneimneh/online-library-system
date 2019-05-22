@@ -60,8 +60,8 @@ CREATE TABLE Book (
 	BookId int PRIMARY KEY IDENTITY(0, 1),
 	BookTitle field NOT NULL,
 	BookDescription long_field,
-	AuthorId int FOREIGN KEY REFERENCES Author,
-	PublisherId int FOREIGN KEY REFERENCES Publisher,
+	AuthorId int FOREIGN KEY REFERENCES Author ON DELETE SET NULL,
+	PublisherId int FOREIGN KEY REFERENCES Publisher ON DELETE SET NULL,
 	PublishingDate Date,
 	Quantity int NOT NULL DEFAULT 1,
 	ThumbnailImage url_field DEFAULT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE Reservation (
 
 	-- EXPLANATION:
 	-- @PersonId		@OrderDate:	I need @BookId ready to pick it up on @Pickup
-	-- LibrarySystem	@OrderDate:	You should return it @DeadlineDate
+	-- LibrarySystem	@OrderDate:	You should return it @ReturnDate
 );
 GO
 
@@ -107,6 +107,7 @@ CREATE VIEW BookInfo AS (
 	 LEFT OUTER JOIN dbo.Publisher ON dbo.Publisher.PublisherId = dbo.Book.PublisherId
 	-- EXPLANATION:
 	-- Quantity is supposed to be the quantity currently available and ready to be rented
+	-- Which is equal to: original quantity - sum of quantities in currently active reservations
 );
 GO
 
